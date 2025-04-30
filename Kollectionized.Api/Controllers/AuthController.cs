@@ -8,21 +8,14 @@ namespace Kollectionized.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(AppDbContext context) : ControllerBase
 {
-    private readonly AppDbContext _context;
-
-    public AuthController(AppDbContext context)
-    {
-        _context = context;
-    }
-
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterDto dto)
     {
         try
         {
-            if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
+            if (await context.Users.AnyAsync(u => u.Username == dto.Username))
                 return BadRequest("Username is already taken.");
 
             var hash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
@@ -33,23 +26,22 @@ public class AuthController : ControllerBase
                 PasswordHash = hash
             };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
 
             return Ok(new { message = "User registered successfully." });
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Register failed: {ex.Message}");
+            Console.WriteLine($"Register failed: {ex.Message}");
             return StatusCode(500, "Something went wrong on the server.");
         }
     }
 
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             return Unauthorized("Invalid credentials.");
 
@@ -59,12 +51,12 @@ public class AuthController : ControllerBase
     [HttpDelete("{username}")]
     public async Task<IActionResult> DeleteAccount(string username, [FromQuery] string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             return Unauthorized("Invalid password.");
 
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
+        context.Users.Remove(user);
+        await context.SaveChangesAsync();
         return Ok(new { message = "Account deleted." });
     }
 }
