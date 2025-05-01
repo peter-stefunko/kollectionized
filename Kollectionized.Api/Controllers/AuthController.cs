@@ -54,9 +54,28 @@ public class AuthController(AppDbContext context) : ControllerBase
         var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             return Unauthorized("Invalid password.");
+        
+        if (user.Username.StartsWith("[del-"))
+            return BadRequest("Account is already deleted.");
 
-        context.Users.Remove(user);
+        var userId = user.Id;
+        
+        user.LastUsername = user.Username;
+        user.Username = $"[del-{userId}]";
+        user.PasswordHash = null;
+        context.Users.Update(user);
+        
+        var collections = await context.PokemonCollections
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
+        context.PokemonCollections.RemoveRange(collections);
+        
+        var decks = await context.PokemonDecks
+            .Where(d => d.UserId == userId)
+            .ToListAsync();
+        context.PokemonDecks.RemoveRange(decks);
+
         await context.SaveChangesAsync();
-        return Ok(new { message = "Account deleted." });
+        return Ok(new { message = "Account deleted (soft)." });
     }
 }
