@@ -1,0 +1,22 @@
+<UserControl
+    x:Class="Kollectionized.Views.RegisterView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:RegisterViewModel">
+    <StackPanel Spacing="12" Margin="20">
+        <TextBlock Text="Username:"/>
+        <TextBox Watermark="Enter your username" Text="{Binding Username}" />
+
+        <TextBlock Text="Password:"/>
+        <TextBox PasswordChar="*" Watermark="Enter your password" Text="{Binding Password}" />
+
+        <TextBlock Text="Confirm Password:"/>
+        <TextBox PasswordChar="*" Watermark="Repeat your password" Text="{Binding ConfirmPassword}" />
+
+        <Button Content="Register" Command="{Binding RegisterCommand}" />
+        <Button Content="Login instead" Command="{Binding SwitchToLoginCommand}" />
+
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+    </StackPanel>
+</UserControl>
