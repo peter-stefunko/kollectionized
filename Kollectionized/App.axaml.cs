@@ -4,6 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using Kollectionized.Services;
 using Kollectionized.ViewModels;
 using Kollectionized.Views;
 
@@ -14,10 +15,14 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+
+        // Register ViewLocator for ViewModel-View mapping
+        DataTemplates.Add(new ViewLocator());
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        AuthService.Logout(); // 🔧 Force logout when app starts
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
