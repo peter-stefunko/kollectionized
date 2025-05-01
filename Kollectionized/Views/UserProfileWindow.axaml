@@ -1,0 +1,30 @@
+<Window
+    x:Class="Kollectionized.Views.UserProfileWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:UserProfileViewModel"
+    Width="500" Height="600" Title="User Profile">
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="20">
+            <TextBlock Text="{Binding ViewedUsername}" FontSize="20" FontWeight="Bold"/>
+
+            <!-- Public profile data placeholder -->
+            <TextBlock Text="[Public user data here]" FontStyle="Italic" Foreground="Gray"/>
+
+            <!-- Account settings, only visible for current user -->
+            <StackPanel IsVisible="{Binding IsCurrentUser}" Spacing="8" Margin="0 20 0 0">
+                <TextBlock Text="Account Settings" FontSize="16" FontWeight="Bold"/>
+
+                <TextBlock Text="Change Username:"/>
+                <TextBox Text="{Binding EditableUsername}"/>
+                <Button Content="Save Username" Command="{Binding SaveUsernameCommand}"/>
+
+                <Separator/>
+
+                <Button Content="❌ Delete Account" Command="{Binding DeleteAccountCommand}" Background="DarkRed" Foreground="White"/>
+                <Button Content="🚪 Logout" Command="{Binding LogoutCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
