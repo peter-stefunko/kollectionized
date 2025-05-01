@@ -1,0 +1,35 @@
+<Window
+    x:Class="Kollectionized.Views.CardInstanceDetailsWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:views="clr-namespace:Kollectionized.Views"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:CardInstanceDetailsViewModel"
+    Width="500" Height="700" Title="Card Instance Details">
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="10">
+            <!-- General card info -->
+            <views:CardDetailsView DataContext="{Binding}" />
+
+            <Separator/>
+
+            <!-- Instance-specific details -->
+            <TextBlock Text="Instance Information" FontSize="16" FontWeight="Bold" Margin="0 10 0 0"/>
+
+            <TextBlock Text="UUID: "><Run Text="{Binding Instance.Id}"/></TextBlock>
+            <TextBlock Text="Owner: "><Run Text="{Binding Instance.OwnerUsername}"/></TextBlock>
+            <TextBlock Text="Grade: "><Run Text="{Binding Instance.Grade}"/></TextBlock>
+            <TextBlock Text="Grading Company: "><Run Text="{Binding Instance.GradingCompany}"/></TextBlock>
+            <TextBlock Text="Notes: "><Run Text="{Binding Instance.Notes}"/></TextBlock>
+
+            <TextBlock Text="Trade History" FontSize="16" FontWeight="Bold" Margin="0 10 0 0"/>
+            <ItemsControl ItemsSource="{Binding Instance.TradeHistory}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
