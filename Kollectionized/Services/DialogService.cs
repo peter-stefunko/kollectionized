@@ -11,7 +11,7 @@ public static class DialogService
 {
     public static async Task<bool> ConfirmAsync(string message, string title = "Confirm")
     {
-        var lifetime = Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        var lifetime = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
         var mainWindow = lifetime?.MainWindow;
 
         if (mainWindow == null)

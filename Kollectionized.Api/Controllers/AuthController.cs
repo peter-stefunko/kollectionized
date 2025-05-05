@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Kollectionized.Api.Data;
 using Kollectionized.Api.Models;
 using Kollectionized.Api.Dtos;
+using Kollectionized.Api.Validation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kollectionized.Api.Controllers;
@@ -15,6 +16,9 @@ public class AuthController(AppDbContext context) : ControllerBase
     {
         try
         {
+            if (!UsernameValidation.IsValid(dto.Username, out var error))
+                return BadRequest(error);
+
             if (await context.Users.AnyAsync(u => u.Username == dto.Username))
                 return BadRequest("Username is already taken.");
 
@@ -42,40 +46,87 @@ public class AuthController(AppDbContext context) : ControllerBase
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+        
+        if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             return Unauthorized("Invalid credentials.");
 
         return Ok(new { userId = user.Id });
     }
 
-    [HttpDelete("{username}")]
-    public async Task<IActionResult> DeleteAccount(string username, [FromQuery] string password)
+    [HttpDelete("user")]
+    public async Task<IActionResult> DeleteAccount([FromBody] AccountDeleteDto dto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-            return Unauthorized("Invalid password.");
+        try
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
         
-        if (user.Username.StartsWith("[del-"))
-            return BadRequest("Account is already deleted.");
+            if (user == null)
+                return Unauthorized("User not found.");
+        
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                return Unauthorized("Invalid password.");
+        
+            if (user.Username.StartsWith("[del-"))
+                return BadRequest("Account is already deleted.");
 
-        var userId = user.Id;
+            var userId = user.Id;
         
-        user.LastUsername = user.Username;
-        user.Username = $"[del-{userId}]";
-        user.PasswordHash = null;
-        context.Users.Update(user);
+            user.LastUsername = user.Username;
+            user.Username = $"[del-{userId}]";
+            user.PasswordHash = null;
+            context.Users.Update(user);
         
-        var collections = await context.PokemonCollections
-            .Where(c => c.UserId == userId)
-            .ToListAsync();
-        context.PokemonCollections.RemoveRange(collections);
+            var collections = await context.PokemonCollections
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+            context.PokemonCollections.RemoveRange(collections);
         
-        var decks = await context.PokemonDecks
-            .Where(d => d.UserId == userId)
-            .ToListAsync();
-        context.PokemonDecks.RemoveRange(decks);
+            var decks = await context.PokemonDecks
+                .Where(d => d.UserId == userId)
+                .ToListAsync();
+            context.PokemonDecks.RemoveRange(decks);
 
-        await context.SaveChangesAsync();
-        return Ok(new { message = "Account deleted (soft)." });
+            await context.SaveChangesAsync();
+            return Ok(new { message = "Account deleted (soft)." });   
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Action failed: {ex.Message}");
+            return StatusCode(500, "Something went wrong on the server.");
+        }
     }
+    
+    [HttpPut("change-username")]
+    public async Task<IActionResult> ChangeUsername([FromBody] UsernameChangeDto dto)
+    {
+        try
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.CurrentUsername);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                return Unauthorized("Invalid username or password.");
+
+            if (!UsernameValidation.IsValid(dto.NewUsername, out var error))
+                return BadRequest(error);
+
+            var exists = await context.Users.AnyAsync(u => u.Username == dto.NewUsername && u.Id != user.Id);
+            if (exists)
+                return BadRequest("That username is already taken.");
+
+            user.Username = dto.NewUsername;
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+
+            return Ok(new { message = "Name changed successfully." });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Action failed: {ex.Message}");
+            return StatusCode(500, "Something went wrong on the server.");
+        }
+    }
+
 }

@@ -13,7 +13,6 @@
 
         <Button Content="Login" Command="{Binding LoginCommand}" />
         <Button Content="Register instead" Command="{Binding SwitchToRegisterCommand}" />
-        <Button Content="Test" Command="{Binding TestCommand}" />
 
         <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
     </StackPanel>

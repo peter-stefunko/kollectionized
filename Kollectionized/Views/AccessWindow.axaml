@@ -10,17 +10,6 @@
     x:DataType="vm:AccessWindowViewModel"
     Width="400" Height="300"
     Title="Access">
-
-    <Design.DataContext>
-        <vm:AccessWindowViewModel />
-    </Design.DataContext>
-
-    <DockPanel Margin="20">
-        <StackPanel DockPanel.Dock="Bottom" Spacing="10">
-            <Button Content="{Binding ToggleButtonText}" Command="{Binding ToggleViewCommand}" />
-            <Button Content="Logout" Command="{Binding LogoutCommand}" IsVisible="{Binding IsLoggedIn}" />
-        </StackPanel>
-
-        <ContentControl Content="{Binding CurrentView}" />
-    </DockPanel>
+    
+    <ContentControl Content="{Binding CurrentView}" />
 </Window>

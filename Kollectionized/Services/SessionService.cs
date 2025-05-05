@@ -4,7 +4,8 @@ namespace Kollectionized.Services;
 
 public static class SessionService
 {
-    public static User? CurrentUser { get; private set; }
+    private static User? CurrentUser { get; set; }
+    public static bool IsLoggedIn => CurrentUser != null;
 
     public static void SetUser(User user)
     {
@@ -15,6 +16,4 @@ public static class SessionService
     {
         CurrentUser = null;
     }
-
-    public static bool IsLoggedIn => CurrentUser != null;
 }

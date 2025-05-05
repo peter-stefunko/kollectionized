@@ -18,12 +18,18 @@
 
                 <TextBlock Text="Change Username:"/>
                 <TextBox Text="{Binding EditableUsername}"/>
+                <TextBlock Text="Password" />
+                <TextBox
+                    PasswordChar="*"
+                    Text="{Binding Password, Mode=TwoWay}" />
+
                 <Button Content="Save Username" Command="{Binding SaveUsernameCommand}"/>
 
                 <Separator/>
 
                 <Button Content="❌ Delete Account" Command="{Binding DeleteAccountCommand}" Background="DarkRed" Foreground="White"/>
-                <Button Content="🚪 Logout" Command="{Binding LogoutCommand}"/>
+                
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

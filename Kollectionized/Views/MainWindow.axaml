@@ -2,7 +2,6 @@
     x:Class="Kollectionized.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Kollectionized.Views"
     Width="600" Height="500" Title="Kollectionized"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
     x:DataType="vm:MainWindowViewModel">
@@ -10,10 +9,10 @@
     <StackPanel Spacing="10" Margin="20">
 
         <!-- Login/Register Section using AccessWindow -->
-        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
-            <TextBlock Text="{Binding CurrentUsername}" FontWeight="Bold"/>
+        <StackPanel Orientation="Vertical" Spacing="8" HorizontalAlignment="Right">
             <Button Content="Logout" Click="Logout_Click" IsVisible="{Binding IsLoggedIn}"/>
-            <Button Content="Access Account" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
+            <Button Content="{Binding CurrentUsername}" IsVisible="{Binding IsLoggedIn}" Click="OpenOwnProfile_Click" />
+            <Button Content="Login" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
         </StackPanel>
 
         <!-- App Title -->

@@ -4,24 +4,25 @@ using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : ViewModelBase
 {
-    public string? CurrentUsername => AuthService.CurrentUsername;
+    public static string? CurrentUsername => AuthService.CurrentUsername;
+    public static bool IsLoggedIn => AuthService.IsLoggedIn;
 
-    public bool IsLoggedIn => AuthService.IsLoggedIn;
+    public MainWindowViewModel()
+    {
+        AuthService.SessionChanged += Refresh;
+    }
 
     [RelayCommand]
-    public void Logout()
+    public static void Logout()
     {
         AuthService.Logout();
-        OnPropertyChanged(nameof(CurrentUsername));
-        OnPropertyChanged(nameof(IsLoggedIn));
     }
-    
-    public void Refresh()
+
+    private void Refresh()
     {
         OnPropertyChanged(nameof(CurrentUsername));
         OnPropertyChanged(nameof(IsLoggedIn));
     }
-
 }

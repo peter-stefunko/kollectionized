@@ -7,7 +7,7 @@ public class User
 {
     [Key]
     [Column("id")]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     [Required]
     [Column("username")]
@@ -18,7 +18,7 @@ public class User
     public string? PasswordHash { get; set; }
 
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
     [Column("last_username")]
     public string? LastUsername { get; set; }

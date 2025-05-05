@@ -6,19 +6,13 @@ using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
-public partial class RegisterViewModel : ObservableObject
+public partial class RegisterViewModel(Action? switchToLogin = null, Action? onRegisterSuccess = null)
+    : ViewModelBase
 {
-    private readonly Action? _switchToLogin;
-
-    public RegisterViewModel(Action? switchToLogin = null)
-    {
-        _switchToLogin = switchToLogin;
-    }
-
-    [ObservableProperty] private string username = string.Empty;
-    [ObservableProperty] private string password = string.Empty;
-    [ObservableProperty] private string confirmPassword = string.Empty;
-    [ObservableProperty] private string? errorMessage;
+    [ObservableProperty] private string _username = string.Empty;
+    [ObservableProperty] private string _password = string.Empty;
+    [ObservableProperty] private string _confirmPassword = string.Empty;
+    [ObservableProperty] private string? _errorMessage = string.Empty;
 
     private readonly UserService _userService = new();
 
@@ -42,12 +36,17 @@ public partial class RegisterViewModel : ObservableObject
 
         var user = await _userService.Login(Username, Password);
         if (user != null)
+        {
             AuthService.Login(user.Id, user.Username);
+        }
+
+        ErrorMessage = string.Empty;
+        onRegisterSuccess?.Invoke();
     }
 
     [RelayCommand]
     private void SwitchToLogin()
     {
-        _switchToLogin?.Invoke();
+        switchToLogin?.Invoke();
     }
 }

@@ -6,55 +6,43 @@ using Kollectionized.ViewModels;
 
 namespace Kollectionized.ViewModels;
 
-public partial class AccessWindowViewModel : ObservableObject
+public partial class AccessWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private object? currentView;
+    [ObservableProperty] private object? _currentView;
 
-    public bool IsLoggedIn => AuthService.IsLoggedIn;
+    public static bool IsLoggedIn => AuthService.IsLoggedIn;
+    private readonly Action? _closeWindow;
 
-    public string ToggleButtonText => CurrentView is LoginViewModel ? "Switch to Register" : "Switch to Login";
+    public string ToggleButtonText =>
+        CurrentView is LoginViewModel ? "Switch to Register" : "Switch to Login";
 
-    public AccessWindowViewModel()
+    public AccessWindowViewModel(Action? closeWindow)
     {
-        CurrentView = new LoginViewModel(SwitchToRegister, OnLoginSuccess);
-    }
-
-    private void OnLoginSuccess()
-    {
-        // For example, close the window or swap to another view
-        OnPropertyChanged(nameof(IsLoggedIn));
-        CurrentView = null; // or switch to a "welcome" screen or close the window
-        OnPropertyChanged(nameof(CurrentView));
-        OnPropertyChanged(nameof(ToggleButtonText));
+        _closeWindow = closeWindow;
+        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
     }
     
     private void SwitchToLogin()
     {
-        CurrentView = new LoginViewModel(SwitchToRegister, OnLoginSuccess);
+        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
         OnPropertyChanged(nameof(CurrentView));
         OnPropertyChanged(nameof(ToggleButtonText));
     }
 
     private void SwitchToRegister()
     {
-        CurrentView = new RegisterViewModel(SwitchToLogin);
+        CurrentView = new RegisterViewModel(SwitchToLogin, _closeWindow);
         OnPropertyChanged(nameof(CurrentView));
         OnPropertyChanged(nameof(ToggleButtonText));
-    }
-
-    [RelayCommand]
-    private void ToggleView()
-    {
-        if (CurrentView is LoginViewModel)
-            SwitchToRegister();
-        else
-            SwitchToLogin();
     }
 
     [RelayCommand]
     private void Logout()
     {
         AuthService.Logout();
+        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
         OnPropertyChanged(nameof(IsLoggedIn));
+        OnPropertyChanged(nameof(CurrentView));
+        OnPropertyChanged(nameof(ToggleButtonText));
     }
 }

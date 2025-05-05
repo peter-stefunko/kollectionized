@@ -7,21 +7,12 @@ using System.Threading.Tasks;
 
 namespace Kollectionized.ViewModels;
 
-public partial class LoginViewModel : ObservableObject
+public partial class LoginViewModel(Action? switchToRegister = null, Action? onLoginSuccess = null)
+    : ViewModelBase
 {
-    private readonly Action? _switchToRegister;
-    private readonly Action? _onLoginSuccess;
-
-    public LoginViewModel(Action? switchToRegister = null, Action? onLoginSuccess = null)
-    {
-        _switchToRegister = switchToRegister;
-        _onLoginSuccess = onLoginSuccess;
-
-    }
-
-    [ObservableProperty] private string username = string.Empty;
-    [ObservableProperty] private string password = string.Empty;
-    [ObservableProperty] private string? errorMessage;
+    [ObservableProperty] private string _username = string.Empty;
+    [ObservableProperty] private string _password = string.Empty;
+    [ObservableProperty] private string? _errorMessage;
 
     private readonly UserService _userService = new();
 
@@ -37,15 +28,14 @@ public partial class LoginViewModel : ObservableObject
             return;
         }
 
+        ErrorMessage = string.Empty;
         AuthService.Login(user.Id, user.Username);
-        _onLoginSuccess?.Invoke();
+        onLoginSuccess?.Invoke();
     }
 
     [RelayCommand]
     private void SwitchToRegister()
     {
-        _switchToRegister?.Invoke();
+        switchToRegister?.Invoke();
     }
-    public IRelayCommand TestCommand => new RelayCommand(() => Console.WriteLine("Clicked!"));
-    
 }

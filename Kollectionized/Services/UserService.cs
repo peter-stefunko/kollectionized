@@ -19,7 +19,13 @@ public class UserService
 
     public async Task<string?> Register(string username, string password)
     {
-        var response = await _client.PostAsJsonAsync("auth/register", new { username, password });
+        var body = new
+        {
+            username,
+            password
+        };
+        
+        var response = await _client.PostAsJsonAsync("auth/register", body);
         return response.IsSuccessStatusCode
             ? null
             : await response.Content.ReadAsStringAsync();
@@ -27,28 +33,54 @@ public class UserService
 
     public async Task<User?> Login(string username, string password)
     {
-        var response = await _client.PostAsJsonAsync("auth/login", new { username, password });
-        if (!response.IsSuccessStatusCode) return null;
+        var body = new
+        {
+            username,
+            password
+        };
+        
+        var response = await _client.PostAsJsonAsync("auth/login", body);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
 
         var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
         return new User { Username = username, Id = result!.UserId };
     }
 
-    public async Task<bool> DeleteAccount(string username, string password)
+    public async Task<string?> DeleteAccount(string username, string password)
     {
-        var url = $"auth/{username}?password={Uri.EscapeDataString(password)}";
-        var response = await _client.DeleteAsync(url);
-        return response.IsSuccessStatusCode;
-    }
+        var body = new
+        {
+            username,
+            password
+        };
+        
+        var request = new HttpRequestMessage(HttpMethod.Delete, "auth/user")
+        {
+            Content = JsonContent.Create(body)
+        };
 
-    public async Task<bool> ChangeUsername(Guid userId, string newUsername)
+        var response = await _client.SendAsync(request);
+        return response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync();
+    }
+    
+    public async Task<string?> ChangeUsername(string currentUsername, string password, string newUsername)
     {
-        var response = await _client.PutAsJsonAsync($"user/{userId}/username", new { username = newUsername });
-        return response.IsSuccessStatusCode;
+        var body = new
+        {
+            currentUsername,
+            password,
+            newUsername
+        };
+
+        var response = await _client.PutAsJsonAsync("auth/change-username", body);
+        return response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync();
     }
 
     private class LoginResponse
     {
-        public Guid UserId { get; set; }
+        public Guid UserId { get; init; }
     }
 }

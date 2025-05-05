@@ -6,20 +6,20 @@ namespace Kollectionized.Api.Models;
 public class PokemonCollections
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     [Column("user_id")]
-    public Guid? UserId { get; set; }
+    public Guid? UserId { get; init; }
 
     [Column("name")]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
 
     [Column("description")]
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
 
     [Column("is_public")]
-    public bool IsPublic { get; set; } = true;
+    public bool IsPublic { get; init; } = true;
 
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 }
