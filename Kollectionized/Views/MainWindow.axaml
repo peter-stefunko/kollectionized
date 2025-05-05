@@ -7,18 +7,15 @@
     x:DataType="vm:MainWindowViewModel">
 
     <StackPanel Spacing="10" Margin="20">
-
-        <!-- Login/Register Section using AccessWindow -->
+        
         <StackPanel Orientation="Vertical" Spacing="8" HorizontalAlignment="Right">
             <Button Content="Logout" Click="Logout_Click" IsVisible="{Binding IsLoggedIn}"/>
             <Button Content="{Binding CurrentUsername}" IsVisible="{Binding IsLoggedIn}" Click="OpenOwnProfile_Click" />
             <Button Content="Login" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
         </StackPanel>
-
-        <!-- App Title -->
+        
         <TextBlock Text="Kollectionized" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-
-        <!-- Navigation -->
+        
         <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
         <Button Content="View Card Instance Details" Click="ViewCardInstance_Click"/>
         <Button Content="Manage Collections &amp; Decks" Click="ManageCollections_Click"/>

@@ -8,12 +8,10 @@
     Width="500" Height="700" Title="Card Instance Details">
     <ScrollViewer>
         <StackPanel Spacing="12" Margin="10">
-            <!-- General card info -->
             <views:CardDetailsView DataContext="{Binding}" />
 
             <Separator/>
-
-            <!-- Instance-specific details -->
+            
             <TextBlock Text="Instance Information" FontSize="16" FontWeight="Bold" Margin="0 10 0 0"/>
 
             <TextBlock Text="UUID: "><Run Text="{Binding Instance.Id}"/></TextBlock>
