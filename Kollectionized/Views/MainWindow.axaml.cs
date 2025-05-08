@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Kollectionized.Models;
 using Kollectionized.Services;
 using Kollectionized.ViewModels;
 
@@ -32,13 +33,14 @@ public partial class MainWindow : Window
         // new DecksAndCollectionsWindow().Show();
     }
 
-    private async void ViewUserProfile_Click(object? sender, RoutedEventArgs e)
+    private void ShowProfile_Click(object? sender, RoutedEventArgs e)
     {
-        var userId = AuthService.CurrentUserId!.Value;
-        var username = AuthService.CurrentUsername!;
-
-        new UserProfileWindow(userId, username).Show();
+        if (sender is Button { Tag: User user })
+        {
+            new UserProfileWindow(user.Id, user.Username).Show();
+        }
     }
+
 
     private async void AccessAccount_Click(object? sender, RoutedEventArgs e)
     {
@@ -52,16 +54,13 @@ public partial class MainWindow : Window
     
     private void OpenOwnProfile_Click(object? sender, RoutedEventArgs e)
     {
-        if (AuthService.CurrentUserId is not { } userId || AuthService.CurrentUsername is null)
-            return;
+        var userId = AuthService.CurrentUserId!.Value;
+        var username = AuthService.CurrentUsername!;
 
-        new UserProfileWindow(userId, AuthService.CurrentUsername).Show();
+        new UserProfileWindow(userId, username).Show();
     }
     private void OpenUserSearch_Click(object? sender, RoutedEventArgs e)
     {
-        var sampleId = Guid.NewGuid();
-        var sampleName = "searched_user";
-
-        new UserProfileWindow(sampleId, sampleName).Show();
+        new UserSearchWindow().Show();
     }
 }
