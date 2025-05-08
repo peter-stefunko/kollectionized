@@ -6,8 +6,8 @@ namespace Kollectionized.Models;
 public class User
 {
     [JsonPropertyName("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     [JsonPropertyName("username")]
-    public string Username { get; set; } = string.Empty;
+    public string Username { get; init; } = string.Empty;
 }
