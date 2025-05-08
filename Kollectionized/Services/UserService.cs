@@ -83,7 +83,7 @@ public class UserService
     
     public async Task<List<User>> GetAllUsers()
     {
-        var response = await _client.GetAsync("auth/users");
+        var response = await _client.GetAsync("users");
         var json = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode) return [];
@@ -91,7 +91,6 @@ public class UserService
         var result = JsonSerializer.Deserialize<List<User>>(json);
         return result ?? [];
     }
-
     
     private class LoginResponse
     {
