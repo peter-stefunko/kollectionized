@@ -22,4 +22,7 @@ public class User
 
     [Column("last_username")]
     public string? LastUsername { get; set; }
+    
+    [Column("bio")]
+    public string? Bio { get; set; } = string.Empty;
 }
