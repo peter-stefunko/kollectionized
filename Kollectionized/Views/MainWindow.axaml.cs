@@ -9,18 +9,16 @@ namespace Kollectionized.Views;
 
 public partial class MainWindow : Window
 {
-    private readonly MainWindowViewModel _viewModel;
-
     public MainWindow()
     {
         InitializeComponent();
-        _viewModel = new MainWindowViewModel();
-        DataContext = _viewModel;
+        var viewModel = new MainWindowViewModel();
+        DataContext = viewModel;
     }
 
     private async void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
     {
-        // new CardBrowserWindow().Show();
+        new CardGamesWindow().Show();
     }
 
     private async void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
