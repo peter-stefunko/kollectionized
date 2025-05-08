@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Kollectionized.Api.Models;
 
 [Table("pokemon_decks")]
-public class PokemonDecks
+public class PokemonDeck
 {
     [Key]
     public Guid Id { get; init; }
