@@ -2,8 +2,8 @@ using Kollectionized.Models;
 
 namespace Kollectionized.ViewModels;
 
-public class CardInstanceDetailsViewModel : ViewModelBase
+public class CardInstanceDetailsViewModel(PokemonCard card, CardInstanceDetails instance) : ViewModelBase
 {
-    public PokemonCard Card { get; set; } = new();
-    public CardInstanceDetails Instance { get; set; } = new();
+    public PokemonCard Card { get; } = card;
+    public CardInstanceDetails Instance { get; } = instance;
 }
