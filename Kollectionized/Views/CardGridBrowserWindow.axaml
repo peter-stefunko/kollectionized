@@ -1,0 +1,60 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:Class="Kollectionized.Views.CardGridBrowserWindow"
+    x:DataType="vm:CardGridBrowserViewModel"
+    Width="1000" Height="700"
+    Title="All Cards">
+
+    <DockPanel Margin="10">
+        <!-- Search bar -->
+        <StackPanel DockPanel.Dock="Top" Margin="0 0 0 10" Spacing="10">
+            <TextBox Watermark="Search by name..." Text="{Binding NameQuery, Mode=TwoWay}" />
+
+            <WrapPanel Orientation="Vertical">
+                <ComboBox Width="150"
+                          ItemsSource="{Binding CardTypes}"
+                          SelectedItem="{Binding SelectedCardType}"
+                          PlaceholderText="Card Type" />
+                <ComboBox Width="150"
+                          ItemsSource="{Binding Types}"
+                          SelectedItem="{Binding SelectedType}"
+                          PlaceholderText="Type" />
+                <ComboBox Width="150"
+                          ItemsSource="{Binding SubTypes}"
+                          SelectedItem="{Binding SelectedSubType}"
+                          PlaceholderText="Sub-Type" />
+                <ComboBox Width="200"
+                          ItemsSource="{Binding Sets}"
+                          SelectedItem="{Binding SelectedSet}"
+                          PlaceholderText="Set" />
+                <Button Content="Search" Command="{Binding SearchCommand}" />
+            </WrapPanel>
+        </StackPanel>
+
+
+        <!-- Grid of cards -->
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Cards}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Width="200" Height="300" Background="DimGray">
+                            <StackPanel>
+                                <Image Source="{Binding LoadedImage}" Height="250" Stretch="Uniform" />
+                                <TextBlock Text="{Binding Card.Name}" TextAlignment="Center" />
+                                <Button Content="+" Width="25" HorizontalAlignment="Center"
+                                        IsVisible="{Binding IsLoggedIn}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
