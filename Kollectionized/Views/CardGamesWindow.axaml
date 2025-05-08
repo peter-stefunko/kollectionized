@@ -1,0 +1,30 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:Class="Kollectionized.Views.CardGamesWindow"
+    x:DataType="vm:CardGamesViewModel"
+    Width="600" Height="600"
+    Title="Card Games">
+
+    <ScrollViewer>
+        <ItemsControl ItemsSource="{Binding Games}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="200" Margin="10" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="18" TextAlignment="Center"
+                                   TextDecorations="Underline" Cursor="Hand"
+                                   PointerPressed="GameOption_Clicked" />
+                        <Image Source="{Binding Image}" Height="200" Cursor="Hand"
+                               PointerPressed="GameOption_Clicked" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</Window>
