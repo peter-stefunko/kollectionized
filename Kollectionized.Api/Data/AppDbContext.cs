@@ -7,9 +7,9 @@ namespace Kollectionized.Api.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users => Set<User>();
-    public DbSet<PokemonCollections> PokemonCollections => Set<PokemonCollections>();
-    public DbSet<PokemonDecks> PokemonDecks => Set<PokemonDecks>();
-
+    public DbSet<PokemonCollection> PokemonCollections => Set<PokemonCollection>();
+    public DbSet<PokemonDeck> PokemonDecks => Set<PokemonDeck>();
+    public DbSet<PokemonCard> PokemonCards => Set<PokemonCard>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
