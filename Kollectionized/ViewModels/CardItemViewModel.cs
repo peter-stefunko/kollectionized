@@ -10,9 +10,9 @@ public partial class CardItemViewModel : ObservableObject
 {
     public PokemonCard Card { get; }
     public bool IsLoggedIn => AuthService.IsLoggedIn;
-
+    
     [ObservableProperty]
-    private Bitmap? _loadedImage;
+    private Bitmap? _image;
 
     public CardItemViewModel(PokemonCard card)
     {
@@ -22,10 +22,6 @@ public partial class CardItemViewModel : ObservableObject
 
     private async Task LoadImageAsync()
     {
-        var image = await Card.Image;
-        if (image != null)
-        {
-            LoadedImage = image;
-        }
+        Image = await Card.GetImageAsync();
     }
 }

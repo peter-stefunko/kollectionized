@@ -14,16 +14,16 @@
 
             <WrapPanel Orientation="Vertical">
                 <ComboBox Width="150"
-                          ItemsSource="{Binding CardTypes}"
-                          SelectedItem="{Binding SelectedCardType}"
-                          PlaceholderText="Card Type" />
-                <ComboBox Width="150"
                           ItemsSource="{Binding Types}"
                           SelectedItem="{Binding SelectedType}"
+                          PlaceholderText="Card Type" />
+                <ComboBox Width="150"
+                          ItemsSource="{Binding Typings}"
+                          SelectedItem="{Binding SelectedTyping}"
                           PlaceholderText="Type" />
                 <ComboBox Width="150"
-                          ItemsSource="{Binding SubTypes}"
-                          SelectedItem="{Binding SelectedSubType}"
+                          ItemsSource="{Binding Forms}"
+                          SelectedItem="{Binding SelectedForm}"
                           PlaceholderText="Sub-Type" />
                 <ComboBox Width="200"
                           ItemsSource="{Binding Sets}"
@@ -36,25 +36,33 @@
 
         <!-- Grid of cards -->
         <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Cards}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="5" Width="200" Height="300" Background="DimGray">
-                            <StackPanel>
-                                <Image Source="{Binding LoadedImage}" Height="250" Stretch="Uniform" />
-                                <TextBlock Text="{Binding Card.Name}" TextAlignment="Center" />
-                                <Button Content="+" Width="25" HorizontalAlignment="Center"
-                                        IsVisible="{Binding IsLoggedIn}" />
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Cards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5" Width="200" Height="300" Background="DimGray">
+                                <StackPanel>
+                                    <Image Source="{Binding Image}" Height="250" Stretch="Uniform" />
+                                    <TextBlock Text="{Binding Card.Name}" TextAlignment="Center" />
+                                    <Button Content="+" Width="25" HorizontalAlignment="Center"
+                                            IsVisible="{Binding IsLoggedIn}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Button Content="Load More"
+                        Command="{Binding LoadCardsCommand}"
+                        HorizontalAlignment="Left"
+                        Margin="10" />
+            </StackPanel>
         </ScrollViewer>
     </DockPanel>
+    
 </Window>

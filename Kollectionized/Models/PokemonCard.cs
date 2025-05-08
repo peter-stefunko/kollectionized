@@ -15,5 +15,12 @@ public class PokemonCard
     public string Type { get; set; } = string.Empty;
     
     [JsonIgnore]
-    public Task<Bitmap?> Image => ImageHelper.LoadFromWeb(new Uri($"https://luvbckqisrgzkrsckfqp.supabase.co/storage/v1/object/public{ImageUrl}"));
+    private Task<Bitmap?>? _imageTask;
+    
+    public Task<Bitmap?> GetImageAsync()
+    {
+        _imageTask ??= ImageHelper.LoadFromWeb(new Uri($"https://luvbckqisrgzkrsckfqp.supabase.co/storage/v1/object/public{ImageUrl}"));
+        return _imageTask;
+    }
+
 }

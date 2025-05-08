@@ -44,7 +44,6 @@ public class CardsController(AppDbContext context) : ControllerBase
             query = query.Where(c => c.Set == dto.Set);
 
         var cards = await query
-            .OrderBy(c => c.Name)
             .Skip(dto.Offset)
             .Take(dto.Limit)
             .ToListAsync();

@@ -9,6 +9,6 @@ public class PokemonCardFilterDto
     public string? Typing { get; set; }
     public string? Form { get; set; }
     public string? Set { get; set; }
-    public int Limit { get; set; } = 310;
+    public int Limit { get; set; } = 30;
     public int Offset { get; set; } = 0;
 }
