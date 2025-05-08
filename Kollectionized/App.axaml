@@ -21,6 +21,15 @@
             <Setter Property="TextDecorations" Value="Underline" />
             <Setter Property="Foreground" Value="DeepSkyBlue" />
         </Style>
+        
+        <Style Selector="Border">
+            <Setter Property="Background" Value="DarkSlateGray"></Setter>
+        </Style>
+        
+        <Style Selector="Border.Clickable:pointerover">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="DimGray" />
+        </Style>
     </Application.Styles>
 
     <Application.Resources>
