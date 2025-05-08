@@ -10,6 +10,5 @@
         <TextBlock Text="Set: "><Run Text="{Binding Card.SetName}"/></TextBlock>
         <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"/></TextBlock>
         <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"/></TextBlock>
-        <TextBlock Text="HP: "><Run Text="{Binding Card.Hp}"/></TextBlock>
     </StackPanel>
 </UserControl>
