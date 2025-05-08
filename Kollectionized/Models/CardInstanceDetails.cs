@@ -9,5 +9,5 @@ public class CardInstanceDetails
     public decimal? Grade { get; set; }
     public string GradingCompany { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
-    public List<string> TradeHistory { get; set; } = new();
+    public List<string> TradeHistory { get; set; } = [];
 }
