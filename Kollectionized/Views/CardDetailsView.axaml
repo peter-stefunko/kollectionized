@@ -4,11 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
     x:DataType="vm:CardDetailsViewModel">
-    <StackPanel Spacing="8">
-        <TextBlock Text="{Binding Card.Name}" FontSize="20" FontWeight="Bold"/>
-        <Image Source="{Binding Card.ImageUrl}" Width="120" Height="160"/>
-        <TextBlock Text="Set: "><Run Text="{Binding Card.SetName}"/></TextBlock>
-        <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"/></TextBlock>
-        <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"/></TextBlock>
+
+    <StackPanel Spacing="8" Orientation="Horizontal">
+        <Image Source="{Binding Image}" Height="500"
+               HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+            <TextBlock Text="{Binding Card.Name}" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="Set: "><Run Text="{Binding Card.Set}"/></TextBlock>
+            <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"/></TextBlock>
+            <TextBlock Text="Form: "><Run Text="{Binding Card.Form}"/></TextBlock>
+            <TextBlock Text="Typings: "><Run Text="{Binding Card.Typings}"/></TextBlock>
+            <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"/></TextBlock>
+            <TextBlock Text="Number: "><Run Text="{Binding Card.CardNumber}"/></TextBlock>
+            <TextBlock Text="Pokedex number: "><Run Text="{Binding Card.PokedexNumber}"/></TextBlock>
+        </StackPanel>
     </StackPanel>
+
 </UserControl>

@@ -33,7 +33,6 @@
             </WrapPanel>
         </StackPanel>
 
-
         <!-- Grid of cards -->
         <ScrollViewer>
             <StackPanel>
@@ -45,9 +44,14 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="5" Width="200" Height="300" Background="DimGray">
+                            <Border 
+                                Margin="5" 
+                                Width="260" 
+                                Height="360"
+                                Classes="Clickable"
+                                PointerPressed="ShowDetails_Clicked">
                                 <StackPanel>
-                                    <Image Source="{Binding Image}" Height="250" Stretch="Uniform" />
+                                    <Image Source="{Binding Image}" Height="320" Stretch="Uniform" />
                                     <TextBlock Text="{Binding Card.Name}" TextAlignment="Center" />
                                     <Button Content="+" Width="25" HorizontalAlignment="Center"
                                             IsVisible="{Binding IsLoggedIn}" />

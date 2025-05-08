@@ -10,4 +10,13 @@ public partial class CardGridBrowserWindow : Window
         InitializeComponent();
         DataContext = new CardGridBrowserViewModel(gameKey);
     }
+    
+    private void ShowDetails_Clicked(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    {
+        if (sender is Border { DataContext: CardItemViewModel vm })
+        {
+            vm.ShowDetailsCommand.Execute(null);
+        }
+    }
+
 }

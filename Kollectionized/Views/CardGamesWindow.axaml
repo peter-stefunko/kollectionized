@@ -16,11 +16,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="200" Margin="10" HorizontalAlignment="Center">
+                    <StackPanel Width="260" Margin="10" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding Name}" FontSize="18" TextAlignment="Center"
                                    TextDecorations="Underline" Cursor="Hand"
                                    PointerPressed="GameOption_Clicked" />
-                        <Image Source="{Binding Image}" Height="200" Cursor="Hand"
+                        <Image Source="{Binding Image}" Height="260" Cursor="Hand"
                                PointerPressed="GameOption_Clicked" />
                     </StackPanel>
                 </DataTemplate>
