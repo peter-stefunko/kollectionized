@@ -15,7 +15,7 @@ public partial class UserSearchWindow : Window
     
     private void Username_Clicked(object? sender, Avalonia.Input.PointerPressedEventArgs e)
     {
-        if (sender is TextBlock tb && tb.DataContext is UserListItemViewModel vm)
+        if (sender is TextBlock { DataContext: UserListItemViewModel vm })
         {
             vm.ShowProfileCommand.Execute(null);
         }
