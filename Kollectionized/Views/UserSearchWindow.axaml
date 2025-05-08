@@ -1,0 +1,36 @@
+<Window
+    x:Class="Kollectionized.Views.UserSearchWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:UserSearchViewModel"
+    Width="400" Height="500"
+    Title="User Search">
+
+    <Design.DataContext>
+        <vm:UserSearchViewModel />
+    </Design.DataContext>
+
+    <DockPanel Margin="10">
+        <!-- Search input -->
+        <TextBox DockPanel.Dock="Top"
+                 Watermark="Search users..."
+                 Text="{Binding SearchQuery, Mode=TwoWay}" />
+        
+        <!-- User list -->
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding FilteredUsers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Margin="4">
+                            <TextBlock
+                                Text="{Binding Username}"
+                                Classes="Clickable"
+                                PointerPressed="Username_Clicked" />
+                        </DockPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
