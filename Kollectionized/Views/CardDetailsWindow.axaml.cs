@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;
 
