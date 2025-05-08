@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Kollectionized.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Kollectionized.Services;
@@ -78,7 +80,19 @@ public class UserService
         var response = await _client.PutAsJsonAsync("auth/change-username", body);
         return response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync();
     }
+    
+    public async Task<List<User>> GetAllUsers()
+    {
+        var response = await _client.GetAsync("auth/users");
+        var json = await response.Content.ReadAsStringAsync();
 
+        if (!response.IsSuccessStatusCode) return [];
+
+        var result = JsonSerializer.Deserialize<List<User>>(json);
+        return result ?? [];
+    }
+
+    
     private class LoginResponse
     {
         public Guid UserId { get; init; }
