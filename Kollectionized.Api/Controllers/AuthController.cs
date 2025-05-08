@@ -49,7 +49,7 @@ public class AuthController(AppDbContext context) : ControllerBase
         {
             return Unauthorized("User not found.");
         }
-        
+
         if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             return Unauthorized("Invalid credentials.");
 
@@ -62,42 +62,42 @@ public class AuthController(AppDbContext context) : ControllerBase
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-        
+
             if (user == null)
                 return Unauthorized("User not found.");
-        
+
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid password.");
-        
+
             if (user.Username.StartsWith("[del-"))
                 return BadRequest("Account is already deleted.");
 
             var userId = user.Id;
-        
+
             user.LastUsername = user.Username;
             user.Username = $"[del-{userId}]";
             user.PasswordHash = null;
             context.Users.Update(user);
-        
+
             var collections = await context.PokemonCollections
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
             context.PokemonCollections.RemoveRange(collections);
-        
+
             var decks = await context.PokemonDecks
                 .Where(d => d.UserId == userId)
                 .ToListAsync();
             context.PokemonDecks.RemoveRange(decks);
 
             await context.SaveChangesAsync();
-            return Ok(new { message = "Account deleted (soft)." });   
+            return Ok(new { message = "Account deleted (soft)." });
         }
         catch (Exception ex)
         {
             return StatusCode(500, "Something went wrong on the server.");
         }
     }
-    
+
     [HttpPut("change-username")]
     public async Task<IActionResult> ChangeUsername([FromBody] UsernameChangeDto dto)
     {
@@ -124,17 +124,5 @@ public class AuthController(AppDbContext context) : ControllerBase
         {
             return StatusCode(500, "Something went wrong on the server.");
         }
-    }
-    
-    [HttpGet("users")]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
-    {
-        var users = await context.Users
-            .Where(u => !u.Username.StartsWith("[del-"))
-            .OrderBy(u => u.Username)
-            .Select(u => new UserDto(u.Id, u.Username))
-            .ToListAsync();
-
-        return Ok(users);
     }
 }
