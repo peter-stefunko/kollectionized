@@ -3,18 +3,27 @@
              x:Class="Kollectionized.App"
              xmlns:local="using:Kollectionized"
              xmlns:converters="clr-namespace:Kollectionized.Converters"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
+        
+        <Style Selector="TextBlock.Clickable">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style Selector="TextBlock.Clickable:pointerover">
+            <Setter Property="TextDecorations" Value="Underline" />
+            <Setter Property="Foreground" Value="DeepSkyBlue" />
+        </Style>
     </Application.Styles>
-             
-     <Application.Resources>
-         <converters:BooleanNegationConverter x:Key="BooleanNegationConverter" />
-     </Application.Resources>
+
+    <Application.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter" />
+    </Application.Resources>
 </Application>
