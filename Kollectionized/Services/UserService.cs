@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -49,13 +48,5 @@ public class UserService : ServiceBase
 
         var json = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<List<User>>(json) ?? [];
-    }
-
-    private class LoginResponse
-    {
-        public Guid UserId { get; init; }
-        public string Username { get; init; } = string.Empty;
-        public string Bio { get; init; } = string.Empty;
-        public DateTime CreatedAt { get; init; }
     }
 }

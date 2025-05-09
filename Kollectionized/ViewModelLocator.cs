@@ -17,9 +17,9 @@ public static class ViewModelLocator
 
     public static CardGridBrowserViewModel CreateCardGridBrowser(string gameKey) =>
         new(gameKey, CardService, CardImageService);
-
-    public static CardItemViewModel CreateCardItemViewModel(PokemonCard card) =>
-        new(card, CardImageService);
+    
+    /*public static CardItemViewModel CreateCardItemViewModel(PokemonCard card) =>
+        new(card, CardImageService);*/
 
     public static CardDetailsViewModel CreateCardDetailsViewModel(PokemonCard card) =>
         new(card, CardImageService);
@@ -38,7 +38,6 @@ public static class ViewModelLocator
     public static AccessWindowViewModel CreateAccessWindowViewModel(Action? closeWindow) =>
         new(
             createLoginViewModel: onLogin => CreateLoginViewModel(onLogin, closeWindow),
-            createRegisterViewModel: onRegister => CreateRegisterViewModel(onRegister, closeWindow),
-            closeWindow: closeWindow
+            createRegisterViewModel: onRegister => CreateRegisterViewModel(onRegister, closeWindow)
         );
 }

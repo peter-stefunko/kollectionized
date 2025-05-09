@@ -2,13 +2,13 @@
     x:Class="Kollectionized.Views.CardInstanceDetailsWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:views="clr-namespace:Kollectionized.Views"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:CardInstanceDetailsViewModel"
     Width="500" Height="700" Title="Card Instance Details">
     <ScrollViewer>
         <StackPanel Spacing="12" Margin="10">
-            <views:CardDetailsView DataContext="{Binding}" />
+            <controls:CardDetailsView DataContext="{Binding}" />
 
             <Separator/>
             

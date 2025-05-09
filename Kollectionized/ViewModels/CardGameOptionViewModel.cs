@@ -2,6 +2,7 @@ using System;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Helpers;
+using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
@@ -12,11 +13,11 @@ public class CardGameOptionViewModel : ViewModelBase
     public Bitmap Image { get; }
     public IRelayCommand OpenCommand { get; }
 
-    public CardGameOptionViewModel(string gameKey, string name, string assetPath, Action openAction)
+    public CardGameOptionViewModel(string gameKey, string name, string assetPath)
     {
         GameKey = gameKey;
         Name = name;
         Image = ImageHelper.LoadFromResource(new Uri(assetPath));
-        OpenCommand = new RelayCommand(openAction);
+        OpenCommand = new RelayCommand(() => new CardGridBrowserWindow(GameKey).Show());
     }
 }

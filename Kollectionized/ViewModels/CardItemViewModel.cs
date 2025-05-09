@@ -13,7 +13,7 @@ public partial class CardItemViewModel : ViewModelBase
     private readonly CardImageService _imageService;
 
     public PokemonCard Card { get; }
-    public bool IsLoggedIn => AuthService.IsLoggedIn;
+    public new bool IsLoggedIn => AuthService.IsLoggedIn;
 
     public IRelayCommand ShowDetailsCommand { get; }
 
@@ -34,6 +34,6 @@ public partial class CardItemViewModel : ViewModelBase
 
     private void OpenDetails()
     {
-        new CardDetailsWindow(Card).Show(); // Ideally inject this later
+        new CardDetailsWindow(Card).Show();
     }
 }

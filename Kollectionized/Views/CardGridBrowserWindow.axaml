@@ -2,6 +2,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:Class="Kollectionized.Views.CardGridBrowserWindow"
     x:DataType="vm:CardGridBrowserViewModel"
     Width="1000" Height="700"
@@ -11,8 +12,10 @@
         <!-- Search bar -->
         <StackPanel DockPanel.Dock="Top" Margin="0 0 0 10" Spacing="10">
             <TextBox Watermark="Search by name..." Text="{Binding NameQuery, Mode=TwoWay}" />
-
-            <WrapPanel Orientation="Vertical">
+            
+            <controls:LoadingBar />
+            
+            <WrapPanel Orientation="Horizontal">
                 <ComboBox Width="150"
                           ItemsSource="{Binding Types}"
                           SelectedItem="{Binding SelectedType}"
@@ -29,8 +32,9 @@
                           ItemsSource="{Binding Sets}"
                           SelectedItem="{Binding SelectedSet}"
                           PlaceholderText="Set" />
-                <Button Content="Search" Command="{Binding SearchCommand}" />
             </WrapPanel>
+            
+            <Button Content="Search" Command="{Binding SearchCommand}" />
         </StackPanel>
 
         <!-- Grid of cards -->

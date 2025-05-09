@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Kollectionized.Models;
 using Kollectionized.Services;
 using System;
 using System.Collections.Generic;
@@ -38,11 +37,6 @@ public partial class UserSearchViewModel : ViewModelBase
                 .Select(u => new UserListItemViewModel(u))
         );
 
-        OnPropertyChanged(nameof(FilteredUsers));
-    }
-
-    partial void OnSearchQueryChanged(string oldValue, string newValue)
-    {
         OnPropertyChanged(nameof(FilteredUsers));
     }
 }

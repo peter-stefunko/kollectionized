@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Kollectionized.Views;
+namespace Kollectionized.Controls;
 
 public partial class CardDetailsView : UserControl
 {

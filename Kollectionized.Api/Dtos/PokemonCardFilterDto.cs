@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Query.Internal;
-
 namespace Kollectionized.Api.Dtos;
 
 public class PokemonCardFilterDto

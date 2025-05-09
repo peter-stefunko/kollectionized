@@ -27,7 +27,7 @@ public class CardsController(AppDbContext context) : ControllerBase
             var serializedTyping = JsonSerializer.Serialize(new[] { dto.Typing });
 
             query = query.Where(c =>
-                EF.Functions.JsonContains(c.Typings, serializedTyping));
+                c.Typings != null && EF.Functions.JsonContains(c.Typings, serializedTyping));
         }
 
         if (!string.IsNullOrWhiteSpace(dto.Form))

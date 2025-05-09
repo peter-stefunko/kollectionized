@@ -15,8 +15,10 @@ public class ViewLocator : IDataTemplate
             return new TextBlock { Text = "Null parameter passed to ViewLocator." };
 
         var viewModelType = param.GetType();
-        var viewTypeName = viewModelType.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        
+        var viewTypeName = viewModelType.FullName!
+            .Replace("ViewModels", "Controls", StringComparison.Ordinal)
+            .Replace("ViewModel", "View", StringComparison.Ordinal);
+
         var viewType = Type.GetType(viewTypeName) ?? Assembly.GetExecutingAssembly()
             .GetTypes()
             .FirstOrDefault(t => t.FullName == viewTypeName);
@@ -27,7 +29,6 @@ public class ViewLocator : IDataTemplate
         var control = (Control)Activator.CreateInstance(viewType)!;
         control.DataContext = param;
         return control;
-
     }
 
     public bool Match(object? data)

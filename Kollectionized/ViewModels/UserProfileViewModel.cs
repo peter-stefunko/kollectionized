@@ -54,13 +54,7 @@ public partial class UserProfileViewModel : ViewModelBase
                 return;
             }
 
-            AuthService.Login(new User
-            {
-                Id = ViewedUserId,
-                Username = EditableUsername,
-                Bio = User.Bio,
-                CreatedAt = User.CreatedAt
-            });
+            AuthService.Login(User with { Username = EditableUsername });
         });
     }
 

@@ -35,9 +35,9 @@ public class AuthController(AppDbContext context) : ControllerBase
 
             return Ok(new { message = "User registered successfully." });
         }
-        catch (Exception ex)
+        catch
         {
-            return StatusCode(500, "Something went wrong on the server.");
+            return StatusCode(500, "Something went wrong on the server");
         }
     }
 
@@ -100,7 +100,7 @@ public class AuthController(AppDbContext context) : ControllerBase
             await context.SaveChangesAsync();
             return Ok(new { message = "Account deleted (soft)." });
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, "Something went wrong on the server.");
         }
@@ -128,7 +128,7 @@ public class AuthController(AppDbContext context) : ControllerBase
 
             return Ok(new { message = "Name changed successfully." });
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, "Something went wrong on the server.");
         }

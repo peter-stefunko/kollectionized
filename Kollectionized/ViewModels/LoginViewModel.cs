@@ -9,7 +9,7 @@ namespace Kollectionized.ViewModels;
 public partial class LoginViewModel(Action? switchToRegister = null, Action? onLoginSuccess = null)
     : ViewModelBase
 {
-    private readonly UserService _userService;
+    private readonly UserService _userService = null!;
 
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;

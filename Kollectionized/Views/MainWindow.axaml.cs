@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Kollectionized.Models;
@@ -15,23 +14,15 @@ public partial class MainWindow : Window
         DataContext = ViewModelLocator.MainWindow;
     }
 
-    private async void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
+    private void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
     {
         new CardGamesWindow().Show();
     }
 
-    private async void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
+    private void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
     {
         new CardInstanceDetailsWindow(new PokemonCard(), new CardInstanceDetails()).Show();
     }
-
-    /*private void ShowProfile_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Button { Tag: User user })
-        {
-            new UserProfileWindow(user.Id, user.Username).Show();
-        }
-    }*/
 
     private async void AccessAccount_Click(object? sender, RoutedEventArgs e)
     {

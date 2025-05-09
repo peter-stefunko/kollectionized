@@ -9,7 +9,6 @@ namespace Kollectionized.ViewModels;
 
 public partial class CardGridBrowserViewModel : ViewModelBase
 {
-    private readonly string _gameKey;
     private readonly CardService _cardService;
     private readonly CardImageService _imageService;
 
@@ -30,15 +29,16 @@ public partial class CardGridBrowserViewModel : ViewModelBase
     [ObservableProperty] private ObservableCollection<string> _sets = new();
     [ObservableProperty] private string? _selectedSet;
 
-    [ObservableProperty] private int _page = 0;
+    [ObservableProperty] private int _page;
     private const int PageSize = 30;
+
+    private readonly string _gameKey;
 
     public CardGridBrowserViewModel(string gameKey, CardService cardService, CardImageService imageService)
     {
         _gameKey = gameKey;
         _cardService = cardService;
         _imageService = imageService;
-
         _ = SearchAsync();
         LoadFilterOptions();
     }
@@ -67,12 +67,11 @@ public partial class CardGridBrowserViewModel : ViewModelBase
 
         await RunWithLoading(async () =>
         {
-            var cards = await _cardService.GetPokemonCards(filter);
+            var cards = await _cardService.GetPokemonCards(_gameKey, filter);
             foreach (var card in cards)
             {
                 Cards.Add(new CardItemViewModel(card, _imageService));
             }
-
             Page++;
         });
     }

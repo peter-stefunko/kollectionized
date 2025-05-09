@@ -37,5 +37,21 @@
       <Compile Update="Views\MainWindow.axaml.cs">
         <DependentUpon>MainWindow.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Controls\LoadingBar.axaml.cs">
+        <DependentUpon>LoadingBar.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Controls\LoginView.axaml.cs">
+        <DependentUpon>LoginView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Controls\RegisterView.axaml.cs">
+        <DependentUpon>RegisterView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Controls\CardDetailsView.axaml.cs">
+        <DependentUpon>CardDetailsView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

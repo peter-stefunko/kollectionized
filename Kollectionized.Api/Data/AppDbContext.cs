@@ -19,7 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             
             foreach (var property in entity.GetProperties())
             {
-                property.SetColumnName(ToSnakeCase(property.GetColumnName(StoreObjectIdentifier.Table(entity.GetTableName()!, null))!));
+                property.SetColumnName(ToSnakeCase(property.GetColumnName(StoreObjectIdentifier.Table(entity.GetTableName()!))!));
             }
             
             foreach (var key in entity.GetKeys())

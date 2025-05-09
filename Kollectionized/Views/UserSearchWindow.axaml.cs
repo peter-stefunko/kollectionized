@@ -1,6 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Kollectionized;
 using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;

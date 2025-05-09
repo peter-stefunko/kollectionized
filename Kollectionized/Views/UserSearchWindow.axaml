@@ -7,10 +7,6 @@
     Width="400" Height="500"
     Title="User Search">
 
-    <Design.DataContext>
-        <vm:UserSearchViewModel />
-    </Design.DataContext>
-
     <DockPanel Margin="10">
         <!-- Search input -->
         <TextBox DockPanel.Dock="Top"
