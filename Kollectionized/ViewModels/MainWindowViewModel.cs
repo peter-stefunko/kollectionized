@@ -6,8 +6,8 @@ namespace Kollectionized.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public static string? CurrentUsername => AuthService.CurrentUsername;
-    public static bool IsLoggedIn => AuthService.IsLoggedIn;
+    public string? CurrentUsername => AuthService.CurrentUser?.Username;
+    public bool IsLoggedIn => AuthService.IsLoggedIn;
 
     public MainWindowViewModel()
     {
@@ -15,7 +15,7 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public static void Logout()
+    private void Logout()
     {
         AuthService.Logout();
     }

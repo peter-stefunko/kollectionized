@@ -22,7 +22,7 @@ public class PokemonCard
     public string Type { get; set; } = string.Empty;
     
     [Column("form", TypeName = "jsonb")]
-    public string? Form { get; set; }
+    public string Forms { get; set; } = string.Empty;
     
     [Column("image_url")]
     public string ImageUrl { get; set; } = string.Empty;
@@ -34,5 +34,5 @@ public class PokemonCard
     public int? PokedexNumber { get; set; }
     
     [Column("typings", TypeName = "jsonb")]
-    public string? Typings { get; set; }
+    public string Typings { get; set; } = string.Empty;
 }

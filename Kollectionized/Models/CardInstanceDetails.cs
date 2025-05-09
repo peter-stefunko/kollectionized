@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 namespace Kollectionized.Models;
 
 public class CardInstanceDetails

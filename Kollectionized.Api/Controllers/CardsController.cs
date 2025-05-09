@@ -17,7 +17,7 @@ public class CardsController(AppDbContext context) : ControllerBase
         var query = context.PokemonCards.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(dto.Name))
-            query = query.Where(c => c.Name.Contains(dto.Name));
+            query = query.Where(c => c.Name.ToLower().Contains(dto.Name.ToLower()));
         
         if (!string.IsNullOrWhiteSpace(dto.Type))
             query = query.Where(c => c.Type == dto.Type);
@@ -27,7 +27,6 @@ public class CardsController(AppDbContext context) : ControllerBase
             var serializedTyping = JsonSerializer.Serialize(new[] { dto.Typing });
 
             query = query.Where(c =>
-                c.Typings != null &&
                 EF.Functions.JsonContains(c.Typings, serializedTyping));
         }
 
@@ -36,14 +35,15 @@ public class CardsController(AppDbContext context) : ControllerBase
             var serializedForm = JsonSerializer.Serialize(new[] { dto.Form });
 
             query = query.Where(c =>
-                c.Form != null &&
-                EF.Functions.JsonContains(c.Form, serializedForm));
+                EF.Functions.JsonContains(c.Forms, serializedForm));
         }
 
         if (!string.IsNullOrWhiteSpace(dto.Set))
             query = query.Where(c => c.Set == dto.Set);
 
         var cards = await query
+            .OrderBy(c => c.Name)
+            .ThenBy(c => c.Set)
             .Skip(dto.Offset)
             .Take(dto.Limit)
             .ToListAsync();

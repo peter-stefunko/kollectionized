@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Kollectionized.Models;
-using Kollectionized.ViewModels;
+using Kollectionized;
 
 namespace Kollectionized.Views;
 
@@ -11,6 +11,6 @@ public partial class CardDetailsWindow : Window
     public CardDetailsWindow(PokemonCard card)
     {
         InitializeComponent();
-        DataContext = new CardDetailsViewModel(card);
+        DataContext = ViewModelLocator.CreateCardDetailsViewModel(card);
     }
 }

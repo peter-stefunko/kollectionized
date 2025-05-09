@@ -10,6 +10,5 @@ public partial class CardDetailsView : UserControl
     public CardDetailsView()
     {
         InitializeComponent();
-        /*DataContext = new CardDetailsViewModel();*/
     }
 }

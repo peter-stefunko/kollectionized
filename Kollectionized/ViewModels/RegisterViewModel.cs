@@ -1,47 +1,45 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kollectionized.Services;
 using System;
 using System.Threading.Tasks;
-using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
-public partial class RegisterViewModel(Action? switchToLogin = null, Action? onRegisterSuccess = null)
+public partial class RegisterViewModel(UserService userService, Action? switchToLogin = null, Action? onRegisterSuccess = null)
     : ViewModelBase
 {
+    private readonly UserService _userService = userService;
+
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
     [ObservableProperty] private string _confirmPassword = string.Empty;
-    [ObservableProperty] private string? _errorMessage = string.Empty;
-
-    private readonly UserService _userService = new();
 
     [RelayCommand]
-    private async Task Register()
+    private async Task RegisterAsync()
     {
-        ErrorMessage = null;
-
         if (Password != ConfirmPassword)
         {
             ErrorMessage = "Passwords do not match.";
             return;
         }
 
-        var error = await _userService.Register(Username, Password);
-        if (error != null)
+        await RunWithLoading(async () =>
         {
-            ErrorMessage = error;
-            return;
-        }
+            var error = await _userService.Register(Username, Password);
+            if (error != null)
+            {
+                ErrorMessage = error;
+                return;
+            }
 
-        var user = await _userService.Login(Username, Password);
-        if (user != null)
-        {
-            AuthService.Login(user.Id, user.Username);
-        }
-
-        ErrorMessage = string.Empty;
-        onRegisterSuccess?.Invoke();
+            var user = await _userService.Login(Username, Password);
+            if (user != null)
+            {
+                AuthService.Login(user);
+                onRegisterSuccess?.Invoke();
+            }
+        });
     }
 
     [RelayCommand]

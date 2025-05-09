@@ -1,25 +1,27 @@
 using System;
 using CommunityToolkit.Mvvm.Input;
-using Kollectionized.Views;
 using Kollectionized.Models;
+using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
 public class UserListItemViewModel
 {
-    public Guid Id { get; }
-    public string Username { get; }
+    public User User { get; }
+
+    public Guid Id => User.Id;
+    public string Username => User.Username;
 
     public IRelayCommand ShowProfileCommand { get; }
 
     public UserListItemViewModel(User user)
     {
-        Id = user.Id;
-        Username = user.Username;
+        User = user;
+        ShowProfileCommand = new RelayCommand(OpenProfile);
+    }
 
-        ShowProfileCommand = new RelayCommand(() =>
-        {
-            new UserProfileWindow(Id, Username).Show();
-        });
+    private void OpenProfile()
+    {
+        new UserProfileWindow(User).Show();
     }
 }

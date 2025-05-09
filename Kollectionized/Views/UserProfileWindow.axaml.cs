@@ -2,15 +2,16 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Kollectionized.ViewModels;
+using Kollectionized;
+using Kollectionized.Models;
 
 namespace Kollectionized.Views;
 
 public partial class UserProfileWindow : Window
 {
-    public UserProfileWindow(Guid viewedUserId, string viewedUsername)
+    public UserProfileWindow(User user)
     {
         InitializeComponent();
-        DataContext = new UserProfileViewModel(viewedUserId, viewedUsername, Close);
+        DataContext = ViewModelLocator.CreateUserProfile(user, Close);
     }
 }

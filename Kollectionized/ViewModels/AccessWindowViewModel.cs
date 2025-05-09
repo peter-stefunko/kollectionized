@@ -2,37 +2,43 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using Kollectionized.Services;
-using Kollectionized.ViewModels;
 
 namespace Kollectionized.ViewModels;
 
 public partial class AccessWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private object? _currentView;
-
-    public static bool IsLoggedIn => AuthService.IsLoggedIn;
+    private readonly Func<Action, ViewModelBase> _createLoginViewModel;
+    private readonly Func<Action, ViewModelBase> _createRegisterViewModel;
     private readonly Action? _closeWindow;
+
+    [ObservableProperty] private ViewModelBase? _currentView;
 
     public string ToggleButtonText =>
         CurrentView is LoginViewModel ? "Switch to Register" : "Switch to Login";
 
-    public AccessWindowViewModel(Action? closeWindow)
+    public static bool IsLoggedIn => AuthService.IsLoggedIn;
+
+    public AccessWindowViewModel(
+        Func<Action, ViewModelBase> createLoginViewModel,
+        Func<Action, ViewModelBase> createRegisterViewModel,
+        Action? closeWindow = null)
     {
+        _createLoginViewModel = createLoginViewModel;
+        _createRegisterViewModel = createRegisterViewModel;
         _closeWindow = closeWindow;
-        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
+
+        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
     }
-    
+
     private void SwitchToLogin()
     {
-        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
-        OnPropertyChanged(nameof(CurrentView));
+        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
         OnPropertyChanged(nameof(ToggleButtonText));
     }
 
     private void SwitchToRegister()
     {
-        CurrentView = new RegisterViewModel(SwitchToLogin, _closeWindow);
-        OnPropertyChanged(nameof(CurrentView));
+        CurrentView = _createRegisterViewModel.Invoke(SwitchToLogin);
         OnPropertyChanged(nameof(ToggleButtonText));
     }
 
@@ -40,9 +46,8 @@ public partial class AccessWindowViewModel : ViewModelBase
     private void Logout()
     {
         AuthService.Logout();
-        CurrentView = new LoginViewModel(SwitchToRegister, _closeWindow);
-        OnPropertyChanged(nameof(IsLoggedIn));
-        OnPropertyChanged(nameof(CurrentView));
+        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
         OnPropertyChanged(nameof(ToggleButtonText));
+        OnPropertyChanged(nameof(IsLoggedIn));
     }
 }

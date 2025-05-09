@@ -1,90 +1,94 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kollectionized.Models;
+using Kollectionized.Services;
 using System;
 using System.Threading.Tasks;
-using Kollectionized.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kollectionized.ViewModels;
 
 public partial class UserProfileViewModel : ViewModelBase
 {
-    private Guid ViewedUserId { get; }
-    public string ViewedUsername { get; set; }
-
-    public bool IsCurrentUser => ViewedUserId == AuthService.CurrentUserId;
-
-    [ObservableProperty] private string _editableUsername = string.Empty;
-    [ObservableProperty] private string _password = string.Empty;
-    [ObservableProperty] private string? _errorMessage = string.Empty;
-    
     private readonly UserService _userService;
     private readonly Action? _onDeleteSuccess;
 
-    public UserProfileViewModel(Guid viewedUserId, string username, Action? onDeleteSuccess = null)
+    public User User { get; }
+
+    public Guid ViewedUserId => User.Id;
+    public string ViewedUsername => User.Username;
+    public string Bio => User.Bio;
+    public DateTime CreatedAt => User.CreatedAt;
+
+    public bool IsCurrentUser => User.Id == AuthService.CurrentUser?.Id;
+
+    [ObservableProperty] private string _editableUsername;
+    [ObservableProperty] private string _password = string.Empty;
+
+    public UserProfileViewModel(User user, UserService userService, Action? onDeleteSuccess = null)
     {
-        ViewedUserId = viewedUserId;
-        ViewedUsername = username;
-        EditableUsername = username;
-        _userService = new UserService();
+        User = user;
+        _editableUsername = user.Username;
+        _userService = userService;
         _onDeleteSuccess = onDeleteSuccess;
     }
 
     [RelayCommand]
-    private async Task SaveUsername()
+    private async Task SaveUsernameAsync()
     {
-        if (!IsCurrentUser)
-            return;
-        
+        if (!IsCurrentUser || string.IsNullOrWhiteSpace(EditableUsername)) return;
+
         var confirmed = await DialogService.ConfirmAsync(
             $"Are you sure you want to change your username to '{EditableUsername}'?",
             "Confirm Username Change");
 
-        if (!confirmed)
-            return;
-        
-        var error = await _userService.ChangeUsername(
-            AuthService.CurrentUsername!,
-            Password,
-            EditableUsername
-        );
-        
-        if (error != null)
-        {
-            ErrorMessage = error;
-            return;
-        }
+        if (!confirmed) return;
 
-        ErrorMessage = string.Empty;
-        ViewedUsername = EditableUsername;
-        AuthService.Login(AuthService.CurrentUserId!.Value, EditableUsername);
+        await RunWithLoading(async () =>
+        {
+            var error = await _userService.ChangeUsername(
+                AuthService.CurrentUser?.Username ?? "", Password, EditableUsername);
+
+            if (error != null)
+            {
+                ErrorMessage = error;
+                return;
+            }
+
+            AuthService.Login(new User
+            {
+                Id = ViewedUserId,
+                Username = EditableUsername,
+                Bio = User.Bio,
+                CreatedAt = User.CreatedAt
+            });
+        });
     }
 
-
     [RelayCommand]
-    private async Task DeleteAccount()
+    private async Task DeleteAccountAsync()
     {
         if (!IsCurrentUser) return;
-        
-        var confirmed = await DialogService.ConfirmAsync("Are you sure you want to delete your account?","Confirm Account Deletion");
-        if (!confirmed)
-            return;
 
-        var error = await _userService.DeleteAccount(ViewedUsername, Password);
-        if (error != null)
+        var confirmed = await DialogService.ConfirmAsync(
+            "Are you sure you want to delete your account?",
+            "Confirm Account Deletion");
+
+        if (!confirmed) return;
+
+        await RunWithLoading(async () =>
         {
-            ErrorMessage = error;
-            return;
-        }
-        
-        ErrorMessage = string.Empty;
-        AuthService.Logout();
-        _onDeleteSuccess?.Invoke();
+            var error = await _userService.DeleteAccount(ViewedUsername, Password);
+            if (error != null)
+            {
+                ErrorMessage = error;
+                return;
+            }
+
+            AuthService.Logout();
+            _onDeleteSuccess?.Invoke();
+        });
     }
 
     [RelayCommand]
-    private static void Logout()
-    {
-        AuthService.Logout();
-    }
+    private static void Logout() => AuthService.Logout();
 }

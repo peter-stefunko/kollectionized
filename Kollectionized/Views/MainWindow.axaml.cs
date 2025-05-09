@@ -12,8 +12,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        var viewModel = new MainWindowViewModel();
-        DataContext = viewModel;
+        DataContext = ViewModelLocator.MainWindow;
     }
 
     private async void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
@@ -23,40 +22,37 @@ public partial class MainWindow : Window
 
     private async void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
     {
-        new CardInstanceDetailsWindow().Show();
+        new CardInstanceDetailsWindow(new PokemonCard(), new CardInstanceDetails()).Show();
     }
 
-    private async void ManageCollections_Click(object? sender, RoutedEventArgs e)
-    {
-        // new DecksAndCollectionsWindow().Show();
-    }
-
-    private void ShowProfile_Click(object? sender, RoutedEventArgs e)
+    /*private void ShowProfile_Click(object? sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: User user })
         {
             new UserProfileWindow(user.Id, user.Username).Show();
         }
-    }
-
+    }*/
 
     private async void AccessAccount_Click(object? sender, RoutedEventArgs e)
     {
         await new AccessWindow().ShowDialog(this);
     }
 
-    private async void Logout_Click(object? sender, RoutedEventArgs e)
+    private void Logout_Click(object? sender, RoutedEventArgs e)
     {
-        MainWindowViewModel.Logout();
+        if (DataContext is MainWindowViewModel vm)
+            vm.LogoutCommand.Execute(null);
     }
-    
+
     private void OpenOwnProfile_Click(object? sender, RoutedEventArgs e)
     {
-        var userId = AuthService.CurrentUserId!.Value;
-        var username = AuthService.CurrentUsername!;
-
-        new UserProfileWindow(userId, username).Show();
+        var user = AuthService.CurrentUser;
+        if (user != null)
+        {
+            new UserProfileWindow(user).Show();
+        }
     }
+
     private void OpenUserSearch_Click(object? sender, RoutedEventArgs e)
     {
         new UserSearchWindow().Show();

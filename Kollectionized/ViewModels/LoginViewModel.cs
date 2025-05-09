@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Services;
-using Kollectionized.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -10,27 +9,32 @@ namespace Kollectionized.ViewModels;
 public partial class LoginViewModel(Action? switchToRegister = null, Action? onLoginSuccess = null)
     : ViewModelBase
 {
+    private readonly UserService _userService;
+
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
-    [ObservableProperty] private string? _errorMessage;
 
-    private readonly UserService _userService = new();
+    public LoginViewModel(UserService userService, Action? switchToRegister = null, Action? onLoginSuccess = null)
+        : this(switchToRegister, onLoginSuccess)
+    {
+        _userService = userService;
+    }
 
     [RelayCommand]
-    private async Task Login()
+    private async Task LoginAsync()
     {
-        ErrorMessage = null;
-
-        var user = await _userService.Login(Username, Password);
-        if (user == null)
+        await RunWithLoading(async () =>
         {
-            ErrorMessage = "Invalid username or password.";
-            return;
-        }
+            var user = await _userService.Login(Username, Password);
+            if (user == null)
+            {
+                ErrorMessage = "Invalid username or password.";
+                return;
+            }
 
-        ErrorMessage = string.Empty;
-        AuthService.Login(user.Id, user.Username);
-        onLoginSuccess?.Invoke();
+            AuthService.Login(user);
+            onLoginSuccess?.Invoke();
+        });
     }
 
     [RelayCommand]

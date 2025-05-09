@@ -1,20 +1,18 @@
-using System;
 using System.Collections.ObjectModel;
-using Kollectionized.Helpers;
-using Kollectionized.Models;
+using Kollectionized.Common;
 using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
 public class CardGamesViewModel : ViewModelBase
 {
-    public ObservableCollection<CardGameOption> Games { get; } =
+    public ObservableCollection<CardGameOptionViewModel> Games { get; } =
     [
         new(
-            gameKey: "pokemon",
+            gameKey: Constants.Games.Pokemon,
             name: "Pokémon",
-            assetPath: "avares://Kollectionized/Assets/pokemon-card-back.jpg",
-            openAction: () => new CardGridBrowserWindow("pokemon").Show()
+            assetPath: Constants.Assets.PokemonCardBack,
+            openAction: () => new CardGridBrowserWindow(Constants.Games.Pokemon).Show()
         )
     ];
 }

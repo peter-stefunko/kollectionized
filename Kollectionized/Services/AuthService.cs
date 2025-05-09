@@ -1,27 +1,25 @@
 using System;
+using Kollectionized.Models;
 
 namespace Kollectionized.Services;
 
 public static class AuthService
 {
-    public static Guid? CurrentUserId { get; private set; }
+    public static User? CurrentUser { get; private set; }
 
-    public static string? CurrentUsername { get; private set; }
+    public static bool IsLoggedIn => CurrentUser != null;
 
-    public static bool IsLoggedIn => CurrentUserId != null;
     public static event Action? SessionChanged;
 
-    public static void Login(Guid userId, string username)
+    public static void Login(User user)
     {
-        CurrentUserId = userId;
-        CurrentUsername = username;
+        CurrentUser = user;
         SessionChanged?.Invoke();
     }
 
     public static void Logout()
     {
-        CurrentUserId = null;
-        CurrentUsername = null;
+        CurrentUser = null;
         SessionChanged?.Invoke();
     }
 }

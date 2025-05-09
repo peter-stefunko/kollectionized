@@ -18,7 +18,7 @@
         
         <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
         <Button Content="View Card Instance Details" Click="ViewCardInstance_Click"/>
-        <Button Content="Manage Collections &amp; Decks" Click="ManageCollections_Click"/>
+        <Button Content="Manage Collections &amp; Decks"/>
         <Button Content="View User Profile" Click="OpenUserSearch_Click"/>
 
     </StackPanel>

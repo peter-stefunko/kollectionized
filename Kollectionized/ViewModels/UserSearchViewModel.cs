@@ -1,42 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Kollectionized.Models;
 using Kollectionized.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kollectionized.ViewModels;
 
 public partial class UserSearchViewModel : ViewModelBase
 {
-    private readonly UserService _userService = new();
+    private readonly UserService _userService;
 
-    [ObservableProperty]
-    private string _searchQuery = string.Empty;
-
-    [ObservableProperty]
-    private ObservableCollection<UserListItemViewModel> _allUsers = new();
+    [ObservableProperty] private string _searchQuery = string.Empty;
+    [ObservableProperty] private ObservableCollection<UserListItemViewModel> _allUsers = new();
 
     public IEnumerable<UserListItemViewModel> FilteredUsers =>
         string.IsNullOrWhiteSpace(SearchQuery)
             ? AllUsers
-            : AllUsers.Where(u =>
-                u.Username.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
+            : AllUsers.Where(u => u.Username.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
 
-    public UserSearchViewModel()
+    public UserSearchViewModel(UserService userService)
     {
-        LoadUsers();
-        
-        PropertyChanged += (_, e) =>
-        {
-            if (e.PropertyName == nameof(SearchQuery) || e.PropertyName == nameof(AllUsers))
-                OnPropertyChanged(nameof(FilteredUsers));
-        };
+        _userService = userService;
+        _ = LoadUsersAsync();
     }
 
-    private async void LoadUsers()
+    private async Task LoadUsersAsync()
     {
         var users = await _userService.GetAllUsers();
 
@@ -46,7 +37,12 @@ public partial class UserSearchViewModel : ViewModelBase
                 .OrderBy(u => u.Username)
                 .Select(u => new UserListItemViewModel(u))
         );
-        
+
+        OnPropertyChanged(nameof(FilteredUsers));
+    }
+
+    partial void OnSearchQueryChanged(string oldValue, string newValue)
+    {
         OnPropertyChanged(nameof(FilteredUsers));
     }
 }
