@@ -3,8 +3,11 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:LoginViewModel">
     <StackPanel Spacing="12" Margin="20">
+        <controls:LoadingBar />
+        
         <TextBlock Text="Username:"/>
         <TextBox Watermark="Enter your username" Text="{Binding Username}" />
 
