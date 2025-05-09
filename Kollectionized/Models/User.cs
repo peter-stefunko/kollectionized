@@ -12,7 +12,7 @@ public class User
     public string Username { get; init; } = string.Empty;
 
     [JsonPropertyName("created_at")]
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; init; }
 
     [JsonPropertyName("bio")]
     public string Bio { get; init; } = string.Empty;
