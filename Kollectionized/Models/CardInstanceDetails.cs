@@ -1,14 +1,22 @@
 using System;
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kollectionized.Models;
 
 public class CardInstanceDetails
 {
-    public Guid Id { get; set; }
-    public string OwnerUsername { get; set; } = string.Empty;
-    public decimal? Grade { get; set; }
-    public string GradingCompany { get; set; } = string.Empty;
-    public string Notes { get; set; } = string.Empty;
-    public List<string> TradeHistory { get; set; } = [];
+    [JsonPropertyName("id")]
+    public Guid CardId { get; init; }
+
+    [JsonPropertyName("grade")]
+    public double? Grade { get; init; }
+
+    [JsonPropertyName("gradingCompany")]
+    public string? GradingCompany { get; init; }
+
+    [JsonPropertyName("notes")]
+    public string Notes { get; init; } = string.Empty;
+
+    [JsonPropertyName("currentOwner")]
+    public string? CurrentOwner { get; init; }
 }
