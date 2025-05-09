@@ -21,8 +21,8 @@ public class UserService : ServiceBase
         var response = await Client.PostAsJsonAsync("auth/login", new { username, password });
         if (!response.IsSuccessStatusCode) return null;
 
-        var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-        return result == null ? null : new User { Id = result.UserId, Username = username };
+        var user = await response.Content.ReadFromJsonAsync<User>();
+        return user;
     }
 
     public async Task<string?> DeleteAccount(string username, string password)
@@ -54,5 +54,8 @@ public class UserService : ServiceBase
     private class LoginResponse
     {
         public Guid UserId { get; init; }
+        public string Username { get; init; } = string.Empty;
+        public string Bio { get; init; } = string.Empty;
+        public DateTime CreatedAt { get; init; }
     }
 }

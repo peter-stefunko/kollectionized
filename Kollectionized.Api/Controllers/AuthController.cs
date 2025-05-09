@@ -53,7 +53,15 @@ public class AuthController(AppDbContext context) : ControllerBase
         if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             return Unauthorized("Invalid credentials.");
 
-        return Ok(new { userId = user.Id });
+        var userDto = new UserDto(
+            Id: user.Id,
+            Username: user.Username,
+            CreatedAt: user.CreatedAt,
+            LastUsername: user.LastUsername ?? string.Empty,
+            Bio: user.Bio ?? string.Empty
+        );
+
+        return Ok(userDto);
     }
 
     [HttpDelete("user")]

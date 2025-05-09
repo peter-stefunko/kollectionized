@@ -11,7 +11,7 @@ public class User
     [JsonPropertyName("username")]
     public string Username { get; init; } = string.Empty;
 
-    [JsonPropertyName("created_at")]
+    [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; init; }
 
     [JsonPropertyName("bio")]
