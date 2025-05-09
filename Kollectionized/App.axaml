@@ -12,6 +12,10 @@
     <Application.Styles>
         <FluentTheme />
         
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#282828" />
+        </Style>
+        
         <Style Selector="TextBlock.Clickable">
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="FontWeight" Value="Bold" />
@@ -19,16 +23,12 @@
 
         <Style Selector="TextBlock.Clickable:pointerover">
             <Setter Property="TextDecorations" Value="Underline" />
-            <Setter Property="Foreground" Value="DeepSkyBlue" />
-        </Style>
-        
-        <Style Selector="Border">
-            <Setter Property="Background" Value="DarkSlateGray"></Setter>
+            <Setter Property="Foreground" Value="#ebdbb2" />
         </Style>
         
         <Style Selector="Border.Clickable:pointerover">
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="DimGray" />
+            <Setter Property="Background" Value="#928373" />
         </Style>
     </Application.Styles>
 

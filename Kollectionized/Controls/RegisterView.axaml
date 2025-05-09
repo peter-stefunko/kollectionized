@@ -20,6 +20,6 @@
         <Button Content="Register" Command="{Binding RegisterCommand}" />
         <Button Content="Login instead" Command="{Binding SwitchToLoginCommand}" />
 
-        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="#cc241d"/>
     </StackPanel>
 </UserControl>
