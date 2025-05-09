@@ -7,9 +7,9 @@ public abstract partial class AuthViewModelBase : ViewModelBase
 {
     protected readonly UserService UserService = new();
 
-    [ObservableProperty] protected string _username = string.Empty;
-    [ObservableProperty] protected string _password = string.Empty;
-    [ObservableProperty] protected string? _errorMessage;
+    [ObservableProperty] private string _username = string.Empty;
+    [ObservableProperty] private string _password = string.Empty;
+    [ObservableProperty] private string? _errorMessage;
 
     protected bool ValidateCredentials()
     {
