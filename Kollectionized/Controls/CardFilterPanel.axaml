@@ -1,0 +1,33 @@
+<UserControl
+    x:Class="Kollectionized.Controls.CardFilterPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
+    x:DataType="vm:CardGridBrowserViewModel">
+
+    <StackPanel Spacing="10">
+        <controls:LoadingBar />
+        
+        <TextBox Watermark="Search by name..." Text="{Binding NameQuery, Mode=TwoWay}" />
+
+        <WrapPanel Orientation="Horizontal">
+            <ComboBox Width="150"
+                      ItemsSource="{Binding Types}"
+                      SelectedItem="{Binding SelectedType}"
+                      PlaceholderText="Card Type" />
+            <ComboBox Width="150"
+                      ItemsSource="{Binding Typings}"
+                      SelectedItem="{Binding SelectedTyping}"
+                      PlaceholderText="Typing" />
+            <ComboBox Width="150"
+                      ItemsSource="{Binding Forms}"
+                      SelectedItem="{Binding SelectedForm}"
+                      PlaceholderText="Form" />
+            <ComboBox Width="200"
+                      ItemsSource="{Binding Sets}"
+                      SelectedItem="{Binding SelectedSet}"
+                      PlaceholderText="Set" />
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

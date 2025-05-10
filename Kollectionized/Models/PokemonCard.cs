@@ -1,7 +1,10 @@
+using System;
+
 namespace Kollectionized.Models;
 
 public record PokemonCard
 {
+    public Guid Uuid { get; init; }
     public string Name { get; init; } = string.Empty;
     public string ImageUrl { get; init; } = string.Empty;
     public string Set { get; init; } = string.Empty;

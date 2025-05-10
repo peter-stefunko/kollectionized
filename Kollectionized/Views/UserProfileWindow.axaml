@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:UserProfileViewModel"
     Width="500" Height="600" Title="User Profile">
     <ScrollViewer>
@@ -18,10 +19,6 @@
 
                 <TextBlock Text="Change Username:"/>
                 <TextBox Text="{Binding EditableUsername}"/>
-                <TextBlock Text="Password" />
-                <TextBox
-                    PasswordChar="*"
-                    Text="{Binding Password, Mode=TwoWay}" />
 
                 <Button Content="Save Username" Command="{Binding SaveUsernameCommand}"/>
 
@@ -31,6 +28,8 @@
                 
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
             </StackPanel>
+            
+            <controls:CardInstanceGridBrowserView DataContext="{Binding CardGridViewModel}" />
         </StackPanel>
     </ScrollViewer>
 </Window>

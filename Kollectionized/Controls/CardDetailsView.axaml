@@ -6,19 +6,23 @@
     x:DataType="vm:CardDetailsViewModel">
 
     <StackPanel Spacing="8" Orientation="Horizontal">
-        <Image Source="{Binding Image}" Height="500"
-               HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Source="{Binding Image}" Height="500" Stretch="Uniform" VerticalAlignment="Top"/>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Card.Name}" FontSize="20" FontWeight="Bold"/>
-            <TextBlock Text="Set: "><Run Text="{Binding Card.Set}"/></TextBlock>
-            <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"/></TextBlock>
-            <TextBlock Text="Form: "><Run Text="{Binding Card.Form}"/></TextBlock>
-            <TextBlock Text="Typings: "><Run Text="{Binding Card.Typings}"/></TextBlock>
-            <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"/></TextBlock>
-            <TextBlock Text="Number: "><Run Text="{Binding Card.CardNumber}"/></TextBlock>
-            <TextBlock Text="Pokedex number: "><Run Text="{Binding Card.PokedexNumber}"/></TextBlock>
+        <StackPanel Spacing="8" Orientation="Vertical">
+            <TextBlock Text="Name: "><Run Text="{Binding Card.Name}"></Run></TextBlock>
+            <TextBlock Text="Set: "><Run Text="{Binding Card.Set}"></Run></TextBlock>
+            <TextBlock Text="Form: "><Run Text="{Binding Card.Form}"></Run></TextBlock>
+            <TextBlock Text="Typings: "><Run Text="{Binding Card.Typings}"></Run></TextBlock>
+            <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"></Run></TextBlock>
+            <TextBlock Text="Card Number: "><Run Text="{Binding Card.CardNumber}"></Run></TextBlock>
+            <TextBlock Text="Pokedex Number: "><Run Text="{Binding Card.PokedexNumber}"></Run></TextBlock>
+            <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"></Run></TextBlock>
+            
+            <Button Content="Add to My Cards"
+                    Command="{Binding AddInstanceCommand}"
+                    IsVisible="{Binding IsLoggedIn}"
+                    HorizontalAlignment="Right"
+                    Margin="0,16,0,0" />
         </StackPanel>
     </StackPanel>
-
 </UserControl>

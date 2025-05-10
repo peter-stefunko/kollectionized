@@ -1,0 +1,44 @@
+<UserControl
+    x:Class="Kollectionized.Controls.CardInstanceDetailsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:CardInstanceDetailsViewModel">
+
+    <DockPanel LastChildFill="True" Margin="8">
+        <!-- Card image on the left -->
+        <Image Source="{Binding Image}"
+               Height="500"
+               Stretch="Uniform"
+               DockPanel.Dock="Left"
+               Margin="0,0,16,0"
+               VerticalAlignment="Top" />
+
+        <!-- Details on the right -->
+        <StackPanel Spacing="8" VerticalAlignment="Top">
+            <TextBlock Text="{Binding Card.Name}" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="Set:" /><TextBlock Text="{Binding Card.Set}" />
+            <TextBlock Text="Form:" /><TextBlock Text="{Binding Card.Form}" />
+            <TextBlock Text="Typings:" /><TextBlock Text="{Binding Card.Typings}" />
+            <TextBlock Text="Type:" /><TextBlock Text="{Binding Card.Type}" />
+            <TextBlock Text="Card Number:" /><TextBlock Text="{Binding Card.CardNumber}" />
+            <TextBlock Text="Pokedex Number:" /><TextBlock Text="{Binding Card.PokedexNumber}" />
+            <TextBlock Text="Rarity:" /><TextBlock Text="{Binding Card.Rarity}" />
+
+            <Separator />
+
+            <TextBlock Text="Grade:" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GradeText}" />
+
+            <TextBlock Text="Grading Company:" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding CompanyText}" />
+
+            <TextBlock Text="Notes:" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Notes}" TextWrapping="Wrap" />
+
+            <Button Content="Edit"
+                    Command="{Binding EditCommand}"
+                    IsVisible="{Binding IsCurrentUser}" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

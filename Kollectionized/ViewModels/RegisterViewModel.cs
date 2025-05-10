@@ -36,7 +36,7 @@ public partial class RegisterViewModel(UserService userService, Action? switchTo
             var user = await _userService.Login(Username, Password);
             if (user != null)
             {
-                AuthService.Login(user);
+                AuthService.Login(user, Password);
                 onRegisterSuccess?.Invoke();
             }
         });

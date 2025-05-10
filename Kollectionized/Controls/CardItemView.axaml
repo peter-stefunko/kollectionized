@@ -1,0 +1,17 @@
+<UserControl
+    x:Class="Kollectionized.Controls.CardItemView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:CardItemViewModel">
+
+    <Border Background="WhiteSmoke" Padding="8" Margin="4">
+        <StackPanel Spacing="8">
+            <Image Source="{Binding Image}" Height="100" Stretch="Uniform" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Card.Name}" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"/>
+
+            <Button Content="View" Command="{Binding ShowDetailsCommand}" />
+            <Button Content="+" Command="{Binding AddInstanceCommand}" IsVisible="{Binding IsLoggedIn}" />
+        </StackPanel>
+    </Border>
+</UserControl>

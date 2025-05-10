@@ -3,11 +3,14 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:UserSearchViewModel"
     Width="400" Height="500"
     Title="User Search">
 
     <DockPanel Margin="10">
+        <controls:LoadingBar />
+        
         <!-- Search input -->
         <TextBox DockPanel.Dock="Top"
                  Watermark="Search users..."

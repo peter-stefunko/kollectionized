@@ -3,9 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace Kollectionized.Models;
 
-public class CardInstanceDetails
+public class CardInstance
 {
     [JsonPropertyName("id")]
+    public Guid Id { get; set; }
+    
+    [JsonPropertyName("card_id")]
     public Guid CardId { get; init; }
 
     [JsonPropertyName("grade")]
@@ -18,5 +21,12 @@ public class CardInstanceDetails
     public string Notes { get; init; } = string.Empty;
 
     [JsonPropertyName("currentOwner")]
-    public string? CurrentOwner { get; init; }
+    public Guid CurrentOwner { get; init; }
+    
+    [JsonPropertyName("createdAt")]
+    public DateTime CreatedAt { get; init; }
+    
+    [JsonPropertyName("card")]
+    public PokemonCard Card { get; init; } = null!;
+
 }

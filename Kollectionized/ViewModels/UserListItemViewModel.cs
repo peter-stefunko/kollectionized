@@ -5,7 +5,7 @@ using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
-public class UserListItemViewModel
+public class UserListItemViewModel : ViewModelBase
 {
     public User User { get; }
 

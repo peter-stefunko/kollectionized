@@ -1,0 +1,20 @@
+<UserControl
+    x:Class="Kollectionized.Controls.CardInstanceFilterPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:CardInstanceGridBrowserViewModel">
+
+    <StackPanel Spacing="10">
+        <WrapPanel Orientation="Horizontal">
+            <ComboBox Width="120"
+                      ItemsSource="{Binding GradeOptions}"
+                      SelectedItem="{Binding SelectedGrade}"
+                      PlaceholderText="Grade" />
+            <ComboBox Width="170"
+                      ItemsSource="{Binding GradingCompanies}"
+                      SelectedItem="{Binding SelectedGradingCompany}"
+                      PlaceholderText="Grading Company" />
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

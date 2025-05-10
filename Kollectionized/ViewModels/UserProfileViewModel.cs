@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Kollectionized.ViewModels;
@@ -22,7 +23,8 @@ public partial class UserProfileViewModel : ViewModelBase
     public bool IsCurrentUser => User.Id == AuthService.CurrentUser?.Id;
 
     [ObservableProperty] private string _editableUsername;
-    [ObservableProperty] private string _password = string.Empty;
+
+    public CardInstanceGridBrowserViewModel CardGridViewModel { get; }
 
     public UserProfileViewModel(User user, UserService userService, Action? onDeleteSuccess = null)
     {
@@ -30,6 +32,8 @@ public partial class UserProfileViewModel : ViewModelBase
         _editableUsername = user.Username;
         _userService = userService;
         _onDeleteSuccess = onDeleteSuccess;
+
+        CardGridViewModel = new CardInstanceGridBrowserViewModel(user);
     }
 
     [RelayCommand]
@@ -46,7 +50,9 @@ public partial class UserProfileViewModel : ViewModelBase
         await RunWithLoading(async () =>
         {
             var error = await _userService.ChangeUsername(
-                AuthService.CurrentUser?.Username ?? "", Password, EditableUsername);
+                AuthService.CurrentUser?.Username ?? "",
+                AuthService.CurrentPassword!,
+                EditableUsername);
 
             if (error != null)
             {
@@ -54,7 +60,7 @@ public partial class UserProfileViewModel : ViewModelBase
                 return;
             }
 
-            AuthService.Login(User with { Username = EditableUsername });
+            AuthService.Login(User with { Username = EditableUsername }, AuthService.CurrentPassword!);
         });
     }
 
@@ -71,7 +77,7 @@ public partial class UserProfileViewModel : ViewModelBase
 
         await RunWithLoading(async () =>
         {
-            var error = await _userService.DeleteAccount(ViewedUsername, Password);
+            var error = await _userService.DeleteAccount(ViewedUsername, AuthService.CurrentPassword!);
             if (error != null)
             {
                 ErrorMessage = error;

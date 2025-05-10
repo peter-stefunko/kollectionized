@@ -1,0 +1,33 @@
+<UserControl
+    x:Class="Kollectionized.Controls.CardInstanceItemView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:CardInstanceItemViewModel">
+
+    <Border Background="#1d2021" Padding="8" Margin="4">
+        <StackPanel Spacing="8">
+            <!-- Card image -->
+            <Image Source="{Binding Image}" Height="500" Stretch="Uniform" HorizontalAlignment="Center" />
+
+            <!-- Card name -->
+            <TextBlock Text="{Binding Card.Name}" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" />
+
+            <!-- Grade and company -->
+            <TextBlock Text="{Binding GradeText}" FontSize="12" />
+            <TextBlock Text="{Binding CompanyText}" FontSize="12" />
+
+            <!-- Buttons -->
+            <Button Content="View"
+                    Command="{Binding ShowDetailsCommand}" />
+
+            <Button Content="Edit"
+                    Command="{Binding EditCommand}"
+                    IsVisible="{Binding IsCurrentUser}" />
+
+            <Button Content="Delete"
+                    Command="{Binding DeleteCommand}"
+                    IsVisible="{Binding IsCurrentUser}" />
+        </StackPanel>
+    </Border>
+</UserControl>

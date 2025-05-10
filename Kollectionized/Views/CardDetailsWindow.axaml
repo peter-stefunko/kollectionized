@@ -6,5 +6,6 @@
     xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:CardDetailsViewModel"
     Width="400" Height="600" Title="Card Details">
-    <controls:CardDetailsView />
+    
+    <controls:CardDetailsView/>
 </Window>

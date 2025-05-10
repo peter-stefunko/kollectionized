@@ -44,37 +44,40 @@ public class AuthController(AppDbContext context) : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-        if (user == null)
-        {
-            return Unauthorized("User not found.");
-        }
-
-        if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-            return Unauthorized("Invalid credentials.");
-
-        var userDto = new UserDto(
-            Id: user.Id,
-            Username: user.Username,
-            CreatedAt: user.CreatedAt,
-            LastUsername: user.LastUsername ?? string.Empty,
-            Bio: user.Bio ?? string.Empty
-        );
-
-        return Ok(userDto);
-    }
-
-    [HttpDelete("user")]
-    public async Task<IActionResult> DeleteAccount([FromBody] AccountDeleteDto dto)
-    {
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-
             if (user == null)
+            {
                 return Unauthorized("User not found.");
+            }
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                return Unauthorized("Invalid credentials.");
+
+            var userDto = new UserDto(
+                Id: user.Id,
+                Username: user.Username,
+                CreatedAt: user.CreatedAt,
+                LastUsername: user.LastUsername ?? string.Empty,
+                Bio: user.Bio ?? string.Empty
+            );
+
+            return Ok(userDto);
+        }
+        catch
+        {
+            return StatusCode(500, "Something went wrong on the server");
+        }
+    }
+
+    [HttpDelete("user/{username}")]
+    public async Task<IActionResult> DeleteAccount(string username, [FromBody] PasswordOnlyDto dto)
+    {
+        try
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid password.");
 
             if (user.Username.StartsWith("[del-"))
@@ -87,14 +90,10 @@ public class AuthController(AppDbContext context) : ControllerBase
             user.PasswordHash = null;
             context.Users.Update(user);
 
-            var collections = await context.PokemonCollections
-                .Where(c => c.UserId == userId)
-                .ToListAsync();
+            var collections = await context.PokemonCollections.Where(c => c.UserId == userId).ToListAsync();
             context.PokemonCollections.RemoveRange(collections);
 
-            var decks = await context.PokemonDecks
-                .Where(d => d.UserId == userId)
-                .ToListAsync();
+            var decks = await context.PokemonDecks.Where(d => d.UserId == userId).ToListAsync();
             context.PokemonDecks.RemoveRange(decks);
 
             await context.SaveChangesAsync();
@@ -102,7 +101,7 @@ public class AuthController(AppDbContext context) : ControllerBase
         }
         catch
         {
-            return StatusCode(500, "Something went wrong on the server.");
+            return StatusCode(500, "Something went wrong on the server");
         }
     }
 

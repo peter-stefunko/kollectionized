@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 
     private void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
     {
-        new CardInstanceDetailsWindow(new PokemonCard(), new CardInstanceDetails()).Show();
+        new CardInstanceDetailsWindow(new PokemonCard(), new CardInstance()).Show();
     }
 
     private async void AccessAccount_Click(object? sender, RoutedEventArgs e)

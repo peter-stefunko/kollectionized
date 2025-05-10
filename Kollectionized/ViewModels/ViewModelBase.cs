@@ -13,15 +13,6 @@ public partial class ViewModelBase : ObservableObject
     [ObservableProperty] private string? _errorMessage;
     [ObservableProperty] private bool _isLoading;
 
-    protected void WatchSession()
-    {
-        AuthService.SessionChanged += () =>
-        {
-            OnPropertyChanged(nameof(CurrentUsername));
-            OnPropertyChanged(nameof(IsLoggedIn));
-        };
-    }
-
     protected async Task RunWithLoading(Func<Task> action)
     {
         IsLoading = true;

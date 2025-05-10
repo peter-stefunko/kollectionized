@@ -32,7 +32,7 @@ public partial class LoginViewModel(Action? switchToRegister = null, Action? onL
                 return;
             }
 
-            AuthService.Login(user);
+            AuthService.Login(user, Password);
             onLoginSuccess?.Invoke();
         });
     }
