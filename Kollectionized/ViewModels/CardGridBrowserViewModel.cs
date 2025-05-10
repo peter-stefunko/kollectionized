@@ -34,7 +34,7 @@ public partial class CardGridBrowserViewModel : CardFilterBaseViewModel
     {
         Page = 0;
         Cards.Clear();
-        await RunWithLoading(LoadCardsAsync);
+        await LoadCardsAsync();
     }
 
     [RelayCommand]

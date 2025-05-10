@@ -5,13 +5,15 @@
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
     x:DataType="vm:CardItemViewModel">
 
-    <Border Background="WhiteSmoke" Padding="8" Margin="4">
+    <Border Background="#1d2021" Padding="8" Margin="4" Height="400" Width="260">
         <StackPanel Spacing="8">
-            <Image Source="{Binding Image}" Height="100" Stretch="Uniform" HorizontalAlignment="Center" />
+            <Image Source="{Binding Image}" Height="320" Stretch="Uniform" HorizontalAlignment="Center" />
             <TextBlock Text="{Binding Card.Name}" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"/>
 
-            <Button Content="View" Command="{Binding ShowDetailsCommand}" />
-            <Button Content="+" Command="{Binding AddInstanceCommand}" IsVisible="{Binding IsLoggedIn}" />
+            <DockPanel>
+                <Button Content="View" Command="{Binding ShowDetailsCommand}" />
+                <Button Content="+" Command="{Binding AddInstanceCommand}" IsVisible="{Binding IsLoggedIn}" />
+            </DockPanel>
         </StackPanel>
     </Border>
 </UserControl>

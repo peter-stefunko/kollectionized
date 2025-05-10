@@ -7,5 +7,8 @@
     x:DataType="vm:CardDetailsViewModel"
     Width="400" Height="600" Title="Card Details">
     
-    <controls:CardDetailsView/>
+    <StackPanel>
+        <controls:LoadingBar />
+        <controls:CardDetailsView/>
+    </StackPanel>
 </Window>

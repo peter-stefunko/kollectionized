@@ -2,29 +2,34 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:Class="Kollectionized.Views.CardGamesWindow"
     x:DataType="vm:CardGamesViewModel"
     Width="600" Height="600"
     Title="Card Games">
 
-    <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding Games}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Width="260" Margin="10" HorizontalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" FontSize="18" TextAlignment="Center"
-                                   TextDecorations="Underline" Cursor="Hand"
+    <StackPanel>
+        <controls:LoadingBar />
+
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Games}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="260" Margin="10" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" FontSize="18" TextAlignment="Center"
+                                       TextDecorations="Underline" Cursor="Hand"
+                                       PointerPressed="GameOption_Clicked" />
+                            <Image Source="{Binding Image}" Height="260" Cursor="Hand"
                                    PointerPressed="GameOption_Clicked" />
-                        <Image Source="{Binding Image}" Height="260" Cursor="Hand"
-                               PointerPressed="GameOption_Clicked" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
 </Window>

@@ -31,7 +31,7 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
 
         ShowDetailsCommand = new RelayCommand(OpenDetails);
         EditCommand = new RelayCommand(OpenEditMenu, () => IsCurrentUser);
-        DeleteCommand = new RelayCommand(DeleteInstanceAsync, () => IsCurrentUser);
+        DeleteCommand = DeleteInstanceCommand;
     }
 
     private void OpenDetails()
@@ -44,7 +44,8 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
         new CardInstanceEditorWindow(Instance).Show();
     }
 
-    private async void DeleteInstanceAsync()
+    [RelayCommand]
+    private async Task DeleteInstanceAsync()
     {
         var confirmed = await DialogService.ConfirmAsync(
             "Are you sure you want to delete this card instance?",

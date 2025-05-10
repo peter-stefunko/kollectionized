@@ -9,6 +9,7 @@
     <DockPanel Margin="10">
         <!-- Filter Panel -->
         <StackPanel DockPanel.Dock="Top" Margin="0 0 0 10" Spacing="10">
+            <controls:LoadingBar />
             <controls:CardFilterPanel />
             <controls:CardInstanceFilterPanel />
             <Button Content="Search" Command="{Binding SearchCommand}" />

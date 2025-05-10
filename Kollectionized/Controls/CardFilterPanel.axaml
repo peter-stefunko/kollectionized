@@ -7,8 +7,6 @@
     x:DataType="vm:CardGridBrowserViewModel">
 
     <StackPanel Spacing="10">
-        <controls:LoadingBar />
-        
         <TextBox Watermark="Search by name..." Text="{Binding NameQuery, Mode=TwoWay}" />
 
         <WrapPanel Orientation="Horizontal">

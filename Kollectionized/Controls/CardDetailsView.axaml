@@ -21,7 +21,7 @@
             <Button Content="Add to My Cards"
                     Command="{Binding AddInstanceCommand}"
                     IsVisible="{Binding IsLoggedIn}"
-                    HorizontalAlignment="Right"
+                    HorizontalAlignment="Left"
                     Margin="0,16,0,0" />
         </StackPanel>
     </StackPanel>

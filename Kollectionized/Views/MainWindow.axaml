@@ -4,22 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Width="600" Height="500" Title="Kollectionized"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:MainWindowViewModel">
 
     <StackPanel Spacing="10" Margin="20">
+        <controls:LoadingBar />
         
-        <StackPanel Orientation="Vertical" Spacing="8" HorizontalAlignment="Right">
-            <Button Content="Logout" Click="Logout_Click" IsVisible="{Binding IsLoggedIn}"/>
-            <Button Content="{Binding CurrentUsername}" IsVisible="{Binding IsLoggedIn}" Click="OpenOwnProfile_Click" />
-            <Button Content="Login" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
-        </StackPanel>
-        
-        <TextBlock Text="Kollectionized" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-        
-        <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
-        <Button Content="View Card Instance Details" Click="ViewCardInstance_Click"/>
-        <Button Content="Manage Collections &amp; Decks"/>
-        <Button Content="Search Users" Click="OpenUserSearch_Click"/>
-
+            <TextBlock Text="Kollectionized" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+            
+        <DockPanel>
+                <StackPanel DockPanel.Dock="Right">
+                    <Button Content="Logout" Click="Logout_Click" IsVisible="{Binding IsLoggedIn}"/>
+                    <Button Content="{Binding CurrentUsername}" IsVisible="{Binding IsLoggedIn}" Click="OpenOwnProfile_Click" />
+                    <Button Content="Login" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
+                </StackPanel>
+            
+                <StackPanel DockPanel.Dock="Left">
+                    <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
+                    <Button Content="View Card Instance Details" Click="ViewCardInstance_Click"/>
+                    <Button Content="Manage Collections &amp; Decks"/>
+                    <Button Content="Search Users" Click="OpenUserSearch_Click"/>
+                </StackPanel>
+            </DockPanel>
     </StackPanel>
 </Window>

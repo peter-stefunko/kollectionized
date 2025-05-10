@@ -18,6 +18,6 @@ public class CardGameOptionViewModel : ViewModelBase
         GameKey = gameKey;
         Name = name;
         Image = ImageHelper.LoadFromResource(new Uri(assetPath));
-        OpenCommand = new RelayCommand(() => new CardGridBrowserWindow(GameKey).Show());
+        OpenCommand = new RelayCommand(() => new AllCardsWindow(GameKey).Show());
     }
 }

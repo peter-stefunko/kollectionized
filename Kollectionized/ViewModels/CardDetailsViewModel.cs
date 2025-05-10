@@ -26,7 +26,7 @@ public partial class CardDetailsViewModel : ViewModelBase
         _imageService = imageService;
 
         AddInstanceCommand = new RelayCommand(OpenAddMenu, () => IsLoggedIn);
-        _ = LoadImageAsync();
+        _ = RunWithLoading(LoadImageAsync);
     }
 
     private async Task LoadImageAsync()

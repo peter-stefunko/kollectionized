@@ -2,26 +2,33 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:Class="Kollectionized.Views.AddCardMenuWindow"
     x:DataType="vm:AddCardMenuWindowViewModel"
     Width="400" Height="350"
     Title="Add Card to Collection">
 
     <StackPanel Spacing="12" Margin="20">
-        <TextBlock Text="Grade:" />
-        <ComboBox ItemsSource="{Binding GradeOptions}" SelectedItem="{Binding SelectedGrade}" />
+        <controls:LoadingBar />
 
-        <TextBlock Text="Grading Company:" />
-        <ComboBox ItemsSource="{Binding GradingCompanies}" SelectedItem="{Binding SelectedGradingCompany}" />
+        <ScrollViewer>
+            <StackPanel>
+                <TextBlock Text="Grade:" />
+                <ComboBox ItemsSource="{Binding GradeOptions}" SelectedItem="{Binding SelectedGrade}" />
 
-        <TextBlock Text="Notes:" />
-        <TextBox Text="{Binding Notes}" MaxLength="100" AcceptsReturn="True" Height="60"/>
+                <TextBlock Text="Grading Company:" />
+                <ComboBox ItemsSource="{Binding GradingCompanies}" SelectedItem="{Binding SelectedGradingCompany}" />
 
-        <TextBlock Foreground="Red" Text="{Binding ErrorMessage}" />
+                <TextBlock Text="Notes:" />
+                <TextBox Text="{Binding Notes}" MaxLength="100" AcceptsReturn="True" Height="60"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-            <Button Content="Add" Command="{Binding AddCommand}" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}" />
-        </StackPanel>
+                <TextBlock Foreground="Red" Text="{Binding ErrorMessage}" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                    <Button Content="Add" Command="{Binding AddCommand}" />
+                    <Button Content="Cancel" Command="{Binding CancelCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </StackPanel>
 </Window>

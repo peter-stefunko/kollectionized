@@ -23,7 +23,7 @@ public partial class UserSearchViewModel : ViewModelBase
     public UserSearchViewModel(UserService userService)
     {
         _userService = userService;
-        _ = LoadUsersAsync();
+        _ = RunWithLoading(LoadUsersAsync);
     }
 
     private async Task LoadUsersAsync()

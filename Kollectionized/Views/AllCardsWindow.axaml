@@ -6,6 +6,6 @@
         xmlns:controls="clr-namespace:Kollectionized.Controls"
         x:Class="Kollectionized.Views.AllCardsWindow"
         Title="AllCardsWindow">
-
-    <controls:CardGridBrowserView />
+        
+        <controls:CardGridBrowserView/>
 </Window>

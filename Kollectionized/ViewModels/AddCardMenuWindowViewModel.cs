@@ -29,15 +29,6 @@ public partial class AddCardMenuWindowViewModel : MenuWindowBase
 
         await RunWithLoading(async () =>
         {
-            /*var error = await _userCardService.AddCardInstance(new CardInstanceCreateRequest
-                {
-                    CardId = _card.Id,
-                    CurrentOwner = userId,
-                    Grade = SelectedGrade,
-                    GradingCompany = SelectedGradingCompany,
-                    Notes = Notes
-                });*/
-
             var error = await _userCardService.AddCardInstance(_card.Uuid, SelectedGrade, SelectedGradingCompany,
                 Notes);
             

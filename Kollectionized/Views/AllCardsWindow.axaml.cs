@@ -6,8 +6,9 @@ namespace Kollectionized.Views;
 
 public partial class AllCardsWindow : Window
 {
-    public AllCardsWindow()
+    public AllCardsWindow(string gameKey)
     {
         InitializeComponent();
+        DataContext = ViewModelLocator.CreateCardGridBrowser(gameKey);
     }
 }

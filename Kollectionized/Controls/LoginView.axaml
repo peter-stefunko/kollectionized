@@ -5,6 +5,7 @@
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
     xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:LoginViewModel">
+    
     <StackPanel Spacing="12" Margin="20">
         <controls:LoadingBar />
         

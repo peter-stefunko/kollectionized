@@ -8,13 +8,11 @@
     Width="400" Height="500"
     Title="User Search">
 
-    <DockPanel Margin="10">
+    <StackPanel Margin="10">
         <controls:LoadingBar />
         
         <!-- Search input -->
-        <TextBox DockPanel.Dock="Top"
-                 Watermark="Search users..."
-                 Text="{Binding SearchQuery, Mode=TwoWay}" />
+        <TextBox Watermark="Search users..." Text="{Binding SearchQuery, Mode=TwoWay}" />
         
         <!-- User list -->
         <ScrollViewer>
@@ -31,5 +29,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-    </DockPanel>
+    </StackPanel>
 </Window>
