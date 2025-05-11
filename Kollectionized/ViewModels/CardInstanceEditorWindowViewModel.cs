@@ -1,9 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
@@ -58,17 +62,18 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
     [RelayCommand]
     private async Task DeleteAsync()
     {
-        var confirmed = await DialogService.ConfirmAsync("Delete this card instance?", "Confirm Deletion");
-        if (!confirmed) return;
-
-        var user = AuthService.CurrentUser;
-        var password = AuthService.CurrentPassword;
-
-        if (user == null || string.IsNullOrWhiteSpace(password))
+        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
-            ErrorMessage = "User is not authenticated.";
+            ButtonDefinitions = ButtonEnum.YesNoCancel,
+            ContentTitle = "Confirm",
+            ContentMessage = "Are you sure you want to delete this instance?",
+            Icon = Icon.Warning,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        });
+
+        var confirmed = await msgBox.ShowAsync();
+        if (confirmed != ButtonResult.Yes)
             return;
-        }
 
         await RunWithLoading(async () =>
         {

@@ -1,11 +1,15 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
 using Kollectionized.Views;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
@@ -47,28 +51,25 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
     [RelayCommand]
     private async Task DeleteInstanceAsync()
     {
-        var confirmed = await DialogService.ConfirmAsync(
-            "Are you sure you want to delete this card instance?",
-            "Confirm Deletion");
-
-        if (!confirmed) return;
-
-        var user = AuthService.CurrentUser;
-        var password = AuthService.CurrentPassword;
-
-        if (user == null || string.IsNullOrWhiteSpace(password))
+        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
-            /*await DialogService.AlertAsync("User is not authenticated.", "Error");*/
+            ButtonDefinitions = ButtonEnum.YesNoCancel,
+            ContentTitle = "Confirm",
+            ContentMessage = "Are you sure you want to delete this instance?",
+            Icon = Icon.Warning,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        });
+
+        var confirmed = await msgBox.ShowAsync();
+        if (confirmed != ButtonResult.Yes)
             return;
-        }
+        
+        await RunWithLoading(async () =>
+        {
+            var result = await new UserCardService().DeleteCardInstance(Instance.Id);
 
-        var result = await new UserCardService().DeleteCardInstance(Instance.Id);
-
-        /*if (result != null)
-            await DialogService.AlertAsync(result, "Error");
-        else
-            await DialogService.AlertAsync("Card instance deleted.", "Success");*/
-
-        // Optional: trigger parent VM refresh here
+            if (result != null)
+                ErrorMessage = result;
+        });
     }
 }

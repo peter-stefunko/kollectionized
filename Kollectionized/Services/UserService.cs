@@ -27,9 +27,9 @@ public class UserService : ServiceBase
 
     public async Task<string?> DeleteAccount(string username, string password)
     {
-        var request = new HttpRequestMessage(HttpMethod.Delete, "auth/user")
+        var request = new HttpRequestMessage(HttpMethod.Delete, $"auth/user/{username}")
         {
-            Content = JsonContent.Create(new { username, password })
+            Content = JsonContent.Create(new { password })
         };
         var response = await Client.SendAsync(request);
         return response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync();
