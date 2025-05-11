@@ -1,0 +1,41 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:Class="Kollectionized.Views.ManageAccountWindow"
+    x:DataType="vm:ManageAccountViewModel"
+    Width="400" Height="550"
+    Title="Manage Account">
+
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="12">
+            <TextBlock Text="Manage Account" FontSize="18" FontWeight="Bold"/>
+
+            <TextBlock Text="Change Username:" />
+            <TextBox Text="{Binding EditableUsername, Mode=TwoWay}"/>
+
+            <TextBlock Text="Bio:" />
+            <TextBox Text="{Binding EditableBio, Mode=TwoWay}" AcceptsReturn="True" MaxLength="200" Height="60"/>
+
+            <Button Content="💾 Save Changes" Command="{Binding SaveChangesCommand}" />
+
+            <Separator/>
+
+            <TextBlock Text="Change Password:" FontWeight="Bold"/>
+            <TextBox Watermark="Current password" PasswordChar="*" Text="{Binding CurrentPassword, Mode=TwoWay}" />
+            <TextBox Watermark="New password" PasswordChar="*" Text="{Binding NewPassword, Mode=TwoWay}" />
+            <TextBox Watermark="Confirm new password" PasswordChar="*" Text="{Binding ConfirmNewPassword, Mode=TwoWay}" />
+
+            <Button Content="🔐 Change Password" Command="{Binding ChangePasswordCommand}" />
+
+            <Separator/>
+
+            <Button Content="❌ Delete Account"
+                    Command="{Binding DeleteAccountCommand}"
+                    Background="DarkRed"
+                    Foreground="White" />
+
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>

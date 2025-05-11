@@ -24,8 +24,8 @@ public static class ViewModelLocator
     public static CardDetailsViewModel CreateCardDetailsViewModel(PokemonCard card) =>
         new(card, CardImageService);
 
-    public static UserProfileViewModel CreateUserProfile(User user, Action? onDeleteSuccess = null) =>
-        new(user, UserService, onDeleteSuccess);
+    /*public static UserProfileViewModel CreateUserProfile(User user, Action? onDeleteSuccess = null) =>
+        new(user, UserService, onDeleteSuccess);*/
 
     public static UserSearchViewModel UserSearch => new(UserService);
 

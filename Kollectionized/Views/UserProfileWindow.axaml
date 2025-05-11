@@ -18,16 +18,9 @@
             <StackPanel IsVisible="{Binding IsCurrentUser}" Spacing="8" Margin="0 20 0 0">
                 <TextBlock Text="Account Settings" FontSize="16" FontWeight="Bold"/>
 
-                <TextBlock Text="Change Username:"/>
-                <TextBox Text="{Binding EditableUsername}"/>
-
-                <Button Content="Save Username" Command="{Binding SaveUsernameCommand}"/>
-
-                <Separator/>
-
-                <Button Content="❌ Delete Account" Command="{Binding DeleteAccountCommand}" Background="DarkRed" Foreground="White"/>
-            
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+                <Button Content="⚙️ Manage Account"
+                        Click="ManageAccount_Click"
+                        HorizontalAlignment="Left" />
             </StackPanel>
             
         </StackPanel>

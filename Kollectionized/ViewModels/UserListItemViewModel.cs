@@ -1,6 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
+using Kollectionized.Services;
 using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
@@ -22,6 +23,6 @@ public class UserListItemViewModel : ViewModelBase
 
     private void OpenProfile()
     {
-        new UserProfileWindow(User).Show();
+        new UserProfileWindow(new UserProfileViewModel(User)).Show();
     }
 }

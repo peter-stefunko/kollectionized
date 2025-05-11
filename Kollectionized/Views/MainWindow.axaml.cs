@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         var user = AuthService.CurrentUser;
         if (user != null)
         {
-            new UserProfileWindow(user).Show();
+            new UserProfileWindow(new UserProfileViewModel(user)).Show();
         }
     }
 
