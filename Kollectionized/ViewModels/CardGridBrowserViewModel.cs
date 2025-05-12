@@ -1,16 +1,14 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
-using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
 public partial class CardGridBrowserViewModel : CardFilterBaseViewModel
 {
-    [ObservableProperty] private ObservableCollection<CardItemViewModel> _cards = new();
+    [ObservableProperty] private ObservableCollection<CardItemViewModel> _cards = [];
 
     [ObservableProperty] private int _page;
     private const int PageSize = 30;

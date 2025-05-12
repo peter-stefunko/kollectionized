@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;

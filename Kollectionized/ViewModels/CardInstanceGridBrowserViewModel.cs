@@ -36,7 +36,7 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
     }
 
     [RelayCommand]
-    public async Task RefreshInstancesAsync()
+    private async Task RefreshInstancesAsync()
     {
         await RunWithLoading(async () =>
         {

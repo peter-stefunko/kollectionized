@@ -3,8 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
-    xmlns:controls="clr-namespace:Kollectionized.Controls"
-    xmlns:models="clr-namespace:Kollectionized.Models"
     x:DataType="vm:CardGridBrowserViewModel">
 
     <StackPanel Spacing="10">

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Kollectionized.Api.Data;
 using Kollectionized.Api.Dtos;
-using Kollectionized.Api.Models;
 
 namespace Kollectionized.Api.Controllers;
 
@@ -25,7 +24,7 @@ public class AccountUpdateController(AppDbContext context) : ControllerBase
             user.Username = dto.NewUsername;
         }
 
-        user.Bio = dto.Bio ?? user.Bio;
+        user.Bio = dto.Bio;
         context.Users.Update(user);
         await context.SaveChangesAsync();
 

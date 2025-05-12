@@ -47,7 +47,7 @@ public class UserCardController(AppDbContext context) : ControllerBase
                 CurrentOwner = user.Id,
                 Grade = dto.Grade,
                 GradingCompany = dto.GradingCompany ?? string.Empty,
-                Notes = dto.Notes ?? string.Empty,
+                Notes = dto.Notes,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -62,7 +62,7 @@ public class UserCardController(AppDbContext context) : ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateCardInstance(string username, Guid id, [FromBody] CardInstanceUpdateDto dto)
     {
         try
@@ -77,7 +77,7 @@ public class UserCardController(AppDbContext context) : ControllerBase
 
             instance.Grade = dto.Grade;
             instance.GradingCompany = dto.GradingCompany ?? string.Empty;
-            instance.Notes = dto.Notes ?? string.Empty;
+            instance.Notes = dto.Notes;
 
             await context.SaveChangesAsync();
             return Ok(new { message = "Card instance updated." });
@@ -88,13 +88,13 @@ public class UserCardController(AppDbContext context) : ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCardInstance(string username, Guid id, [FromBody] PasswordOnlyDto dto)
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCardInstance(string username, Guid id, string password)
     {
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
                 return Unauthorized("Invalid credentials.");
 
             var instance =

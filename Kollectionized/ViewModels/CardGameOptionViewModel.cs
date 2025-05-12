@@ -8,7 +8,7 @@ namespace Kollectionized.ViewModels;
 
 public class CardGameOptionViewModel : ViewModelBase
 {
-    public string GameKey { get; }
+    private string GameKey { get; }
     public string Name { get; }
     public Bitmap Image { get; }
     public IRelayCommand OpenCommand { get; }

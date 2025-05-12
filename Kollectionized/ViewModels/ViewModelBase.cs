@@ -7,8 +7,8 @@ namespace Kollectionized.ViewModels;
 
 public abstract partial class ViewModelBase : ObservableObject
 {
-    public string? CurrentUsername => AuthService.CurrentUser?.Username;
-    public bool IsLoggedIn => AuthService.IsLoggedIn;
+    public static string? CurrentUsername => AuthService.CurrentUser?.Username;
+    public static bool IsLoggedIn => AuthService.IsLoggedIn;
 
     [ObservableProperty] private string? _errorMessage;
     [ObservableProperty] private bool _isLoading;

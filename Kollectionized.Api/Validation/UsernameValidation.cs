@@ -42,6 +42,6 @@ public static partial class UsernameValidation
         return true;
     }
 
-    [GeneratedRegex(@"^[a-zA-Z0-9_-]+$", RegexOptions.Compiled)]
+    [GeneratedRegex("^[a-zA-Z0-9_-]+$", RegexOptions.Compiled)]
     private static partial Regex AllowedCharsRegex();
 }

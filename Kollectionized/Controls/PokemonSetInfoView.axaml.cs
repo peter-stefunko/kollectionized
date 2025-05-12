@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Kollectionized.Models;
 
 namespace Kollectionized.Controls;
 

@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
@@ -15,9 +14,6 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
 {
     private readonly CardInstance _instance;
     private readonly Action? _onDeleted;
-
-    public Guid InstanceId => _instance.Id;
-    public bool IsCurrentUser => AuthService.CurrentUser?.Id == _instance.CurrentOwner;
 
     public CardInstanceEditorWindowViewModel(CardInstance instance, Action onClose, Action? onDeleted = null)
         : base(onClose)

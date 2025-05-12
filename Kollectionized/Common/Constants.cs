@@ -21,34 +21,34 @@ public static class Constants
         public const string SupabaseBaseUrl = "https://luvbckqisrgzkrsckfqp.supabase.co/storage/v1/object/public";
     }
 
-    public static readonly string[] GradingCompanies = new[]
-    {
+    public static readonly string[] GradingCompanies =
+    [
         "", "PSA", "CGC", "BGS", "ACE"
-    };
+    ];
 
     public static readonly double?[] GradeOptions =
         new double?[] { null }.Concat(Enumerable.Range(0, 21).Select(i => (double?)(i * 0.5))).ToArray();
 
-    public static readonly string[] PokemonTypes = new[]
-    {
+    public static readonly string[] PokemonTypes =
+    [
         "", "Energy", "Pokémon", "Trainer"
-    };
+    ];
 
-    public static readonly string[] PokemonTypings = new[]
-    {
+    public static readonly string[] PokemonTypings =
+    [
         "", "Colorless", "Darkness", "Dragon", "Grass", "Fairy", "Fire", "Fighting", "Lightning", "Metal", "Psychic", "Water"
-    };
+    ];
 
-    public static readonly string[] PokemonForms = new[]
-    {
+    public static readonly string[] PokemonForms =
+    [
         "", "Baby", "Basic", "BREAK", "EX", "Fusion Strike", "Goldenrod Game Corner", "GX", "Item", "LEGEND",
         "Level-Up", "MEGA", "Pokémon Tool", "Pokémon Tool F", "Radiant", "Rapid Strike", "Restored",
         "Rocket's Secret Machine", "Single Strike", "Stadium", "Stage 1", "Stage 2", "Supporter", "TAG TEAM",
         "Technical Machine", "V", "VMAX"
-    };
+    ];
 
-    public static readonly string[] PokemonSets = new[]
-    {
+    public static readonly string[] PokemonSets =
+    [
         "", "151", "Ancient Origins", "Aquapolis", "Arceus", "Astral Radiance", "Astral Radiance Trainer Gallery",
         "Base", "Base Set 2", "Battle Styles", "Best of Game", "Black & White", "Boundaries Crossed", "BREAKpoint",
         "BREAKthrough", "Brilliant Stars", "Brilliant Stars Trainer Gallery", "Burning Shadows", "BW Black Star Promos",
@@ -81,5 +81,5 @@ public static class Constants
         "Surging Sparks", "Sword & Shield", "SWSH Black Star Promos", "Team Magma vs Team Aqua", "Team Rocket",
         "Team Rocket Returns", "Team Up", "Temporal Forces", "Twilight Masquerade", "Ultra Prism", "Unbroken Bonds",
         "Unified Minds", "Unseen Forces", "Vivid Voltage", "Wizards Black Star Promos", "XY", "XY Black Star Promos"
-    };
+    ];
 }

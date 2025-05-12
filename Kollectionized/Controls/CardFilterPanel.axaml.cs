@@ -5,8 +5,8 @@ namespace Kollectionized.Controls;
 
 public partial class CardFilterPanel : UserControl
 {
-    public static readonly StyledProperty<bool> ShowInstanceFiltersProperty =
-        AvaloniaProperty.Register<CardFilterPanel, bool>(nameof(ShowInstanceFilters), false);
+    private static readonly StyledProperty<bool> ShowInstanceFiltersProperty =
+        AvaloniaProperty.Register<CardFilterPanel, bool>(nameof(ShowInstanceFilters));
 
     public bool ShowInstanceFilters
     {

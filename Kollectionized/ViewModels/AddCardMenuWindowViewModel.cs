@@ -1,33 +1,20 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
-using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
-public partial class AddCardMenuWindowViewModel : MenuWindowBase
+public partial class AddCardMenuWindowViewModel(PokemonCard card, Action onClose) : MenuWindowBase(onClose)
 {
-    private readonly PokemonCard _card;
-
-    public AddCardMenuWindowViewModel(PokemonCard card, Action onClose)
-        : base(onClose)
-    {
-        _card = card;
-    }
-
     [RelayCommand]
     private async Task AddAsync()
     {
         if (!ValidateInputs()) return;
 
-        var userId = AuthService.CurrentUser?.Id ?? throw new InvalidOperationException("User must be logged in.");
-
         await RunWithLoading(async () =>
         {
-            var error = await UserCardService.AddCardInstance(_card.Uuid, SelectedGrade, SelectedGradingCompany,
+            var error = await UserCardService.AddCardInstance(card.Uuid, SelectedGrade, SelectedGradingCompany,
                 Notes);
             
             if (error != null)

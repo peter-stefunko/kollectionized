@@ -7,12 +7,12 @@ namespace Kollectionized.Views;
 
 public partial class WindowBase : Window
 {
-    public WindowBase()
+    protected WindowBase()
     {
         AuthService.SessionChanged += OnSessionChanged;
     }
 
-    protected void OnSessionChanged()
+    private void OnSessionChanged()
     {
         if (DataContext is ViewModelBase vm)
         {

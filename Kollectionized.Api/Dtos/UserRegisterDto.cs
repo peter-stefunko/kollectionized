@@ -1,3 +1,7 @@
 namespace Kollectionized.Api.Dtos;
 
-public record UserRegisterDto(string Username, string Password);
+public class UserRegisterDto
+{
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}

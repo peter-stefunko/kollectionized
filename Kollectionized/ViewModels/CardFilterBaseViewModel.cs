@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Kollectionized.Common;
 using Kollectionized.Models;
-using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 

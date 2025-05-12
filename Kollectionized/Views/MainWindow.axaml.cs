@@ -1,6 +1,4 @@
-using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Kollectionized.Models;
 using Kollectionized.Services;
 using Kollectionized.ViewModels;
 
@@ -17,11 +15,6 @@ public partial class MainWindow : WindowBase
     private void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
     {
         new CardGamesWindow().Show();
-    }
-
-    private void ViewCardInstance_Click(object? sender, RoutedEventArgs e)
-    {
-        new CardInstanceDetailsWindow(new PokemonCard(), new CardInstance()).Show();
     }
 
     private async void AccessAccount_Click(object? sender, RoutedEventArgs e)

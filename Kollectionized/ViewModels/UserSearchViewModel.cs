@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Kollectionized.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +10,7 @@ namespace Kollectionized.ViewModels;
 public partial class UserSearchViewModel : ViewModelBase
 {
     [ObservableProperty] private string _searchQuery = string.Empty;
-    [ObservableProperty] private ObservableCollection<UserListItemViewModel> _allUsers = new();
+    [ObservableProperty] private ObservableCollection<UserListItemViewModel> _allUsers = [];
 
     public IEnumerable<UserListItemViewModel> FilteredUsers =>
         string.IsNullOrWhiteSpace(SearchQuery)

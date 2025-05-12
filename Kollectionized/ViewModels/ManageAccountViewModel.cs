@@ -11,26 +11,16 @@ using MsBox.Avalonia.Dto;
 
 namespace Kollectionized.ViewModels;
 
-public partial class ManageAccountViewModel : ViewModelBase
+public partial class ManageAccountViewModel(UserProfileViewModel profile, Action? onDeleteSuccess = null)
+    : ViewModelBase
 {
-    private readonly Action? _onDeleteSuccess;
+    private UserProfileViewModel Profile { get; } = profile;
 
-    public UserProfileViewModel Profile { get; }
-
-    [ObservableProperty] private string _editableUsername;
-    [ObservableProperty] private string _editableBio;
+    [ObservableProperty] private string _editableUsername = profile.User.Username;
+    [ObservableProperty] private string _editableBio = profile.User.Bio;
     [ObservableProperty] private string _currentPassword = string.Empty;
     [ObservableProperty] private string _newPassword = string.Empty;
     [ObservableProperty] private string _confirmNewPassword = string.Empty;
-
-    public ManageAccountViewModel(UserProfileViewModel profile, Action? onDeleteSuccess = null)
-    {
-        Profile = profile;
-        _onDeleteSuccess = onDeleteSuccess;
-
-        _editableUsername = profile.User.Username;
-        _editableBio = profile.User.Bio;
-    }
 
     [RelayCommand]
     private async Task SaveChangesAsync()
@@ -64,7 +54,11 @@ public partial class ManageAccountViewModel : ViewModelBase
                 return;
             }
 
-            var updatedUser = AuthService.CurrentUser! with { Username = EditableUsername, Bio = EditableBio };
+            /*var updatedUser = AuthService.CurrentUser;
+            updatedUser.Username = EditableUsername;
+            updatedUser.Bio = EditableBio;*/
+
+            var updatedUser = AuthService.CurrentUser with { Username = EditableUsername, Bio = EditableBio };
             AuthService.Login(updatedUser, AuthService.CurrentPassword!);
             Profile.Refresh(updatedUser);
         });
@@ -124,7 +118,7 @@ public partial class ManageAccountViewModel : ViewModelBase
             }
 
             AuthService.Logout();
-            _onDeleteSuccess?.Invoke();
+            onDeleteSuccess?.Invoke();
         });
     }
 }

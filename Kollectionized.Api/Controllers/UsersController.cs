@@ -17,7 +17,7 @@ public class UsersController(AppDbContext context) : ControllerBase
             var users = await context.Users
                 .Where(u => !u.Username.StartsWith("[del-"))
                 .OrderBy(u => u.Username)
-                .Select(u => new UserDto(u.Id, u.Username, u.CreatedAt, u.LastUsername, u.Bio))
+                .Select(u => new UserDto{Id = u.Id, Username = u.Username, CreatedAt = u.CreatedAt, LastUsername = u.LastUsername, Bio = u.Bio})
                 .ToListAsync();
 
             return Ok(users);
@@ -28,14 +28,14 @@ public class UsersController(AppDbContext context) : ControllerBase
         }
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<UserDto>> GetUserByUsername(Guid id)
     {
         try
         {
             var user = await context.Users
                 .Where(u => u.Id == id && !u.Username.StartsWith("[del-"))
-                .Select(u => new UserDto(u.Id, u.Username, u.CreatedAt, u.LastUsername, u.Bio))
+                .Select(u => new UserDto{Id = u.Id, Username = u.Username, CreatedAt = u.CreatedAt, LastUsername = u.LastUsername, Bio = u.Bio})
                 .FirstOrDefaultAsync();
 
             return user is null ? NotFound("User not found.") : Ok(user);

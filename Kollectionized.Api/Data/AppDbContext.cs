@@ -11,7 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<PokemonDeck> PokemonDecks => Set<PokemonDeck>();
     public DbSet<PokemonCard> PokemonCards => Set<PokemonCard>();
     public DbSet<CardInstance> PokemonCardInstances => Set<CardInstance>();
-    public DbSet<PokemonSet> PokemonSets { get; set; }
+    public DbSet<PokemonSet> PokemonSets => Set<PokemonSet>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

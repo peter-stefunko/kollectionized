@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
-using Kollectionized.Services;
 using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;

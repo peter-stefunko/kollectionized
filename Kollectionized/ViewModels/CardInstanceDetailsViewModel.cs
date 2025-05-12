@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Media.Imaging;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
@@ -19,9 +17,7 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
 
     public string GradeText => Instance.Grade is not null ? $"Grade: {Instance.Grade}" : "Grade: N/A";
     public string CompanyText => !string.IsNullOrWhiteSpace(Instance.GradingCompany) ? $"Company: {Instance.GradingCompany}" : "Company: N/A";
-    public string Notes => string.IsNullOrWhiteSpace(Instance.Notes) ? "No notes." : Instance.Notes;
-
-    public Guid InstanceId => Instance.Id;
+    
     public bool IsCurrentUser => AuthService.CurrentUser?.Id == Instance.CurrentOwner;
 
     public IRelayCommand ShowDetailsCommand { get; }

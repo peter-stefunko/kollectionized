@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
@@ -10,20 +9,11 @@ using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
-public partial class UserProfileViewModel : ViewModelBase
+public partial class UserProfileViewModel(User user, Action? onUserNotFound = null) : ViewModelBase
 {
-    public User User { get; private set; }
+    public User User { get; private set; } = user;
     public bool IsCurrentUser => User.Id == AuthService.CurrentUser?.Id;
-    public CardInstanceGridBrowserViewModel CardGridViewModel { get; }
-
-    private readonly Action? _onUserNotFound;
-
-    public UserProfileViewModel(User user, Action? onUserNotFound = null)
-    {
-        User = user;
-        _onUserNotFound = onUserNotFound;
-        CardGridViewModel = new CardInstanceGridBrowserViewModel(user);
-    }
+    public CardInstanceGridBrowserViewModel CardGridViewModel { get; } = new(user);
 
     public void Refresh(User updatedUser)
     {
@@ -31,15 +21,6 @@ public partial class UserProfileViewModel : ViewModelBase
         OnPropertyChanged(nameof(User));
         OnPropertyChanged(nameof(IsCurrentUser));
     }
-
-    /*[RelayCommand]
-    private void RefreshProfile()
-    {
-        if (AuthService.CurrentUser is not null)
-        {
-            Refresh(AuthService.CurrentUser);
-        }
-    }*/
 
     [RelayCommand]
     private async Task RefreshAllAsync()
@@ -69,7 +50,7 @@ public partial class UserProfileViewModel : ViewModelBase
         });
 
         await box.ShowAsync();
-        _onUserNotFound?.Invoke();
+        onUserNotFound?.Invoke();
     }
 
     public override void NotifySessionChanged()

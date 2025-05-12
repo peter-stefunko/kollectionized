@@ -1,7 +1,6 @@
 using System;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
-using Kollectionized.Services;
 using Kollectionized.Views;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -11,7 +10,7 @@ namespace Kollectionized.ViewModels;
 
 public class UserListItemViewModel : ViewModelBase
 {
-    public User User { get; }
+    private User User { get; }
 
     public Guid Id => User.Id;
     public string Username => User.Username;

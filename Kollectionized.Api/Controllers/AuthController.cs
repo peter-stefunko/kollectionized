@@ -55,13 +55,14 @@ public class AuthController(AppDbContext context) : ControllerBase
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid credentials.");
 
-            var userDto = new UserDto(
-                Id: user.Id,
-                Username: user.Username,
-                CreatedAt: user.CreatedAt,
-                LastUsername: user.LastUsername ?? string.Empty,
-                Bio: user.Bio ?? string.Empty
-            );
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                CreatedAt = user.CreatedAt,
+                LastUsername = user.LastUsername ?? string.Empty,
+                Bio = user.Bio ?? string.Empty,
+            };
 
             return Ok(userDto);
         }
@@ -72,12 +73,12 @@ public class AuthController(AppDbContext context) : ControllerBase
     }
 
     [HttpDelete("user/{username}")]
-    public async Task<IActionResult> DeleteAccount(string username, [FromBody] PasswordOnlyDto dto)
+    public async Task<IActionResult> DeleteAccount(string username, string password)
     {
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
                 return Unauthorized("Invalid password.");
 
             if (user.Username.StartsWith("[del-"))
@@ -102,34 +103,6 @@ public class AuthController(AppDbContext context) : ControllerBase
         catch
         {
             return StatusCode(500, "Something went wrong on the server");
-        }
-    }
-
-    [HttpPut("change-username")]
-    public async Task<IActionResult> ChangeUsername([FromBody] UsernameChangeDto dto)
-    {
-        try
-        {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.CurrentUsername);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-                return Unauthorized("Invalid username or password.");
-
-            if (!UsernameValidation.IsValid(dto.NewUsername, out var error))
-                return BadRequest(error);
-
-            var exists = await context.Users.AnyAsync(u => u.Username == dto.NewUsername && u.Id != user.Id);
-            if (exists)
-                return BadRequest("That username is already taken.");
-
-            user.Username = dto.NewUsername;
-            context.Users.Update(user);
-            await context.SaveChangesAsync();
-
-            return Ok(new { message = "Name changed successfully." });
-        }
-        catch
-        {
-            return StatusCode(500, "Something went wrong on the server.");
         }
     }
 }

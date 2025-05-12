@@ -1,17 +1,37 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace Kollectionized.Models;
 
-public record PokemonCard
+public class PokemonCard
 {
+    [JsonPropertyName("uuid")]
     public Guid Uuid { get; init; }
+    
+    [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
+    
+    [JsonPropertyName("imageUrl")]
     public string ImageUrl { get; init; } = string.Empty;
+    
+    [JsonPropertyName("set")]
     public string Set { get; init; } = string.Empty;
+    
+    [JsonPropertyName("rarity")]
     public string? Rarity { get; init; }
+    
+    [JsonPropertyName("type")]
     public string Type { get; init; } = string.Empty;
+    
+    [JsonPropertyName("pokedexNumber")]
     public int? PokedexNumber { get; init; }
+    
+    [JsonPropertyName("typings")]
     public string Typings { get; init; } = string.Empty;
+    
+    [JsonPropertyName("form")]
     public string Form { get; init; } = string.Empty;
+    
+    [JsonPropertyName("cardNumber")]
     public string CardNumber { get; init; } = string.Empty;
 }
