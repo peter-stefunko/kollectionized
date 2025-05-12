@@ -52,6 +52,7 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
             }
 
             OnClose?.Invoke();
+            _onDeleted?.Invoke();
         });
     }
 

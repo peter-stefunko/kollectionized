@@ -15,7 +15,7 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
 {
     private readonly User _viewedUser;
 
-    [ObservableProperty] private ObservableCollection<CardInstanceItemViewModel> _cardInstances = new();
+    [ObservableProperty] private ObservableCollection<CardInstanceItemViewModel> _cardInstances = [];
 
     public ObservableCollection<double?> GradeOptions { get; } = new(Constants.GradeOptions);
 
@@ -61,7 +61,9 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
         );
 
         CardInstances = new ObservableCollection<CardInstanceItemViewModel>(
-            filtered.Select(i => new CardInstanceItemViewModel(i.Card, i, ForceRefresh)));
+            filtered
+                .OrderBy(i => i.Card.Name, StringComparer.OrdinalIgnoreCase)
+                .Select(i => new CardInstanceItemViewModel(i.Card, i, ForceRefresh)));
     }
 
     [RelayCommand]
