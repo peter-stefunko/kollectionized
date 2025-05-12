@@ -3,6 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
 using Kollectionized.Services;
 using Kollectionized.Views;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
@@ -21,8 +24,21 @@ public class UserListItemViewModel : ViewModelBase
         ShowProfileCommand = new RelayCommand(OpenProfile);
     }
 
-    private void OpenProfile()
+    private async void OpenProfile()
     {
-        new UserProfileWindow(new UserProfileViewModel(User)).Show();
+        var freshUser = await UserService.GetUserById(User.Id);
+        if (freshUser is null)
+        {
+            await MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentTitle = "Not Found",
+                ContentMessage = "User no longer exists.",
+                ButtonDefinitions = ButtonEnum.Ok,
+                Icon = Icon.Error
+            }).ShowAsync();
+            return;
+        }
+
+        new UserProfileWindow(freshUser).Show();
     }
 }

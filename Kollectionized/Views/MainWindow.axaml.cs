@@ -6,12 +6,12 @@ using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : WindowBase
 {
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = ViewModelLocator.MainWindow;
+        DataContext = new MainWindowViewModel();
     }
 
     private void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         var user = AuthService.CurrentUser;
         if (user != null)
         {
-            new UserProfileWindow(new UserProfileViewModel(user)).Show();
+            new UserProfileWindow(user).Show();
         }
     }
 

@@ -4,11 +4,11 @@ using Kollectionized.Services;
 
 namespace Kollectionized.Views;
 
-public partial class ManageAccountWindow : Window
+public partial class ManageAccountWindow : WindowBase
 {
     public ManageAccountWindow(UserProfileViewModel profileViewModel)
     {
         InitializeComponent();
-        DataContext = new ManageAccountViewModel(profileViewModel, new UserService(), Close);
+        DataContext = new ManageAccountViewModel(profileViewModel, Close);
     }
 }

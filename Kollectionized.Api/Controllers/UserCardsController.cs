@@ -20,6 +20,7 @@ public class UserCardController(AppDbContext context) : ControllerBase
 
             var instances = await context.PokemonCardInstances
                 .Include(i => i.Card)
+                .Include(i => i.Owner)
                 .Where(i => i.CurrentOwner == user.Id)
                 .ToListAsync();
 

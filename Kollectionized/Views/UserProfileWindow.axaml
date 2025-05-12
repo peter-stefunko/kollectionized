@@ -9,11 +9,16 @@
     
     <DockPanel>
         <StackPanel Spacing="12" Margin="20">
-            <TextBlock Text="{Binding ViewedUsername}" FontSize="20" FontWeight="Bold"/>
+            <DockPanel>
+                <!--<Button Content="Refresh Info" Command="{Binding RefreshProfileCommand}" />-->
+                <Button Content="Refresh" Command="{Binding RefreshAllCommand}" />
+            </DockPanel>
+            
+            <TextBlock Text="{Binding User.Username}" FontSize="20" FontWeight="Bold"/>
         
             <TextBlock Text="[Public user data here]" FontStyle="Italic" Foreground="Gray"/>
-            <TextBlock Text="Bio: "><Run Text="{Binding Bio}"></Run></TextBlock>
-            <TextBlock Text="Created at: "><Run Text="{Binding CreatedAt}"></Run></TextBlock>
+            <TextBlock Text="Bio: "><Run Text="{Binding User.Bio}"></Run></TextBlock>
+            <TextBlock Text="Created at: "><Run Text="{Binding User.CreatedAt}"></Run></TextBlock>
         
             <StackPanel IsVisible="{Binding IsCurrentUser}" Spacing="8" Margin="0 20 0 0">
                 <TextBlock Text="Account Settings" FontSize="16" FontWeight="Bold"/>

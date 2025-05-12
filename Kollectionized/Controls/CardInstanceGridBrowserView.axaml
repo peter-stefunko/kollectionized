@@ -12,7 +12,16 @@
             <controls:LoadingBar />
             <controls:CardFilterPanel />
             <controls:CardInstanceFilterPanel />
-            <Button Content="Search" Command="{Binding SearchCommand}" />
+            
+            <DockPanel>
+                <Button Content="Search" Command="{Binding SearchCommand}" />
+                <!--<Button Content="Refresh Cards"
+                        Command="{Binding RefreshInstancesCommand}"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,0,0"/>-->
+            </DockPanel>
+            
+            <controls:PokemonSetInfoView DataContext="{Binding SetInfo}" />
         </StackPanel>
 
         <!-- Grid of instances -->

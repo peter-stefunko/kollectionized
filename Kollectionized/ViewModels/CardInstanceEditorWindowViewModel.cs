@@ -13,17 +13,17 @@ namespace Kollectionized.ViewModels;
 
 public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
 {
-    private readonly UserCardService _userCardService;
     private readonly CardInstance _instance;
+    private readonly Action? _onDeleted;
 
     public Guid InstanceId => _instance.Id;
     public bool IsCurrentUser => AuthService.CurrentUser?.Id == _instance.CurrentOwner;
 
-    public CardInstanceEditorWindowViewModel(CardInstance instance, UserCardService userCardService, Action onClose)
+    public CardInstanceEditorWindowViewModel(CardInstance instance, Action onClose, Action? onDeleted = null)
         : base(onClose)
     {
         _instance = instance;
-        _userCardService = userCardService;
+        _onDeleted = onDeleted;
 
         SelectedGrade = _instance.Grade;
         SelectedGradingCompany = _instance.GradingCompany;
@@ -46,7 +46,7 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
 
         await RunWithLoading(async () =>
         {
-            var result = await _userCardService.UpdateCardInstance(
+            var result = await UserCardService.UpdateCardInstance(
                 _instance.Id, SelectedGrade, SelectedGradingCompany, Notes);
 
             if (result != null)
@@ -55,7 +55,7 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
                 return;
             }
 
-            _onClose?.Invoke();
+            OnClose?.Invoke();
         });
     }
 
@@ -77,7 +77,7 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
 
         await RunWithLoading(async () =>
         {
-            var result = await _userCardService.DeleteCardInstance(_instance.Id);
+            var result = await UserCardService.DeleteCardInstance(_instance.Id);
 
             if (result != null)
             {
@@ -85,7 +85,8 @@ public partial class CardInstanceEditorWindowViewModel : MenuWindowBase
                 return;
             }
 
-            _onClose?.Invoke();
+            OnClose?.Invoke();
+            _onDeleted?.Invoke();
         });
     }
 }

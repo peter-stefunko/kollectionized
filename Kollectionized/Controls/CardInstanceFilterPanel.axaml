@@ -7,10 +7,16 @@
 
     <StackPanel Spacing="10">
         <WrapPanel Orientation="Horizontal">
-            <ComboBox Width="120"
-                      ItemsSource="{Binding GradeOptions}"
+            <ComboBox ItemsSource="{Binding GradeOptions}"
                       SelectedItem="{Binding SelectedGrade}"
-                      PlaceholderText="Grade" />
+                      PlaceholderText="Grade">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource NullableGradeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <ComboBox Width="170"
                       ItemsSource="{Binding GradingCompanies}"
                       SelectedItem="{Binding SelectedGradingCompany}"

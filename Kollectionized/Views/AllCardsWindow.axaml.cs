@@ -1,14 +1,16 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Kollectionized.Controls;
+using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;
 
-public partial class AllCardsWindow : Window
+public partial class AllCardsWindow : WindowBase
 {
     public AllCardsWindow(string gameKey)
     {
         InitializeComponent();
-        DataContext = ViewModelLocator.CreateCardGridBrowser(gameKey);
+        DataContext = new CardGridBrowserViewModel(gameKey);
     }
 }

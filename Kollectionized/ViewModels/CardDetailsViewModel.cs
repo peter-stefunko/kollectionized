@@ -10,32 +10,32 @@ namespace Kollectionized.ViewModels;
 
 public partial class CardDetailsViewModel : ViewModelBase
 {
-    private readonly CardImageService _imageService;
-
     public PokemonCard Card { get; }
 
     [ObservableProperty] private Bitmap? _image;
 
-    public bool IsLoggedIn => AuthService.IsLoggedIn;
-
     public IRelayCommand AddInstanceCommand { get; }
 
-    public CardDetailsViewModel(PokemonCard card, CardImageService imageService)
+    public CardDetailsViewModel(PokemonCard card)
     {
         Card = card;
-        _imageService = imageService;
-
         AddInstanceCommand = new RelayCommand(OpenAddMenu, () => IsLoggedIn);
         _ = RunWithLoading(LoadImageAsync);
     }
 
     private async Task LoadImageAsync()
     {
-        Image = await _imageService.LoadCardImageAsync(Card);
+        Image = await CardImageService.LoadCardImageAsync(Card);
     }
 
     private void OpenAddMenu()
     {
         new AddCardMenuWindow(Card).Show();
+    }
+
+    public override void NotifySessionChanged()
+    {
+        base.NotifySessionChanged();
+        AddInstanceCommand.NotifyCanExecuteChanged();
     }
 }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Kollectionized.ViewModels;
 
-public partial class RegisterViewModel(UserService userService, Action? switchToLogin = null, Action? onRegisterSuccess = null)
+public partial class RegisterViewModel(Action? switchToLogin = null, Action? onRegisterSuccess = null)
     : ViewModelBase
 {
-    private readonly UserService _userService = userService;
-
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
     [ObservableProperty] private string _confirmPassword = string.Empty;
@@ -26,14 +24,14 @@ public partial class RegisterViewModel(UserService userService, Action? switchTo
 
         await RunWithLoading(async () =>
         {
-            var error = await _userService.Register(Username, Password);
+            var error = await UserService.Register(Username, Password);
             if (error != null)
             {
                 ErrorMessage = error;
                 return;
             }
 
-            var user = await _userService.Login(Username, Password);
+            var user = await UserService.Login(Username, Password);
             if (user != null)
             {
                 AuthService.Login(user, Password);

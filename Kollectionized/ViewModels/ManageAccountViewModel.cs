@@ -13,7 +13,6 @@ namespace Kollectionized.ViewModels;
 
 public partial class ManageAccountViewModel : ViewModelBase
 {
-    private readonly UserService _userService;
     private readonly Action? _onDeleteSuccess;
 
     public UserProfileViewModel Profile { get; }
@@ -24,10 +23,9 @@ public partial class ManageAccountViewModel : ViewModelBase
     [ObservableProperty] private string _newPassword = string.Empty;
     [ObservableProperty] private string _confirmNewPassword = string.Empty;
 
-    public ManageAccountViewModel(UserProfileViewModel profile, UserService userService, Action? onDeleteSuccess = null)
+    public ManageAccountViewModel(UserProfileViewModel profile, Action? onDeleteSuccess = null)
     {
         Profile = profile;
-        _userService = userService;
         _onDeleteSuccess = onDeleteSuccess;
 
         _editableUsername = profile.User.Username;
@@ -54,7 +52,7 @@ public partial class ManageAccountViewModel : ViewModelBase
 
         await RunWithLoading(async () =>
         {
-            var error = await _userService.UpdateAccount(
+            var error = await UserService.UpdateAccount(
                 AuthService.CurrentUser!.Username,
                 AuthService.CurrentPassword!,
                 EditableUsername,
@@ -65,8 +63,10 @@ public partial class ManageAccountViewModel : ViewModelBase
                 ErrorMessage = error;
                 return;
             }
-            
-            AuthService.Login(Profile.User with { Username = EditableUsername, Bio = EditableBio }, AuthService.CurrentPassword!);
+
+            var updatedUser = AuthService.CurrentUser! with { Username = EditableUsername, Bio = EditableBio };
+            AuthService.Login(updatedUser, AuthService.CurrentPassword!);
+            Profile.Refresh(updatedUser);
         });
     }
 
@@ -83,7 +83,7 @@ public partial class ManageAccountViewModel : ViewModelBase
 
         await RunWithLoading(async () =>
         {
-            var error = await _userService.ChangePassword(
+            var error = await UserService.ChangePassword(
                 Profile.User.Username,
                 CurrentPassword,
                 NewPassword);
@@ -116,7 +116,7 @@ public partial class ManageAccountViewModel : ViewModelBase
 
         await RunWithLoading(async () =>
         {
-            var error = await _userService.DeleteAccount(AuthService.CurrentUser!.Username, AuthService.CurrentPassword!);
+            var error = await UserService.DeleteAccount(AuthService.CurrentUser!.Username, AuthService.CurrentPassword!);
             if (error != null)
             {
                 ErrorMessage = error;

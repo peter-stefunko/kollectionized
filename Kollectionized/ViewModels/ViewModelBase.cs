@@ -1,17 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Kollectionized.Services;
 using System;
 using System.Threading.Tasks;
-using Kollectionized.Services;
 
 namespace Kollectionized.ViewModels;
 
-public partial class ViewModelBase : ObservableObject
+public abstract partial class ViewModelBase : ObservableObject
 {
     public string? CurrentUsername => AuthService.CurrentUser?.Username;
     public bool IsLoggedIn => AuthService.IsLoggedIn;
 
     [ObservableProperty] private string? _errorMessage;
     [ObservableProperty] private bool _isLoading;
+
+    protected static readonly CardService CardService = new();
+    protected static readonly SetsService SetsService = new();
+    protected static readonly UserCardService UserCardService = new();
+    protected static readonly UserService UserService = new();
 
     protected async Task RunWithLoading(Func<Task> action)
     {
@@ -31,5 +36,11 @@ public partial class ViewModelBase : ObservableObject
         {
             IsLoading = false;
         }
+    }
+
+    public virtual void NotifySessionChanged()
+    {
+        OnPropertyChanged(nameof(IsLoggedIn));
+        OnPropertyChanged(nameof(CurrentUsername));
     }
 }

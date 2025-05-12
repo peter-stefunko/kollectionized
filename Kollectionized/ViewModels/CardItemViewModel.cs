@@ -9,8 +9,8 @@ public class CardItemViewModel : CardDetailsViewModel
 {
     public IRelayCommand ShowDetailsCommand { get; }
 
-    public CardItemViewModel(PokemonCard card, CardImageService imageService)
-        : base(card, imageService)
+    public CardItemViewModel(PokemonCard card)
+        : base(card)
     {
         ShowDetailsCommand = new RelayCommand(OpenDetails);
     }
@@ -18,5 +18,11 @@ public class CardItemViewModel : CardDetailsViewModel
     private void OpenDetails()
     {
         new CardDetailsWindow(Card).Show();
+    }
+
+    public override void NotifySessionChanged()
+    {
+        base.NotifySessionChanged();
+        AddInstanceCommand.NotifyCanExecuteChanged();
     }
 }

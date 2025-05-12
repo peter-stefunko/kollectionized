@@ -21,15 +21,15 @@ public partial class MenuWindowBase : ViewModelBase
     [ObservableProperty] private string _notes = string.Empty;
     [ObservableProperty] private string? _errorMessage;
 
-    protected readonly Action? _onClose;
+    protected readonly Action? OnClose;
 
     public MenuWindowBase(Action? onClose = null)
     {
-        _onClose = onClose;
+        OnClose = onClose;
     }
 
     [RelayCommand]
-    protected void Cancel() => _onClose?.Invoke();
+    protected void Cancel() => OnClose?.Invoke();
 
     protected bool ValidateInputs()
     {

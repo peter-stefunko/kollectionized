@@ -1,12 +1,13 @@
 using Avalonia.Controls;
+using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;
 
-public partial class AccessWindow : Window
+public partial class AccessWindow : WindowBase
 {
     public AccessWindow()
     {
         InitializeComponent();
-        DataContext = ViewModelLocator.CreateAccessWindowViewModel(Close);
+        DataContext = new AccessWindowViewModel(Close);
     }
 }

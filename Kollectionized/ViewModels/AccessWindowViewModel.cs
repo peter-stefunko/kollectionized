@@ -7,35 +7,27 @@ namespace Kollectionized.ViewModels;
 
 public partial class AccessWindowViewModel : ViewModelBase
 {
-    private readonly Func<Action, ViewModelBase> _createLoginViewModel;
-    private readonly Func<Action, ViewModelBase> _createRegisterViewModel;
-
     [ObservableProperty] private ViewModelBase? _currentView;
+    private readonly Action _onSuccess;
 
-    public string ToggleButtonText =>
-        CurrentView is LoginViewModel ? "Switch to Register" : "Switch to Login";
+    public string ToggleButtonText => CurrentView is LoginViewModel
+        ? "Switch to Register"
+        : "Switch to Login";
 
-    public new static bool IsLoggedIn => AuthService.IsLoggedIn;
-
-    public AccessWindowViewModel(
-        Func<Action, ViewModelBase> createLoginViewModel,
-        Func<Action, ViewModelBase> createRegisterViewModel)
+    public AccessWindowViewModel(Action onSuccess)
     {
-        _createLoginViewModel = createLoginViewModel;
-        _createRegisterViewModel = createRegisterViewModel;
-
-        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
+        _onSuccess = onSuccess;
+        ShowLogin();
     }
 
-    private void SwitchToLogin()
+    [RelayCommand]
+    private void ToggleView()
     {
-        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
-        OnPropertyChanged(nameof(ToggleButtonText));
-    }
+        if (CurrentView is LoginViewModel)
+            ShowRegister();
+        else
+            ShowLogin();
 
-    private void SwitchToRegister()
-    {
-        CurrentView = _createRegisterViewModel.Invoke(SwitchToLogin);
         OnPropertyChanged(nameof(ToggleButtonText));
     }
 
@@ -43,8 +35,13 @@ public partial class AccessWindowViewModel : ViewModelBase
     private void Logout()
     {
         AuthService.Logout();
-        CurrentView = _createLoginViewModel.Invoke(SwitchToRegister);
+        ShowLogin();
         OnPropertyChanged(nameof(ToggleButtonText));
-        OnPropertyChanged(nameof(IsLoggedIn));
     }
+
+    private void ShowLogin() =>
+        CurrentView = new LoginViewModel(ShowRegister, _onSuccess);
+
+    private void ShowRegister() =>
+        CurrentView = new RegisterViewModel(ShowLogin, _onSuccess);
 }

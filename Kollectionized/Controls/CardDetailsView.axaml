@@ -5,10 +5,11 @@
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
     x:DataType="vm:CardDetailsViewModel">
 
-    <StackPanel Spacing="8" Orientation="Horizontal">
+    <StackPanel Spacing="8" Orientation="Horizontal" Margin="10 10 10 10">
         <Image Source="{Binding Image}" Height="500" Stretch="Uniform" VerticalAlignment="Top"/>
 
         <StackPanel Spacing="8" Orientation="Vertical">
+            <TextBlock Text="Card Information" FontSize="16" FontWeight="Bold"/>
             <TextBlock Text="Name: "><Run Text="{Binding Card.Name}"></Run></TextBlock>
             <TextBlock Text="Set: "><Run Text="{Binding Card.Set}"></Run></TextBlock>
             <TextBlock Text="Form: "><Run Text="{Binding Card.Form}"></Run></TextBlock>

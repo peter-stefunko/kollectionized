@@ -12,6 +12,7 @@
             <controls:LoadingBar />
             <controls:CardFilterPanel />
             <Button Content="Search" Command="{Binding SearchCommand}" />
+            <controls:PokemonSetInfoView DataContext="{Binding SetInfo}" />
         </StackPanel>
 
         <!-- Grid of general cards -->

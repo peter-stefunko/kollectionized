@@ -58,12 +58,11 @@ public class UserService : ServiceBase
         return JsonSerializer.Deserialize<List<User>>(json) ?? [];
     }
     
-    private class LoginResponse
+    public async Task<User?> GetUserById(Guid id)
     {
-        public Guid UserId { get; init; }
-        public string Username { get; init; } = string.Empty;
-        public string Bio { get; init; } = string.Empty;
-        public DateTime CreatedAt { get; init; }
-        public string LastUsername { get; init; } = string.Empty;
+        var response = await Client.GetAsync($"users/{id}");
+        if (!response.IsSuccessStatusCode) return null;
+
+        return await response.Content.ReadFromJsonAsync<User>();
     }
 }

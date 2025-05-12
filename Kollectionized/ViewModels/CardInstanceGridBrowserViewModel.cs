@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kollectionized.Common;
 using Kollectionized.Models;
 using Kollectionized.Services;
 
@@ -12,19 +13,15 @@ namespace Kollectionized.ViewModels;
 
 public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
 {
-    private readonly UserCardService _userCardService = new();
-    private readonly CardImageService _imageService = new();
     private readonly User _viewedUser;
 
     [ObservableProperty] private ObservableCollection<CardInstanceItemViewModel> _cardInstances = new();
 
-    public ObservableCollection<double> GradeOptions { get; } =
-        new(Enumerable.Range(0, 21).Select(i => i * 0.5));
+    public ObservableCollection<double?> GradeOptions { get; } = new(Constants.GradeOptions);
 
     [ObservableProperty] private double? _selectedGrade;
 
-    public ObservableCollection<string> GradingCompanies { get; } =
-        new() { "", "PSA", "CGC", "BGS", "ACE" };
+    public ObservableCollection<string> GradingCompanies { get; } = new(Constants.GradingCompanies);
 
     [ObservableProperty] private string? _selectedGradingCompany;
 
@@ -35,23 +32,26 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
     public CardInstanceGridBrowserViewModel(User viewedUser)
     {
         _viewedUser = viewedUser;
-        LoadFilterOptions();
-        _ = LoadInstancesAsync();
+        _ = RefreshInstancesAsync();
     }
 
-    private async Task LoadInstancesAsync()
+    [RelayCommand]
+    public async Task RefreshInstancesAsync()
     {
         await RunWithLoading(async () =>
         {
-            _allInstances = await _userCardService.GetUserCardInstances(_viewedUser.Username);
+            _allInstances = await UserCardService.GetUserCardInstances(_viewedUser.Username);
             ApplyFilters();
         });
     }
 
+    public void ForceRefresh() => _ = RefreshInstancesAsync();
+
     private void ApplyFilters()
     {
         var filtered = _allInstances.Where(i =>
-            (string.IsNullOrWhiteSpace(NameQuery) || i.Card.Name.Contains(NameQuery, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrWhiteSpace(NameQuery) ||
+             i.Card.Name.Contains(NameQuery, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrWhiteSpace(SelectedType) || i.Card.Type == SelectedType) &&
             (string.IsNullOrWhiteSpace(SelectedTyping) || i.Card.Typings.Contains(SelectedTyping)) &&
             (string.IsNullOrWhiteSpace(SelectedForm) || i.Card.Form == SelectedForm) &&
@@ -61,12 +61,23 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
         );
 
         CardInstances = new ObservableCollection<CardInstanceItemViewModel>(
-            filtered.Select(i => new CardInstanceItemViewModel(i.Card, i, _imageService)));
+            filtered.Select(i => new CardInstanceItemViewModel(i.Card, i, ForceRefresh)));
     }
 
     [RelayCommand]
     private void Search()
     {
         ApplyFilters();
+    }
+
+    public override void NotifySessionChanged()
+    {
+        base.NotifySessionChanged();
+        OnPropertyChanged(nameof(IsCurrentUser));
+
+        foreach (var item in CardInstances)
+        {
+            item.NotifySessionChanged();
+        }
     }
 }

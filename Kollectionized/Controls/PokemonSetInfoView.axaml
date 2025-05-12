@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:Kollectionized.Models"
+             xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+             x:Class="Kollectionized.Controls.PokemonSetInfoView"
+             x:DataType="vm:CardFilterBaseViewModel">
+    
+    <ContentControl Content="{Binding}">
+        <ContentControl.ContentTemplate>
+            <DataTemplate DataType="{x:Type models:PokemonSet}">
+                <StackPanel Margin="0,10,0,10">
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock Text="{Binding Code, StringFormat='Code: {0}'}"/>
+                    <TextBlock Text="{Binding TotalCards, StringFormat='Total cards: {0}'}"/>
+                    <TextBlock Text="{Binding ReleaseDate, StringFormat='Released: {0:d}'}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ContentControl.ContentTemplate>
+    </ContentControl>
+</UserControl>

@@ -7,23 +7,8 @@
     x:DataType="vm:CardInstanceDetailsViewModel"
     Width="500" Height="700" Title="Card Instance Details">
     
-    <StackPanel>
+    <DockPanel>
         <controls:LoadingBar />
-    
-        <ScrollViewer>
-            <StackPanel Spacing="12" Margin="10">
-                <controls:CardDetailsView DataContext="{Binding}" />
-
-                <Separator/>
-                
-                <TextBlock Text="Instance Information" FontSize="16" FontWeight="Bold" Margin="0 10 0 0"/>
-
-                <TextBlock Text="UUID: "><Run Text="{Binding Instance.CardId}"/></TextBlock>
-                <TextBlock Text="Owner: "><Run Text="{Binding Instance.CurrentOwner}"/></TextBlock>
-                <TextBlock Text="Grade: "><Run Text="{Binding Instance.Grade}"/></TextBlock>
-                <TextBlock Text="Grading Company: "><Run Text="{Binding Instance.GradingCompany}"/></TextBlock>
-                <TextBlock Text="Notes: "><Run Text="{Binding Instance.Notes}"/></TextBlock>
-            </StackPanel>
-        </ScrollViewer>
-    </StackPanel>
+        <controls:CardInstanceDetailsView />
+    </DockPanel>
 </Window>

@@ -34,5 +34,6 @@
 
     <Application.Resources>
         <converters:BooleanNegationConverter x:Key="BooleanNegationConverter" />
+        <converters:NullableGradeConverter x:Key="NullableGradeConverter"/>
     </Application.Resources>
 </Application>

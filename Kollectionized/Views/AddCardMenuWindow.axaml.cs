@@ -5,11 +5,11 @@ using Kollectionized.ViewModels;
 
 namespace Kollectionized.Views;
 
-public partial class AddCardMenuWindow : Window
+public partial class AddCardMenuWindow : WindowBase
 {
     public AddCardMenuWindow(PokemonCard card)
     {
         InitializeComponent();
-        DataContext = new AddCardMenuWindowViewModel(card, new UserCardService(), Close);
+        DataContext = new AddCardMenuWindowViewModel(card, Close);
     }
 }

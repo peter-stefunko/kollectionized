@@ -3,42 +3,30 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:CardInstanceDetailsViewModel">
 
-    <DockPanel LastChildFill="True" Margin="8">
-        <!-- Card image on the left -->
-        <Image Source="{Binding Image}"
-               Height="500"
-               Stretch="Uniform"
-               DockPanel.Dock="Left"
-               Margin="0,0,16,0"
-               VerticalAlignment="Top" />
+    <DockPanel>
+        <controls:CardDetailsView />
+        
+        <StackPanel Spacing="8" Margin="10 10 10 10">
+            <TextBlock Text="Instance Information" FontSize="16" FontWeight="Bold"/>
 
-        <!-- Details on the right -->
-        <StackPanel Spacing="8" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Card.Name}" FontSize="18" FontWeight="Bold" />
-            <TextBlock Text="Set:" /><TextBlock Text="{Binding Card.Set}" />
-            <TextBlock Text="Form:" /><TextBlock Text="{Binding Card.Form}" />
-            <TextBlock Text="Typings:" /><TextBlock Text="{Binding Card.Typings}" />
-            <TextBlock Text="Type:" /><TextBlock Text="{Binding Card.Type}" />
-            <TextBlock Text="Card Number:" /><TextBlock Text="{Binding Card.CardNumber}" />
-            <TextBlock Text="Pokedex Number:" /><TextBlock Text="{Binding Card.PokedexNumber}" />
-            <TextBlock Text="Rarity:" /><TextBlock Text="{Binding Card.Rarity}" />
-
-            <Separator />
-
-            <TextBlock Text="Grade:" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding GradeText}" />
-
-            <TextBlock Text="Grading Company:" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding CompanyText}" />
-
-            <TextBlock Text="Notes:" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding Notes}" TextWrapping="Wrap" />
-
-            <Button Content="Edit"
-                    Command="{Binding EditCommand}"
-                    IsVisible="{Binding IsCurrentUser}" />
+            <!--<TextBlock Text="UUID: "><Run Text="{Binding Instance.Id}"/></TextBlock>
+            <TextBlock Text="Card ID: "><Run Text="{Binding Instance.CardId}"></Run></TextBlock>
+            <TextBlock Text="Owner: "><Run Text="{Binding Instance.CurrentOwner}"/></TextBlock>-->
+            <TextBlock Text="Owned by: "><Run Text="{Binding Instance.Owner.Username}"></Run></TextBlock>
+            <TextBlock Text="Created at: "><Run Text="{Binding Instance.CreatedAt}"></Run></TextBlock>
+            <TextBlock Text="Grade: "><Run Text="{Binding Instance.Grade}"/></TextBlock>
+            <TextBlock Text="Grading Company: "><Run Text="{Binding Instance.GradingCompany}"/></TextBlock>
+            <TextBlock Text="Notes: "><Run Text="{Binding Instance.Notes}"/></TextBlock>
+            
+            <DockPanel IsVisible="{Binding IsCurrentUser}">
+                <Button Content="Edit"
+                        Command="{Binding EditCommand}"/>
+                <Button Content="Delete"
+                        Command="{Binding DeleteCommand}"/>
+            </DockPanel>
         </StackPanel>
     </DockPanel>
 </UserControl>

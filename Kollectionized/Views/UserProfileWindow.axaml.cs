@@ -1,15 +1,15 @@
 using Avalonia.Controls;
+using Kollectionized.Models;
 using Kollectionized.ViewModels;
-using Kollectionized.Views;
 
 namespace Kollectionized.Views;
 
-public partial class UserProfileWindow : Window
+public partial class UserProfileWindow : WindowBase
 {
-    public UserProfileWindow(UserProfileViewModel viewModel)
+    public UserProfileWindow(User user)
     {
         InitializeComponent();
-        DataContext = viewModel;
+        DataContext = new UserProfileViewModel(user, Close);
     }
 
     private void ManageAccount_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

@@ -28,10 +28,13 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
     public IRelayCommand EditCommand { get; }
     public IRelayCommand DeleteCommand { get; }
 
-    public CardInstanceDetailsViewModel(PokemonCard card, CardInstance instance, CardImageService imageService)
-        : base(card, imageService)
+    private readonly Action? _onDeleted;
+
+    public CardInstanceDetailsViewModel(PokemonCard card, CardInstance instance, Action? onDeleted)
+        : base(card)
     {
         Instance = instance;
+        _onDeleted = onDeleted;
 
         ShowDetailsCommand = new RelayCommand(OpenDetails);
         EditCommand = new RelayCommand(OpenEditMenu, () => IsCurrentUser);
@@ -45,7 +48,7 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
 
     private void OpenEditMenu()
     {
-        new CardInstanceEditorWindow(Instance).Show();
+        new CardInstanceEditorWindow(Instance, _onDeleted).Show();
     }
 
     [RelayCommand]
@@ -63,13 +66,25 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
         var confirmed = await msgBox.ShowAsync();
         if (confirmed != ButtonResult.Yes)
             return;
-        
+
         await RunWithLoading(async () =>
         {
             var result = await new UserCardService().DeleteCardInstance(Instance.Id);
 
             if (result != null)
+            {
                 ErrorMessage = result;
+                return;
+            }
+
+            _onDeleted?.Invoke();
         });
+    }
+
+    public override void NotifySessionChanged()
+    {
+        base.NotifySessionChanged();
+        OnPropertyChanged(nameof(IsCurrentUser));
+        EditCommand.NotifyCanExecuteChanged();
     }
 }

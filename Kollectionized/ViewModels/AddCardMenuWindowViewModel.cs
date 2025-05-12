@@ -10,14 +10,12 @@ namespace Kollectionized.ViewModels;
 
 public partial class AddCardMenuWindowViewModel : MenuWindowBase
 {
-    private readonly UserCardService _userCardService;
     private readonly PokemonCard _card;
 
-    public AddCardMenuWindowViewModel(PokemonCard card, UserCardService userCardService, Action onClose)
+    public AddCardMenuWindowViewModel(PokemonCard card, Action onClose)
         : base(onClose)
     {
         _card = card;
-        _userCardService = userCardService;
     }
 
     [RelayCommand]
@@ -29,7 +27,7 @@ public partial class AddCardMenuWindowViewModel : MenuWindowBase
 
         await RunWithLoading(async () =>
         {
-            var error = await _userCardService.AddCardInstance(_card.Uuid, SelectedGrade, SelectedGradingCompany,
+            var error = await UserCardService.AddCardInstance(_card.Uuid, SelectedGrade, SelectedGradingCompany,
                 Notes);
             
             if (error != null)
@@ -38,7 +36,7 @@ public partial class AddCardMenuWindowViewModel : MenuWindowBase
                 return;
             }
             
-            _onClose?.Invoke();
+            OnClose?.Invoke();
         });
     }
 }

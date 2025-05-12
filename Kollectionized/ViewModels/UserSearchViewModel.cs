@@ -10,8 +10,6 @@ namespace Kollectionized.ViewModels;
 
 public partial class UserSearchViewModel : ViewModelBase
 {
-    private readonly UserService _userService;
-
     [ObservableProperty] private string _searchQuery = string.Empty;
     [ObservableProperty] private ObservableCollection<UserListItemViewModel> _allUsers = new();
 
@@ -20,15 +18,14 @@ public partial class UserSearchViewModel : ViewModelBase
             ? AllUsers
             : AllUsers.Where(u => u.Username.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
 
-    public UserSearchViewModel(UserService userService)
+    public UserSearchViewModel()
     {
-        _userService = userService;
         _ = RunWithLoading(LoadUsersAsync);
     }
 
     private async Task LoadUsersAsync()
     {
-        var users = await _userService.GetAllUsers();
+        var users = await UserService.GetAllUsers();
 
         AllUsers = new ObservableCollection<UserListItemViewModel>(
             users
