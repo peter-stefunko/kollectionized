@@ -11,10 +11,8 @@
     <StackPanel Margin="10">
         <controls:LoadingBar />
         
-        <!-- Search input -->
         <TextBox Watermark="Search users..." Text="{Binding SearchQuery, Mode=TwoWay}" />
         
-        <!-- User list -->
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding FilteredUsers}">
                 <ItemsControl.ItemTemplate>

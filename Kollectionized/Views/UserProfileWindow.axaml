@@ -3,14 +3,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Kollectionized.ViewModels"
-    xmlns:controls="clr-namespace:Kollectionized.Controls"
     x:DataType="vm:UserProfileViewModel"
     Width="500" Height="600" Title="User Profile">
     
     <DockPanel>
         <StackPanel Spacing="12" Margin="20">
             <DockPanel>
-                <!--<Button Content="Refresh Info" Command="{Binding RefreshProfileCommand}" />-->
                 <Button Content="Refresh" Command="{Binding RefreshAllCommand}" />
             </DockPanel>
             
@@ -19,7 +17,7 @@
             <TextBlock Text="[Public user data here]" FontStyle="Italic" Foreground="Gray"/>
             <TextBlock Text="Bio: "><Run Text="{Binding User.Bio}"></Run></TextBlock>
             <TextBlock Text="Created at: "><Run Text="{Binding User.CreatedAt}"></Run></TextBlock>
-        
+            
             <StackPanel IsVisible="{Binding IsCurrentUser}" Spacing="8" Margin="0 20 0 0">
                 <TextBlock Text="Account Settings" FontSize="16" FontWeight="Bold"/>
 
@@ -28,8 +26,37 @@
                         HorizontalAlignment="Left" />
             </StackPanel>
             
+            <Button Content="Create New Deck" Click="CreateDeck_Click" IsVisible="{Binding IsCurrentUser}" />
+            
+            <StackPanel Orientation="Vertical" Spacing="8">
+                <RadioButton Content="Cards" GroupName="ViewToggle"
+                             IsChecked="True"
+                             Command="{Binding SwitchToCardsCommand}" />
+                <RadioButton Content="Decks" GroupName="ViewToggle"
+                             Command="{Binding SwitchToDecksCommand}" />
+                <RadioButton Content="Display Boards" GroupName="ViewToggle"
+                             IsEnabled="False" />
+            </StackPanel>
+            
+            <StackPanel Spacing="8"
+                        IsVisible="{Binding IsDeckView}">
+                
+                <ComboBox ItemsSource="{Binding UserDecks}"
+                          SelectedItem="{Binding SelectedDeck}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                <DockPanel IsVisible="{Binding IsCurrentUser}">
+                    <Button Content="Edit" Click="EditDeck_Click" />
+                    <Button Content="Delete" Command="{Binding DeleteSelectedDeckCommand}" />
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
         
-        <controls:CardInstanceGridBrowserView DataContext="{Binding CardGridViewModel}" />
+        <ContentControl Content="{Binding CurrentContentView}" />
     </DockPanel>
 </Window>

@@ -62,19 +62,28 @@ public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
         var confirmed = await msgBox.ShowAsync();
         if (confirmed != ButtonResult.Yes)
             return;
-
+        
         await RunWithLoading(async () =>
         {
-            var result = await new UserCardService().DeleteCardInstance(Instance.Id);
+            var result = await UserCardService.DeleteCardInstance(Instance.Id);
 
             if (result != null)
             {
+                
                 ErrorMessage = result;
                 return;
             }
-
+            
             _onDeleted?.Invoke();
         });
+    }
+    
+    [RelayCommand]
+    private void AddToCollection()
+    {
+        if (AuthService.CurrentUser is not { } user) return;
+
+        new AddToCollectionWindow(Instance.Id, user.Username, () => { }).Show();
     }
 
     public override void NotifySessionChanged()

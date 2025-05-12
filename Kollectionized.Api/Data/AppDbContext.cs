@@ -15,6 +15,15 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PokemonDeck>()
+            .HasMany(d => d.CardInstances)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "pokemon_decks_cards",
+                j => j.HasOne<CardInstance>().WithMany().HasForeignKey("instance_id"),
+                j => j.HasOne<PokemonDeck>().WithMany().HasForeignKey("deck_id")
+            );
+        
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
             entity.SetTableName(ToSnakeCase(entity.GetTableName()!));

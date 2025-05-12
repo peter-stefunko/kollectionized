@@ -25,14 +25,17 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
 
     [ObservableProperty] private string? _selectedGradingCompany;
 
-    private List<CardInstance> _allInstances = [];
+    protected List<CardInstance> AllInstances = [];
 
     public bool IsCurrentUser => _viewedUser.Id == AuthService.CurrentUser?.Id;
 
-    public CardInstanceGridBrowserViewModel(User viewedUser)
+    public CardInstanceGridBrowserViewModel(User viewedUser, bool skipInit = false)
     {
         _viewedUser = viewedUser;
-        _ = RefreshInstancesAsync();
+        if (!skipInit)
+        {
+            _ = RefreshInstancesAsync();
+        }
     }
 
     [RelayCommand]
@@ -40,16 +43,16 @@ public partial class CardInstanceGridBrowserViewModel : CardFilterBaseViewModel
     {
         await RunWithLoading(async () =>
         {
-            _allInstances = await UserCardService.GetUserCardInstances(_viewedUser.Username);
+            AllInstances = await UserCardService.GetUserCardInstances(_viewedUser.Username);
             ApplyFilters();
         });
     }
 
     public void ForceRefresh() => _ = RefreshInstancesAsync();
 
-    private void ApplyFilters()
+    protected void ApplyFilters()
     {
-        var filtered = _allInstances.Where(i =>
+        var filtered = AllInstances.Where(i =>
             (string.IsNullOrWhiteSpace(NameQuery) ||
              i.Card.Name.Contains(NameQuery, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrWhiteSpace(SelectedType) || i.Card.Type == SelectedType) &&

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Kollectionized.Models;
 using Kollectionized.Services;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -53,10 +52,6 @@ public partial class ManageAccountViewModel(UserProfileViewModel profile, Action
                 ErrorMessage = error;
                 return;
             }
-
-            /*var updatedUser = AuthService.CurrentUser;
-            updatedUser.Username = EditableUsername;
-            updatedUser.Bio = EditableBio;*/
 
             var updatedUser = AuthService.CurrentUser with { Username = EditableUsername, Bio = EditableBio };
             AuthService.Login(updatedUser, AuthService.CurrentPassword!);

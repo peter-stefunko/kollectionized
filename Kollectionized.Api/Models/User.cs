@@ -7,7 +7,7 @@ public class User
 {
     [Key]
     [Column("id")]
-    public Guid Id { get; init; } = Guid.Empty;
+    public Guid Id { get; set; }
 
     [Required]
     [Column("username")]

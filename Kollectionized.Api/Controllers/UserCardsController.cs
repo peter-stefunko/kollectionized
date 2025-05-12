@@ -89,16 +89,16 @@ public class UserCardController(AppDbContext context) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteCardInstance(string username, Guid id, string password)
+    public async Task<IActionResult> DeleteCardInstance(string username, Guid id, [FromBody] PasswordOnlyDto dto)
     {
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid credentials.");
 
-            var instance =
-                await context.PokemonCardInstances.FirstOrDefaultAsync(i => i.Id == id && i.CurrentOwner == user.Id);
+            var instance = await context.PokemonCardInstances
+                .FirstOrDefaultAsync(i => i.Id == id && i.CurrentOwner == user.Id);
             if (instance == null) return NotFound("Card instance not found.");
 
             context.PokemonCardInstances.Remove(instance);

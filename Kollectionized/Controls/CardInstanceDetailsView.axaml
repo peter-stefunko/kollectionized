@@ -26,6 +26,8 @@
                         Command="{Binding EditCommand}"/>
                 <Button Content="Delete"
                         Command="{Binding DeleteCommand}"/>
+                <Button Content="Add to Collection"
+                        Command="{Binding AddToCollectionCommand}"/>
             </DockPanel>
         </StackPanel>
     </DockPanel>

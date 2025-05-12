@@ -70,6 +70,7 @@ public class UserCardService : ServiceBase
         if (user == null || string.IsNullOrWhiteSpace(password)) return "User not authenticated.";
 
         var payload = new { password };
+        
         var request = new HttpRequestMessage(HttpMethod.Delete, $"users/{user.Username}/cards/{instanceId}")
         {
             Content = JsonContent.Create(payload)

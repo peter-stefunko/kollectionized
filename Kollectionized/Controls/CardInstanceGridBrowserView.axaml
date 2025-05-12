@@ -7,7 +7,6 @@
     x:DataType="vm:CardInstanceGridBrowserViewModel">
 
     <DockPanel Margin="10">
-        <!-- Filter Panel -->
         <StackPanel DockPanel.Dock="Top" Margin="0 0 0 10" Spacing="10">
             <controls:LoadingBar />
             <controls:CardFilterPanel />
@@ -19,8 +18,7 @@
             
             <controls:PokemonSetInfoView DataContext="{Binding SetInfo}" />
         </StackPanel>
-
-        <!-- Grid of instances -->
+        
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding CardInstances}">
                 <ItemsControl.ItemsPanel>

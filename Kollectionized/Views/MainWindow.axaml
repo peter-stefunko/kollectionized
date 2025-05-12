@@ -21,7 +21,7 @@
             
                 <StackPanel DockPanel.Dock="Left">
                     <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
-                    <Button Content="Manage Collections &amp; Decks"/>
+                    <Button Content="Marketplace &amp; Trade offers"/>
                     <Button Content="Search Users" Click="OpenUserSearch_Click"/>
                 </StackPanel>
             </DockPanel>

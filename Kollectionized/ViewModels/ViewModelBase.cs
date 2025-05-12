@@ -17,6 +17,7 @@ public abstract partial class ViewModelBase : ObservableObject
     protected static readonly SetsService SetsService = new();
     protected static readonly UserCardService UserCardService = new();
     protected static readonly UserService UserService = new();
+    protected static readonly DecksService DecksService = new();
 
     protected async Task RunWithLoading(Func<Task> action)
     {
@@ -30,7 +31,6 @@ public abstract partial class ViewModelBase : ObservableObject
         catch (Exception ex)
         {
             ErrorMessage = "Something went wrong.";
-            Console.WriteLine(ex);
         }
         finally
         {
