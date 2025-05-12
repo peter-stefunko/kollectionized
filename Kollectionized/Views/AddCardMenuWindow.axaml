@@ -7,28 +7,32 @@
     x:DataType="vm:AddCardMenuWindowViewModel"
     Width="400" Height="350"
     Title="Add Card to Collection">
-
+    
     <StackPanel Spacing="12" Margin="20">
         <controls:LoadingBar />
+        
+        <ComboBox ItemsSource="{Binding GradeOptions}"
+                  SelectedItem="{Binding SelectedGrade}"
+                  PlaceholderText="Grade">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource NullableGradeConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-        <ScrollViewer>
-            <StackPanel>
-                <TextBlock Text="Grade:" />
-                <ComboBox ItemsSource="{Binding GradeOptions}" SelectedItem="{Binding SelectedGrade}" />
+        <ComboBox ItemsSource="{Binding GradingCompanies}"
+                  SelectedItem="{Binding SelectedGradingCompany}"
+                  PlaceholderText="Grading Company" />
+        
+        <TextBlock Text="Notes:" />
+        <TextBox Text="{Binding Notes}" MaxLength="100" AcceptsReturn="True" Height="60"/>
 
-                <TextBlock Text="Grading Company:" />
-                <ComboBox ItemsSource="{Binding GradingCompanies}" SelectedItem="{Binding SelectedGradingCompany}" />
+        <TextBlock Foreground="Red" Text="{Binding ErrorMessage}" />
 
-                <TextBlock Text="Notes:" />
-                <TextBox Text="{Binding Notes}" MaxLength="100" AcceptsReturn="True" Height="60"/>
-
-                <TextBlock Foreground="Red" Text="{Binding ErrorMessage}" />
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                    <Button Content="Add" Command="{Binding AddCommand}" />
-                    <Button Content="Cancel" Command="{Binding CancelCommand}" />
-                </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Content="Add" Command="{Binding AddCommand}" />
+            <Button Content="Cancel" Command="{Binding CancelCommand}" />
+        </StackPanel>
     </StackPanel>
 </Window>

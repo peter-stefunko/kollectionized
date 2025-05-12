@@ -1,18 +1,15 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kollectionized.Common;
 
 namespace Kollectionized.ViewModels;
 
 public partial class MenuWindowBase : ViewModelBase
 {
-    public ObservableCollection<double> GradeOptions { get; } =
-        new(Enumerable.Range(0, 21).Select(i => i * 0.5));
-
-    public ObservableCollection<string> GradingCompanies { get; } =
-        ["", "PSA", "CGC", "BGS", "ACE"];
+    public ObservableCollection<double?> GradeOptions { get; } = new(Constants.GradeOptions);
+    public ObservableCollection<string> GradingCompanies { get; } = new(Constants.GradingCompanies);
 
     [ObservableProperty] private double? _selectedGrade;
     [ObservableProperty] private string? _selectedGradingCompany;
