@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Kollectionized.Utils;
 using Kollectionized.State;
 
 namespace Kollectionized.ViewModels;
@@ -18,8 +17,8 @@ public partial class AccessViewModel : ViewModelBase
 
     public AccessViewModel()
     {
-        _loginViewModel = new LoginViewModel(OnSuccess);
-        _registerViewModel = new RegisterViewModel(OnSuccess);
+        _loginViewModel = new LoginViewModel();
+        _registerViewModel = new RegisterViewModel();
 
         ShowLogin();
     }
@@ -45,9 +44,4 @@ public partial class AccessViewModel : ViewModelBase
 
     private void ShowLogin() => CurrentView = _loginViewModel;
     private void ShowRegister() => CurrentView = _registerViewModel;
-
-    private void OnSuccess()
-    {
-        AppNavigation.GoBack();
-    }
 }

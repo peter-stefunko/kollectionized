@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.Input;
-using Kollectionized.Controls;
 using Kollectionized.Models;
 using Kollectionized.Utils;
 using Kollectionized.Views;
@@ -9,15 +8,13 @@ using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
-public class UserListItemViewModel : ViewModelBase
+public class UserItemViewModel : ViewModelBase
 {
-    private User User { get; }
-    
-    public string Username => User.Username;
+    public User User { get; }
 
     public IRelayCommand ShowProfileCommand { get; }
 
-    public UserListItemViewModel(User user)
+    public UserItemViewModel(User user)
     {
         User = user;
         ShowProfileCommand = new RelayCommand(OpenProfile);

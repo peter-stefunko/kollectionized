@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Kollectionized.Models;
+using Kollectionized.State;
 
 namespace Kollectionized.Services;
 
@@ -28,8 +29,8 @@ public class UserCardService : ServiceBase
 
     public async Task<string?> AddCardInstance(Guid cardId, double? grade, string? company, string notes)
     {
-        var user = AuthService.CurrentUser;
-        var password = AuthService.CurrentPassword;
+        var user = CurrentUserState.User;
+        var password = CurrentUserState.Password;
         if (user == null || string.IsNullOrWhiteSpace(password)) return "User not authenticated.";
 
         var payload = new
@@ -47,8 +48,8 @@ public class UserCardService : ServiceBase
 
     public async Task<string?> UpdateCardInstance(Guid instanceId, double? grade, string? company, string notes)
     {
-        var user = AuthService.CurrentUser;
-        var password = AuthService.CurrentPassword;
+        var user = CurrentUserState.User;
+        var password = CurrentUserState.Password;
         if (user == null || string.IsNullOrWhiteSpace(password)) return "User not authenticated.";
 
         var payload = new
@@ -65,8 +66,8 @@ public class UserCardService : ServiceBase
 
     public async Task<string?> DeleteCardInstance(Guid instanceId)
     {
-        var user = AuthService.CurrentUser;
-        var password = AuthService.CurrentPassword;
+        var user = CurrentUserState.User;
+        var password = CurrentUserState.Password;
         if (user == null || string.IsNullOrWhiteSpace(password)) return "User not authenticated.";
 
         var payload = new { password };

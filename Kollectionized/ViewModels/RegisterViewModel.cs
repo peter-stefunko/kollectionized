@@ -1,17 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Services;
-using System;
 using System.Threading.Tasks;
+using Kollectionized.Utils;
 
 namespace Kollectionized.ViewModels;
 
-public partial class RegisterViewModel(Action? switchToLogin = null, Action? onRegisterSuccess = null)
-    : ViewModelBase
+public partial class RegisterViewModel : ViewModelBase
 {
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
     [ObservableProperty] private string _confirmPassword = string.Empty;
+    [ObservableProperty] private string? _errorMessage;
 
     [RelayCommand]
     private async Task RegisterAsync()
@@ -31,18 +31,10 @@ public partial class RegisterViewModel(Action? switchToLogin = null, Action? onR
                 return;
             }
 
-            var user = await UserService.Login(Username, Password);
-            if (user != null)
-            {
-                AuthService.Login(user, Password);
-                onRegisterSuccess?.Invoke();
-            }
+            var success = await AuthService.TryLogin(Username, Password);
+            
+            if (success)
+                AppNavigation.GoBack();
         });
-    }
-
-    [RelayCommand]
-    private void SwitchToLogin()
-    {
-        switchToLogin?.Invoke();
     }
 }

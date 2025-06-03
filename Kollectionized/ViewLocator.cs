@@ -16,7 +16,7 @@ public class ViewLocator : IDataTemplate
 
         var viewModelType = param.GetType();
         var viewTypeName = viewModelType.FullName!
-            .Replace("ViewModels", "Controls", StringComparison.Ordinal)
+            /*.Replace("ViewModels", "Controls", StringComparison.Ordinal)*/
             .Replace("ViewModel", "View", StringComparison.Ordinal);
 
         var viewType = Type.GetType(viewTypeName) ?? Assembly.GetExecutingAssembly()

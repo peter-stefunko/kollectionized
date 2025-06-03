@@ -18,7 +18,7 @@ public class User
     public string? PasswordHash { get; set; }
 
     [Column("created_at")]
-    public DateTime CreatedAt { get; init; }
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
     [Column("last_username")]
     public string? LastUsername { get; set; }

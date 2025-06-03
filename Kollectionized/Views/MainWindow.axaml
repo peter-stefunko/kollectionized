@@ -1,29 +1,10 @@
-<Window
-    x:Class="Kollectionized.Views.MainWindow"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Width="600" Height="500" Title="Kollectionized"
-    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
-    xmlns:controls="clr-namespace:Kollectionized.Controls"
-    x:DataType="vm:MainWindowViewModel">
-
-    <StackPanel Spacing="10" Margin="20">
-        <controls:LoadingBar />
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Kollectionized.Views.MainWindow"
+        Title="Kollectionized">
         
-            <TextBlock Text="Kollectionized" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-            
-        <DockPanel>
-                <StackPanel DockPanel.Dock="Right">
-                    <Button Content="Logout" Click="Logout_Click" IsVisible="{Binding IsLoggedIn}"/>
-                    <Button Content="{Binding CurrentUsername}" IsVisible="{Binding IsLoggedIn}" Click="OpenOwnProfile_Click" />
-                    <Button Content="Login" Click="AccessAccount_Click" IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}"/>
-                </StackPanel>
-            
-                <StackPanel DockPanel.Dock="Left">
-                    <Button Content="Browse All Cards" Click="BrowseAllCards_Click"/>
-                    <Button Content="Marketplace &amp; Trade offers"/>
-                    <Button Content="Search Users" Click="OpenUserSearch_Click"/>
-                </StackPanel>
-            </DockPanel>
-    </StackPanel>
+        <ContentControl x:Name="ViewHost"/>
 </Window>

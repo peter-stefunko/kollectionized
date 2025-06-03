@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Kollectionized.Controls;
 
-public partial class CardInstanceFilterControl : UserControl
+public partial class CardInstanceFiltersControl : UserControl
 {
-    public CardInstanceFilterControl()
+    public CardInstanceFiltersControl()
     {
         InitializeComponent();
     }

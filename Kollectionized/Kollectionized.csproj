@@ -38,21 +38,73 @@
       <Compile Update="Views\MainWindow.axaml.cs">
         <DependentUpon>MainWindow.axaml</DependentUpon>
       </Compile>
-      <Compile Update="Controls\LoadingBar.axaml.cs">
+      <Compile Update="Controls\LoadingBarControl.axaml.cs">
         <DependentUpon>LoadingBar.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Controls\LoginView.axaml.cs">
-        <DependentUpon>LoginView.axaml</DependentUpon>
+      <Compile Update="Views\AccessView.axaml.cs">
+        <DependentUpon>AccessView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Controls\RegisterView.axaml.cs">
-        <DependentUpon>RegisterView.axaml</DependentUpon>
+      <Compile Update="Views\AllCardsView.axaml.cs">
+        <DependentUpon>AllCardsView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Controls\CardDetailsView.axaml.cs">
+      <Compile Update="Views\CardDetailsView.axaml.cs">
         <DependentUpon>CardDetailsView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\CardInstanceDetailsView.axaml.cs">
+        <DependentUpon>CardInstanceDetailsView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\DeckCreateView.axaml.cs">
+        <DependentUpon>DeckCreateView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\DeckEditView.axaml.cs">
+        <DependentUpon>DeckEditView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\HomeView.axaml.cs">
+        <DependentUpon>HomeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\LoginView.axaml.cs">
+        <DependentUpon>LoginView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\ManageAccountView.axaml.cs">
+        <DependentUpon>ManageAccountView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\RegisterView.axaml.cs">
+        <DependentUpon>RegisterView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\UserProfileView.axaml.cs">
+        <DependentUpon>UserProfileView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\UserSearchView.axaml.cs">
+        <DependentUpon>UserSearchView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\UserCardInstanceBrowserView.axaml.cs">
+        <DependentUpon>UserCardInstanceBrowserControl.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\DeckBrowserView.axaml.cs">
+        <DependentUpon>DeckBrowserControl.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Controls\CardInstanceBrowserControl.axaml.cs">
+        <DependentUpon>CardInstanceBrowserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\" />
     </ItemGroup>
 </Project>

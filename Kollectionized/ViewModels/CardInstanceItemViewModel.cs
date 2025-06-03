@@ -1,15 +1,15 @@
 using Kollectionized.Models;
+using Kollectionized.Utils;
+using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
-public class CardInstanceItemViewModel(PokemonCard card, CardInstance instance, System.Action? onDeleted)
-    : CardInstanceDetailsViewModel(card, instance, onDeleted)
+public class CardInstanceItemViewModel(PokemonCard card, CardInstance instance) : CardItemViewModel(card)
 {
-    public override void NotifySessionChanged()
+    public CardInstance Instance { get; } = instance;
+
+    protected override void ShowDetails()
     {
-        base.NotifySessionChanged();
-        OnPropertyChanged(nameof(IsCurrentUser));
-        EditCommand.NotifyCanExecuteChanged();
-        DeleteCommand.NotifyCanExecuteChanged();
+        AppNavigation.NavigateTo(new CardInstanceDetailsView(Card, Instance));
     }
 }

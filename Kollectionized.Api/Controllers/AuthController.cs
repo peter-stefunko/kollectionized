@@ -73,12 +73,12 @@ public class AuthController(AppDbContext context) : ControllerBase
     }
 
     [HttpDelete("user/{username}")]
-    public async Task<IActionResult> DeleteAccount(string username, string password)
+    public async Task<IActionResult> DeleteAccount(string username, PasswordOnlyDto dto)
     {
         try
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid password.");
 
             if (user.Username.StartsWith("[del-"))

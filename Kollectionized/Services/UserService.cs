@@ -19,7 +19,8 @@ public class UserService : ServiceBase
     public async Task<User?> Login(string username, string password)
     {
         var response = await Client.PostAsJsonAsync("auth/login", new { username, password });
-        if (!response.IsSuccessStatusCode) return null;
+        if (!response.IsSuccessStatusCode)
+            return null;
 
         var user = await response.Content.ReadFromJsonAsync<User>();
         return user;
@@ -61,7 +62,8 @@ public class UserService : ServiceBase
     public async Task<User?> GetUserById(Guid id)
     {
         var response = await Client.GetAsync($"users/{id}");
-        if (!response.IsSuccessStatusCode) return null;
+        if (!response.IsSuccessStatusCode)
+            return null;
 
         return await response.Content.ReadFromJsonAsync<User>();
     }

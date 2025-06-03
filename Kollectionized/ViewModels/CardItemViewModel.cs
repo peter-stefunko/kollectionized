@@ -1,27 +1,37 @@
+using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Models;
+using Kollectionized.Services;
+using Kollectionized.Utils;
 using Kollectionized.Views;
 
 namespace Kollectionized.ViewModels;
 
-public class CardItemViewModel : CardDetailsViewModel
+public partial class CardItemViewModel : ViewModelBase
 {
+    public PokemonCard Card { get; }
+
+    [ObservableProperty]
+    private Bitmap? _image;
+
     public IRelayCommand ShowDetailsCommand { get; }
 
     public CardItemViewModel(PokemonCard card)
-        : base(card)
     {
-        ShowDetailsCommand = new RelayCommand(OpenDetails);
+        Card = card;
+        ShowDetailsCommand = new RelayCommand(ShowDetails);
+        _ = LoadImageAsync();
     }
 
-    private void OpenDetails()
+    private async Task LoadImageAsync()
     {
-        new CardDetailsWindow(Card).Show();
+        Image = await CardImageService.LoadCardImageAsync(Card);
     }
 
-    public override void NotifySessionChanged()
+    protected virtual void ShowDetails()
     {
-        base.NotifySessionChanged();
-        AddInstanceCommand.NotifyCanExecuteChanged();
+        AppNavigation.NavigateTo(new CardDetailsView(Card));
     }
 }

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Kollectionized.Controls;
+namespace Kollectionized.Views;
 
 public partial class RegisterView : UserControl
 {

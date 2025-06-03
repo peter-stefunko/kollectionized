@@ -1,95 +1,105 @@
-using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
-using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kollectionized.Common;
 using Kollectionized.Models;
-using Kollectionized.Services;
-using Kollectionized.Views;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Dto;
-using MsBox.Avalonia.Enums;
+using Kollectionized.State;
+using Kollectionized.Utils;
 
 namespace Kollectionized.ViewModels;
 
 public partial class CardInstanceDetailsViewModel : CardDetailsViewModel
 {
-    public CardInstance Instance { get; }
+    private CardInstance Instance { get; }
 
     public string GradeText => Instance.Grade is not null ? $"Grade: {Instance.Grade}" : "Grade: N/A";
     public string CompanyText => !string.IsNullOrWhiteSpace(Instance.GradingCompany) ? $"Company: {Instance.GradingCompany}" : "Company: N/A";
-    
-    public bool IsCurrentUser => AuthService.CurrentUser?.Id == Instance.CurrentOwner;
+    public string NotesText => string.IsNullOrWhiteSpace(Instance.Notes) ? "No notes." : Instance.Notes;
+    public string OwnerUsername => Instance.Owner.Username;
 
-    public IRelayCommand ShowDetailsCommand { get; }
-    public IRelayCommand EditCommand { get; }
-    public IRelayCommand DeleteCommand { get; }
+    public bool IsCurrentUser => CurrentUserState.User?.Id == Instance.CurrentOwner;
 
-    private readonly Action? _onDeleted;
+    public ObservableCollection<PokemonDeck> SelectedDecks { get; } = [];
+    public ObservableCollection<DeckSelectionViewModel> DeckOptions { get; } = [];
 
-    public CardInstanceDetailsViewModel(PokemonCard card, CardInstance instance, Action? onDeleted)
-        : base(card)
+    [ObservableProperty] private double? _selectedGrade;
+    [ObservableProperty] private string? _selectedGradingCompany;
+    [ObservableProperty] private string _notes = string.Empty;
+    [ObservableProperty] private bool _showEditForm;
+    [ObservableProperty] private bool _showAddForm;
+
+    public CardInstanceDetailsViewModel(PokemonCard card, CardInstance instance) : base(card)
     {
         Instance = instance;
-        _onDeleted = onDeleted;
+        SelectedGrade = instance.Grade;
+        SelectedGradingCompany = instance.GradingCompany;
+        Notes = instance.Notes;
 
-        ShowDetailsCommand = new RelayCommand(OpenDetails);
-        EditCommand = new RelayCommand(OpenEditMenu, () => IsCurrentUser);
-        DeleteCommand = DeleteInstanceCommand;
+        _ = LoadDecksAsync();
     }
 
-    private void OpenDetails()
+    private async Task LoadDecksAsync()
     {
-        new CardInstanceDetailsWindow(Card, Instance).Show();
+        if (CurrentUser?.Username is not { } username) return;
+        var decks = await DecksService.GetUserDecks(username);
+
+        DeckOptions.Clear();
+        SelectedDecks.Clear();
+        foreach (var vm in decks.Select(deck => new DeckSelectionViewModel(deck, this)
+                 {
+                     IsSelected = false
+                 }))
+        {
+            DeckOptions.Add(vm);
+        }
     }
 
-    private void OpenEditMenu()
+    [RelayCommand] private void ToggleEditForm() => ShowEditForm = !ShowEditForm;
+    [RelayCommand] private void ToggleAddForm() => ShowAddForm = !ShowAddForm;
+
+    [RelayCommand]
+    private async Task SaveEditAsync()
     {
-        new CardInstanceEditorWindow(Instance, _onDeleted).Show();
+        await RunWithLoading(async () =>
+        {
+            var result = await UserCardService.UpdateCardInstance(
+                Instance.Id, SelectedGrade, SelectedGradingCompany, Notes);
+            if (result != null) ErrorMessage = result;
+            else AppNavigation.GoBack();
+        });
+    }
+
+    [RelayCommand]
+    private async Task ConfirmAddToDeckAsync()
+    {
+        if (CurrentUser?.Username is not { } username) return;
+
+        foreach (var deck in SelectedDecks)
+        {
+            await DecksService.AddCardToDeck(username, deck.Id, Instance.Id);
+        }
+        AppNavigation.GoBack();
     }
 
     [RelayCommand]
     private async Task DeleteInstanceAsync()
     {
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        {
-            ButtonDefinitions = ButtonEnum.YesNoCancel,
-            ContentTitle = "Confirm",
-            ContentMessage = "Are you sure you want to delete this instance?",
-            Icon = Icon.Warning,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
-        });
+        /*var confirmed = await DialogHelper.Confirm("Confirm", "Are you sure you want to delete this instance?");
+        if (!confirmed) return;*/
 
-        var confirmed = await msgBox.ShowAsync();
-        if (confirmed != ButtonResult.Yes)
-            return;
-        
         await RunWithLoading(async () =>
         {
             var result = await UserCardService.DeleteCardInstance(Instance.Id);
-
-            if (result != null)
-            {
-                
-                ErrorMessage = result;
-                return;
-            }
-            
-            _onDeleted?.Invoke();
+            if (result != null) ErrorMessage = result;
+            else AppNavigation.GoBack();
         });
-    }
-    
-    [RelayCommand]
-    private void AddToCollection()
-    {
-        if (AuthService.CurrentUser is not { } user) return;
-
-        new AddToCollectionWindow(Instance.Id, user.Username, () => { }).Show();
     }
 
     public override void NotifySessionChanged()
     {
         base.NotifySessionChanged();
         OnPropertyChanged(nameof(IsCurrentUser));
-        EditCommand.NotifyCanExecuteChanged();
     }
 }

@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.DeckBrowserView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:DeckBrowserViewModel">
+
+    <StackPanel>
+        <DockPanel>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <controls:SearchBarControl />
+                    <Button Content="Search"
+                            Command="{Binding ApplyFiltersCommand}" />
+                </StackPanel>
+
+                <controls:CardFiltersControl />
+                <controls:CardInstanceFiltersControl />
+                <controls:SetInfoControl />
+            </StackPanel>
+            
+            <StackPanel>
+                <TextBlock Text="Deck Info:" />
+                <TextBlock Text="{Binding DeckName, StringFormat='Name: {0}'}" />
+                <TextBlock Text="{Binding DeckDescription, StringFormat='Description: {0}'}" />
+                <TextBlock Text="{Binding DeckOwnerUsername, StringFormat='Owner: {0}'}" />
+                <TextBlock Text="{Binding DeckCreatedAt, StringFormat='Created: {0:yyyy-MM-dd}'}" />
+                <TextBlock Text="{Binding CardCountDisplay}" />
+            </StackPanel>
+        </DockPanel>
+        
+        <controls:CardInstanceBrowserControl />
+    </StackPanel>
+</UserControl>

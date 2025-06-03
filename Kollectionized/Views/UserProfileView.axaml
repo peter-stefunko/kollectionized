@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.UserProfileView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:UserProfileViewModel">
+    
+    <ScrollViewer>
+        <StackPanel>
+            <controls:LoadingBarControl />
+            <controls:BackButtonControl />
+            <TextBlock Text="{Binding ErrorMessage}"
+                       Classes="Error" />
+            
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding User.Username}" />
+                    <TextBlock Text="{Binding User.Bio, StringFormat='Bio: {0}'}" />
+                    <TextBlock Text="{Binding User.CreatedAt, StringFormat='Member since: {0:d}'}" />
+                    
+                    <Button Content="⚙️ Manage Account"
+                            Click="OnManageAccountClick"
+                            IsVisible="{Binding IsCurrentUser}" />
+                    
+                    <Button Content="Create New Deck"
+                            Click="OnCreateDeckClick"
+                            IsVisible="{Binding IsCurrentUser}"/>
+                    
+                    <StackPanel>
+                        <RadioButton Content="Cards"
+                                     GroupName="ViewToggle"
+                                     IsChecked="True"
+                                     Command="{Binding SwitchToCardsCommand}" />
+                        
+                        <RadioButton Content="Decks"
+                                     GroupName="ViewToggle"
+                                     Command="{Binding SwitchToDecksCommand}" />
+                        
+                        <RadioButton Content="Display Boards"
+                                     GroupName="ViewToggle"
+                                     IsEnabled="False" />
+                    </StackPanel>
+                    
+                    <StackPanel IsVisible="{Binding IsDeckView}">
+                        <ComboBox ItemsSource="{Binding UserDecks}"
+                                  SelectedItem="{Binding SelectedDeck}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <DockPanel IsVisible="{Binding IsCurrentUser}">
+                            <Button Content="Edit"
+                                    Click="OnEditDeckClick" />
+                            
+                            <Button Content="Delete"
+                                    Command="{Binding DeleteSelectedDeckCommand}" />
+                        </DockPanel>
+                    </StackPanel>
+                </StackPanel>
+                
+                <ContentControl Content="{Binding CurrentContentView}" />
+            </DockPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

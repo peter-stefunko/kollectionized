@@ -6,14 +6,14 @@ using Kollectionized.Models;
 
 namespace Kollectionized.ViewModels;
 
-public partial class CardGridBrowserViewModel : CardFilterBaseViewModel
+public partial class CardBrowserViewModel : CardFilterBaseViewModel
 {
     [ObservableProperty] private ObservableCollection<CardItemViewModel> _cards = [];
 
     [ObservableProperty] private int _page;
     private const int PageSize = 30;
     
-    public CardGridBrowserViewModel()
+    public CardBrowserViewModel()
     {
         _ = SearchAsync();
     }

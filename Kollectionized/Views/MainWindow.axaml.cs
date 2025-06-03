@@ -1,44 +1,30 @@
-using Avalonia.Interactivity;
-using Kollectionized.Services;
-using Kollectionized.ViewModels;
+using Avalonia.Controls;
+using System.Collections.Generic;
 
 namespace Kollectionized.Views;
 
-public partial class MainWindow : WindowBase
+public partial class MainWindow : Window
 {
+    private readonly Stack<UserControl> _viewStack = new();
+
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainWindowViewModel();
+        NavigateTo(new HomeView());
     }
 
-    private void BrowseAllCards_Click(object? sender, RoutedEventArgs e)
+    public void NavigateTo(UserControl view)
     {
-        new CardGamesWindow().Show();
+        _viewStack.Push(view);
+        ViewHost.Content = view;
     }
 
-    private async void AccessAccount_Click(object? sender, RoutedEventArgs e)
+    public void GoBack()
     {
-        await new AccessWindow().ShowDialog(this);
-    }
-
-    private void Logout_Click(object? sender, RoutedEventArgs e)
-    {
-        if (DataContext is MainWindowViewModel vm)
-            vm.LogoutCommand.Execute(null);
-    }
-
-    private void OpenOwnProfile_Click(object? sender, RoutedEventArgs e)
-    {
-        var user = AuthService.CurrentUser;
-        if (user != null)
-        {
-            new UserProfileWindow(user).Show();
-        }
-    }
-
-    private void OpenUserSearch_Click(object? sender, RoutedEventArgs e)
-    {
-        new UserSearchWindow().Show();
+        if (_viewStack.Count <= 1)
+            return;
+        
+        _viewStack.Pop();
+        ViewHost.Content = _viewStack.Peek();
     }
 }

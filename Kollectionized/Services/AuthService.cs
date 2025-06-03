@@ -1,27 +1,23 @@
-using System;
-using Kollectionized.Models;
+using Kollectionized.State;
+using System.Threading.Tasks;
 
 namespace Kollectionized.Services;
 
 public static class AuthService
 {
-    public static User? CurrentUser { get; private set; }
-    public static string? CurrentPassword { get; private set; }
+    private static readonly UserService UserService = new();
 
-    public static bool IsLoggedIn => CurrentUser != null;
-    public static event Action? SessionChanged;
-
-    public static void Login(User user, string password)
+    public static async Task<bool> TryLogin(string username, string password)
     {
-        CurrentUser = user;
-        CurrentPassword = password;
-        SessionChanged?.Invoke();
+        var user = await UserService.Login(username, password);
+        if (user == null) return false;
+
+        CurrentUserState.Login(user, password);
+        return true;
     }
 
     public static void Logout()
     {
-        CurrentUser = null;
-        CurrentPassword = null;
-        SessionChanged?.Invoke();
+        CurrentUserState.Logout();
     }
 }

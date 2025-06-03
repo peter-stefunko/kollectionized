@@ -2,13 +2,15 @@
 using Kollectionized.Services;
 using System;
 using System.Threading.Tasks;
+using Kollectionized.Models;
+using Kollectionized.State;
 
 namespace Kollectionized.ViewModels;
 
 public abstract partial class ViewModelBase : ObservableObject
 {
-    public static string? CurrentUsername => AuthService.CurrentUser?.Username;
-    public static bool IsLoggedIn => AuthService.IsLoggedIn;
+    protected static User? CurrentUser => CurrentUserState.User;
+    public static bool IsLoggedIn => CurrentUserState.IsLoggedIn;
 
     [ObservableProperty] private string? _errorMessage;
     [ObservableProperty] private bool _isLoading;
@@ -30,7 +32,7 @@ public abstract partial class ViewModelBase : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = "Something went wrong.";
+            ErrorMessage = $"Error: {ex.Message}";
         }
         finally
         {
@@ -41,6 +43,7 @@ public abstract partial class ViewModelBase : ObservableObject
     public virtual void NotifySessionChanged()
     {
         OnPropertyChanged(nameof(IsLoggedIn));
-        OnPropertyChanged(nameof(CurrentUsername));
+        OnPropertyChanged(nameof(CurrentUser));
+        OnPropertyChanged(nameof(CurrentUser.Username));
     }
 }

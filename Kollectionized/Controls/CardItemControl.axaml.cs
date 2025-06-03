@@ -4,14 +4,14 @@ using Kollectionized.ViewModels;
 
 namespace Kollectionized.Controls;
 
-public partial class CardItemView : UserControl
+public partial class CardItemControl : UserControl
 {
-    public CardItemView()
+    public CardItemControl()
     {
         InitializeComponent();
     }
 
-    private void OnCardClicked(object? sender, PointerPressedEventArgs e)
+    private void OnCardClick(object? sender, PointerPressedEventArgs e)
     {
         if (DataContext is CardItemViewModel vm)
         {

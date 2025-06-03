@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using System.Linq;
-using Kollectionized.Services;
 using Kollectionized.ViewModels;
 using Kollectionized.Views;
 
@@ -20,8 +19,6 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        AuthService.Logout();
-
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             DisableAvaloniaDataAnnotationValidation();

@@ -1,49 +1,56 @@
-using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Services;
+using Kollectionized.State;
+using Kollectionized.Utils;
 using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace Kollectionized.ViewModels;
 
-public partial class ManageAccountViewModel(UserProfileViewModel profile, Action? onDeleteSuccess = null)
-    : ViewModelBase
+public partial class ManageAccountViewModel : ViewModelBase
 {
-    private UserProfileViewModel Profile { get; } = profile;
+    private UserProfileViewModel Profile { get; }
 
-    [ObservableProperty] private string _editableUsername = profile.User.Username;
-    [ObservableProperty] private string _editableBio = profile.User.Bio;
+    [ObservableProperty] private string _editableUsername;
+    [ObservableProperty] private string _editableBio;
     [ObservableProperty] private string _currentPassword = string.Empty;
     [ObservableProperty] private string _newPassword = string.Empty;
     [ObservableProperty] private string _confirmNewPassword = string.Empty;
+    [ObservableProperty] private string? _errorMessage;
+
+    public ManageAccountViewModel(UserProfileViewModel profile)
+    {
+        Profile = profile;
+        EditableUsername = profile.User.Username;
+        EditableBio = profile.User.Bio;
+    }
 
     [RelayCommand]
     private async Task SaveChangesAsync()
     {
         if (!Profile.IsCurrentUser || string.IsNullOrWhiteSpace(EditableUsername)) return;
 
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        var result = await MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
             ButtonDefinitions = ButtonEnum.YesNoCancel,
             ContentTitle = "Confirm username change",
             ContentMessage = "Save user profile changes?",
             Icon = Icon.Question,
             WindowStartupLocation = WindowStartupLocation.CenterOwner
-        });
+        }).ShowAsync();
 
-        var result = await msgBox.ShowAsync();
         if (result != ButtonResult.Yes)
             return;
 
         await RunWithLoading(async () =>
         {
             var error = await UserService.UpdateAccount(
-                AuthService.CurrentUser!.Username,
-                AuthService.CurrentPassword!,
+                CurrentUserState.User!.Username,
+                CurrentUserState.Password!,
                 EditableUsername,
                 EditableBio);
 
@@ -53,9 +60,10 @@ public partial class ManageAccountViewModel(UserProfileViewModel profile, Action
                 return;
             }
 
-            var updatedUser = AuthService.CurrentUser with { Username = EditableUsername, Bio = EditableBio };
-            AuthService.Login(updatedUser, AuthService.CurrentPassword!);
-            Profile.Refresh(updatedUser);
+            var updatedUser = CurrentUserState.User with { Username = EditableUsername, Bio = EditableBio };
+            await AuthService.TryLogin(updatedUser.Username, CurrentUserState.Password!);
+            Profile.RefreshAllCommand.Execute(null);
+            AppNavigation.GoBack();
         });
     }
 
@@ -90,22 +98,20 @@ public partial class ManageAccountViewModel(UserProfileViewModel profile, Action
     [RelayCommand]
     private async Task DeleteAccountAsync()
     {
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        var confirmed = await MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
             ButtonDefinitions = ButtonEnum.YesNoCancel,
             ContentTitle = "Confirm",
             ContentMessage = "Are you sure you want to delete your account?",
-            Icon = Icon.Warning,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
-        });
+            Icon = Icon.Warning
+        }).ShowAsync();
 
-        var confirmed = await msgBox.ShowAsync();
         if (confirmed != ButtonResult.Yes)
             return;
 
         await RunWithLoading(async () =>
         {
-            var error = await UserService.DeleteAccount(AuthService.CurrentUser!.Username, AuthService.CurrentPassword!);
+            var error = await UserService.DeleteAccount(CurrentUserState.User!.Username, CurrentUserState.Password!);
             if (error != null)
             {
                 ErrorMessage = error;
@@ -113,7 +119,7 @@ public partial class ManageAccountViewModel(UserProfileViewModel profile, Action
             }
 
             AuthService.Logout();
-            onDeleteSuccess?.Invoke();
+            AppNavigation.GoBack();
         });
     }
 }

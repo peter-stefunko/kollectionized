@@ -9,30 +9,33 @@ namespace Kollectionized.ViewModels;
 
 public partial class UserSearchViewModel : ViewModelBase
 {
-    [ObservableProperty] private string _searchQuery = string.Empty;
-    [ObservableProperty] private ObservableCollection<UserListItemViewModel> _allUsers = [];
+    [ObservableProperty] private string _nameQuery = string.Empty;
+    [ObservableProperty] private ObservableCollection<UserItemViewModel> _allUsers = [];
 
-    public IEnumerable<UserListItemViewModel> FilteredUsers =>
-        string.IsNullOrWhiteSpace(SearchQuery)
+    public IEnumerable<UserItemViewModel> FilteredUsers =>
+        string.IsNullOrWhiteSpace(NameQuery)
             ? AllUsers
-            : AllUsers.Where(u => u.Username.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
+            : AllUsers.Where(u => u.User.Username.Contains(NameQuery, StringComparison.OrdinalIgnoreCase));
 
     public UserSearchViewModel()
     {
-        _ = RunWithLoading(LoadUsersAsync);
+        _ = LoadUsersAsync();
     }
 
     private async Task LoadUsersAsync()
     {
-        var users = await UserService.GetAllUsers();
+        await RunWithLoading(async () =>
+        {
+            var users = await UserService.GetAllUsers();
 
-        AllUsers = new ObservableCollection<UserListItemViewModel>(
-            users
-                .Where(u => !string.IsNullOrWhiteSpace(u.Username))
-                .OrderBy(u => u.Username)
-                .Select(u => new UserListItemViewModel(u))
-        );
+            AllUsers = new ObservableCollection<UserItemViewModel>(
+                users
+                    .Where(u => !string.IsNullOrWhiteSpace(u.Username))
+                    .OrderBy(u => u.Username)
+                    .Select(u => new UserItemViewModel(u))
+            );
 
-        OnPropertyChanged(nameof(FilteredUsers));
+            OnPropertyChanged(nameof(FilteredUsers));
+        });
     }
 }

@@ -8,11 +8,11 @@ namespace Kollectionized.Services;
 
 public class CardService : ServiceBase
 {
-    public async Task<List<PokemonCard>> GetPokemonCards(string gameKey, PokemonCardFilter filter)
+    public async Task<List<PokemonCard>> GetPokemonCards(PokemonCardFilter filter)
     {
         try
         {
-            var response = await Client.PostAsJsonAsync($"cards/{gameKey}", filter);
+            var response = await Client.PostAsJsonAsync($"cards/pokemon", filter);
             if (!response.IsSuccessStatusCode) return [];
 
             var cards = await response.Content.ReadFromJsonAsync<List<PokemonCard>>();
@@ -20,7 +20,7 @@ public class CardService : ServiceBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Failed to fetch cards for game '{gameKey}': {ex.Message}");
+            Console.WriteLine($"Failed to fetch cards: {ex.Message}");
             return [];
         }
     }

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Kollectionized.Controls;
 
-public partial class CardGridBrowserControl : UserControl
+public partial class CardBrowserControl : UserControl
 {
-    public CardGridBrowserControl()
+    public CardBrowserControl()
     {
         InitializeComponent();
     }

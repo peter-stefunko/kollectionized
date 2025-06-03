@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Controls.InstanceFiltersControl"
+             xmlns:converters="clr-namespace:Kollectionized.Converters"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:UserCardInstanceBrowserViewModel">
+
+    <UserControl.Resources>
+        <converters:NullableGradeConverter x:Key="NullableGradeConverter" />
+    </UserControl.Resources>
+
+    <StackPanel>
+        <WrapPanel Orientation="Horizontal">
+
+            <ComboBox ItemsSource="{Binding GradeOptions}"
+                      SelectedItem="{Binding SelectedGrade}"
+                      PlaceholderText="Grade">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding
+                        Converter={StaticResource NullableGradeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox ItemsSource="{Binding GradingCompanies}"
+                      SelectedItem="{Binding SelectedCompany}"
+                      PlaceholderText="Grading Company" />
+
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

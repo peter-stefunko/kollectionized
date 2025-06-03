@@ -4,7 +4,7 @@ using Kollectionized.Models;
 
 namespace Kollectionized.ViewModels;
 
-public partial class DeckBrowserViewModel : CardInstanceBrowserViewModel
+public partial class DeckBrowserViewModel : UserCardInstanceBrowserViewModel
 {
     public string DeckName { get; }
     public string DeckDescription { get; }
@@ -21,12 +21,20 @@ public partial class DeckBrowserViewModel : CardInstanceBrowserViewModel
         DeckDescription = deck.Description;
         DeckCreatedAt = deck.CreatedAt;
         DeckOwnerUsername = deck.User?.Username ?? "Unknown";
-
-        var instances = deck.CardInstances
+        
+        AllInstances = deck.CardInstances
             .Where(i => i.Card != null)
+            .Select(i => new CardInstanceItemViewModel(i.Card, i))
             .ToList();
+        
+        NameQuery = string.Empty;
+        SelectedSet = null;
+        SelectedType = null;
+        SelectedForm = null;
+        SelectedGrade = null;
+        SelectedCompany = null;
 
-        LoadInstances(instances);
+        ApplyFilters();
     }
 
     public override void NotifySessionChanged()

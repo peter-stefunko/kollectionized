@@ -1,27 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Kollectionized.Services;
+using Kollectionized.State;
 
 namespace Kollectionized.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public new static string? CurrentUsername => AuthService.CurrentUser?.Username;
-    public new static bool IsLoggedIn => AuthService.IsLoggedIn;
+    /*public string? CurrentUsername => CurrentUserState.User?.Username;
+    public bool IsLoggedIn => CurrentUserState.IsLoggedIn;*/
 
     public MainWindowViewModel()
     {
-        AuthService.SessionChanged += Refresh;
+        CurrentUserState.SessionChanged += NotifySessionChanged;
     }
+
+    /*private void NotifySessionChanged()
+    {
+        OnPropertyChanged(nameof(IsLoggedIn));
+        OnPropertyChanged(nameof(CurrentUsername));
+    }*/
 
     [RelayCommand]
     private void Logout()
     {
         AuthService.Logout();
-    }
-
-    private void Refresh()
-    {
-        OnPropertyChanged(nameof(CurrentUsername));
-        OnPropertyChanged(nameof(IsLoggedIn));
     }
 }

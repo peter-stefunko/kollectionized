@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.ManageAccountView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:ManageAccountViewModel">
+
+    <StackPanel>
+        <controls:LoadingBarControl />
+        <controls:BackButtonControl />
+
+        <TextBlock Text="Manage Account" />
+        
+        <TextBox Text="{Binding EditableUsername}"
+                 Watermark="Username" />
+        
+        <TextBox Text="{Binding EditableBio}"
+                 Watermark="Bio (max 256 characters)"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
+                 MaxLength="256" />
+
+        <Button Content="Save Changes"
+                Command="{Binding SaveChangesCommand}" />
+
+        <Separator/>
+        
+        <TextBlock Text="Change Password" />
+        <TextBox Text="{Binding CurrentPassword}"
+                 Watermark="Current Password"
+                 PasswordChar="*" />
+        
+        <TextBox Text="{Binding NewPassword}"
+                 Watermark="New Password"
+                 PasswordChar="*" />
+        
+        <TextBox Text="{Binding ConfirmNewPassword}"
+                 Watermark="Confirm New Password"
+                 PasswordChar="*" />
+
+        <Button Content="Change Password"
+                Command="{Binding ChangePasswordCommand}" />
+
+        <Separator/>
+        
+        <Button Content="Delete Account"
+                Command="{Binding DeleteAccountCommand}"
+                Background="#cc241d"
+                Foreground="White" />
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Classes="Error" />
+    </StackPanel>
+</UserControl>
