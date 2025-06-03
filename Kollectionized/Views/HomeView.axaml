@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.HomeView"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:HomeViewModel">
+    
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="Kollectionized"
+                   FontSize="24"
+                   HorizontalAlignment="Center" />
+        
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Classes="Error" />
+        
+        <Button Content="Login/Register"
+                Command="{Binding OpenLoginCommand}"
+                IsVisible="{Binding IsLoggedIn, Converter={StaticResource BooleanNegationConverter}}" />
+        
+        <Button Content="{Binding Username}"
+                Command="{Binding OpenProfileCommand}" 
+                IsVisible="{Binding IsLoggedIn}" />
+            
+        <Button Content="Logout"
+                Command="{Binding LogoutCommand}"
+                IsVisible="{Binding IsLoggedIn}" />
+        
+        <Button Content="Browse Card Games"
+                Command="{Binding OpenBrowseCommand}" />
+        
+        <Button Content="Search Users"
+                Command="{Binding OpenUserSearchCommand}" />
+    </StackPanel>
+</UserControl>
