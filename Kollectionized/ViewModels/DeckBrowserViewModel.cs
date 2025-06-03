@@ -1,28 +1,32 @@
 using System;
+using System.Linq;
 using Kollectionized.Models;
 
 namespace Kollectionized.ViewModels;
 
-public partial class DeckBrowserViewModel : CardInstanceGridBrowserViewModel
+public partial class DeckBrowserViewModel : CardInstanceBrowserViewModel
 {
     public string DeckName { get; }
     public string DeckDescription { get; }
     public DateTime DeckCreatedAt { get; }
     public string DeckOwnerUsername { get; }
 
-    public int CardCount => CardInstances.Count;
+    public int CardCount => Instances.Count;
     public string CardCountDisplay => $"{CardCount}/60 cards";
 
     public DeckBrowserViewModel(PokemonDeck deck)
-        : base(deck.User!, skipInit: true)
+        : base(deck.User!)
     {
         DeckName = deck.Name;
         DeckDescription = deck.Description;
         DeckCreatedAt = deck.CreatedAt;
         DeckOwnerUsername = deck.User?.Username ?? "Unknown";
 
-        AllInstances = deck.CardInstances;
-        ApplyFilters();
+        var instances = deck.CardInstances
+            .Where(i => i.Card != null)
+            .ToList();
+
+        LoadInstances(instances);
     }
 
     public override void NotifySessionChanged()

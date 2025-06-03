@@ -1,0 +1,13 @@
+<UserControl
+    x:Class="Kollectionized.Controls.LoadingBarControls"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Kollectionized.ViewModels"
+    x:DataType="vm:ViewModelBase">
+
+    <ProgressBar
+        Height="4"
+        Margin="0,0,0,10"
+        IsIndeterminate="True"
+        IsVisible="{Binding IsLoading}" />
+</UserControl>

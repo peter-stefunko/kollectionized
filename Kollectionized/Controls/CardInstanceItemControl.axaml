@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:Class="Kollectionized.Controls.CardInstanceItemView"
+             x:DataType="viewModels:CardInstanceItemViewModel">
+
+    <Border Classes="Clickable"
+             PointerPressed="OnClick">
+        <StackPanel>
+            <Image Source="{Binding Image}" Classes="Item" />
+            <TextBlock Text="{Binding Card.Name}"/>
+        </StackPanel>
+    </Border>
+</UserControl>

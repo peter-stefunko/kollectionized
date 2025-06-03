@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             x:Class="Kollectionized.Controls.CardDetailsView"
+             x:DataType="viewModels:CardDetailsViewModel">
+    
+    <StackPanel>
+        <controls:LoadingBarControl />
+        <controls:BackButtonControl />
+        
+        <DockPanel>
+            <Image Source="{Binding Image}" Classes="Detail"/>
+            <StackPanel>
+                <TextBlock Text="UUID: "><Run Text="{Binding Card.Uuid}"></Run></TextBlock>
+                <TextBlock Text="Name: "><Run Text="{Binding Card.Name}"></Run></TextBlock>
+                <TextBlock Text="Set: "><Run Text="{Binding Card.Set}"></Run></TextBlock>
+                <TextBlock Text="Card Number: "><Run Text="{Binding Card.CardNumber}"></Run></TextBlock>
+                <TextBlock Text="Type: "><Run Text="{Binding Card.Type}"></Run></TextBlock>
+                <TextBlock Text="Form: "><Run Text="{Binding Card.Form}"></Run></TextBlock>
+                <TextBlock Text="Typings: "><Run Text="{Binding Card.Typings}"></Run></TextBlock>
+                <TextBlock Text="Pokédex Number: "><Run Text="{Binding Card.PokedexNumber}"></Run></TextBlock>
+                <TextBlock Text="Rarity: "><Run Text="{Binding Card.Rarity}"></Run></TextBlock>
+                
+                <Button Content="Add Card to Collection"
+                        Command="{Binding ShowAddFormCommand}"
+                        IsVisible="{Binding IsAddButtonVisible}" />
+            </StackPanel>
+        </DockPanel>
+        
+        <controls:CardFormControl IsVisible="{Binding IsAddFormVisible}" />
+    </StackPanel>
+</UserControl>
