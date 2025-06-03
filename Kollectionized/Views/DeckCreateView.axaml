@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.DeckCreateView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:DeckCreateViewModel">
+
+    <StackPanel>
+        <controls:LoadingBarControl />
+        <controls:BackButtonControl />
+
+        <TextBlock Text="Create a New Deck" />
+
+        <TextBox Text="{Binding Name}"
+                 Watermark="Deck Name"
+                 Classes="Name" />
+        
+        <TextBox Text="{Binding Description}"
+                 Watermark="Description"
+                 Classes="Desc" />
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Create"
+                    Command="{Binding CreateCommand}" />
+            
+            <Button Content="Cancel"
+                    Command="{Binding CancelCommand}" />
+        </StackPanel>
+        
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Classes="Error" />
+    </StackPanel>
+</UserControl>

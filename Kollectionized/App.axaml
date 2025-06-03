@@ -1,0 +1,82 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Kollectionized.App"
+             xmlns:local="using:Kollectionized"
+             xmlns:converters="clr-namespace:Kollectionized.Converters"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#282828" />
+        </Style>
+
+        <Style Selector="TextBlock.Clickable">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style Selector="TextBlock.Clickable:pointerover">
+            <Setter Property="TextDecorations" Value="Underline" />
+            <Setter Property="Foreground" Value="#ebdbb2" />
+        </Style>
+
+        <Style Selector="Border.Clickable:pointerover">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="#928373" />
+        </Style>
+
+        <Style Selector="StackPanel">
+            <Setter Property="Spacing" Value="10"></Setter>
+            <Setter Property="Margin" Value="10 10 10 10"></Setter>
+        </Style>
+
+        <Style Selector="TextBlock.Error">
+            <Setter Property="Foreground" Value="#cc241d"></Setter>
+        </Style>
+
+        <Style Selector="TextBlock.Heading">
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+
+        <Style Selector="Image.Item">
+            <Setter Property="Height" Value="320"></Setter>
+        </Style>
+
+        <Style Selector="Image.Detail">
+            <Setter Property="Height" Value="500"></Setter>
+        </Style>
+
+        <Style Selector="Border">
+            <Setter Property="Background" Value="#1d2021"></Setter>
+        </Style>
+
+        <Style Selector="TextBox.Desc">
+            <Setter Property="MaxLength" Value="100" />
+            <Setter Property="AcceptsTab" Value="True" />
+            <Setter Property="AcceptsReturn" Value="True" />
+        </Style>
+
+        <Style Selector="TextBox.Name">
+            <Setter Property="MaxLength" Value="32" />
+            <Setter Property="AcceptsTab" Value="False" />
+            <Setter Property="AcceptsReturn" Value="False" />
+        </Style>
+
+        <Style Selector="TextBox.Password">
+            <Setter Property="PasswordChar" Value="*" />
+            <Setter Property="MaxLength" Value="32" />
+        </Style>
+    </Application.Styles>
+
+    <Application.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter" />
+        <converters:NullableGradeConverter x:Key="NullableGradeConverter"/>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.CardInstanceDetailsView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:CardInstanceDetailsViewModel">
+    
+    <StackPanel>
+        <controls:LoadingBarControl />
+        <controls:BackButtonControl />
+        
+        <DockPanel>
+            <Image Source="{Binding Image}"
+                   Classes="Detail"/>
+            
+            <StackPanel>
+                <TextBlock Text="{Binding Card.Uuid, StringFormat='UUID: {0}'}" />
+                <TextBlock Text="{Binding Card.Name, StringFormat='Name: {0}'}" />
+                <TextBlock Text="{Binding Card.Set, StringFormat='Set: {0}'}" />
+                <TextBlock Text="{Binding Card.CardNumber, StringFormat='Number: {0}'}" />
+                <TextBlock Text="{Binding Card.Type, StringFormat='Type: {0}'}" />
+                <TextBlock Text="{Binding Card.Form, StringFormat='Form: {0}'}" />
+                <TextBlock Text="{Binding Card.Typings, StringFormat='Typings: {0}'}" />
+                <TextBlock Text="{Binding Card.PokedexNumber, StringFormat='Pokédex Number: {0}'}" />
+                <TextBlock Text="{Binding Card.Rarity, StringFormat='Rarity: {0}'}" />
+
+                <Button Content="Add Card to Collection"
+                        Command="{Binding ShowAddFormCommand}"
+                        IsVisible="{Binding IsAddButtonVisible}" />
+            </StackPanel>
+            
+            <StackPanel>
+                <TextBlock Text="Instance Details"/>
+                <TextBlock Text="{Binding GradeText, StringFormat='Grade: {0}'}" />
+                <TextBlock Text="{Binding CompanyText, StringFormat='Grading Company: {0}'}" />
+                <TextBlock Text="{Binding NotesText, StringFormat='Notes: {0}'}" />
+                <TextBlock Text="{Binding OwnerUsername, StringFormat='Owner: {0}'}" />
+                
+                <StackPanel IsVisible="{Binding IsCurrentUser}"
+                            Orientation="Horizontal">
+                    
+                    <Button Content="Edit"
+                            Command="{Binding ToggleEditFormCommand}" />
+                    
+                    <Button Content="Add to Deck"
+                            Command="{Binding ToggleAddFormCommand}" />
+                    
+                    <Button Content="Delete"
+                            Command="{Binding DeleteInstanceCommand}" />
+                    
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Classes="Error" />
+                </StackPanel>
+                
+                <controls:CardInstanceEditFormControl IsVisible="{Binding ShowEditForm}" />
+                <controls:CardInstanceAddFormControl IsVisible="{Binding ShowAddForm}" />
+            </StackPanel>
+            
+        </DockPanel>
+        
+        <controls:CardAddFormControl IsVisible="{Binding IsAddFormVisible}" />
+    </StackPanel>
+</UserControl>

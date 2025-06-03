@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kollectionized.Views.UserSearchView"
+             xmlns:controls="clr-namespace:Kollectionized.Controls"
+             xmlns:viewModels="clr-namespace:Kollectionized.ViewModels"
+             x:DataType="viewModels:UserSearchViewModel">
+
+    <StackPanel>
+        <controls:LoadingBarControl />
+        <controls:BackButtonControl />
+
+        <TextBox Text="{Binding NameQuery, UpdateSourceTrigger=PropertyChanged}"
+                 Watermark="Search users..."
+                 Width="300"
+                 HorizontalAlignment="Left"/>
+        
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Classes="Error" />
+
+        <ItemsControl ItemsSource="{Binding FilteredUsers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Classes="Clickable"
+                            Padding="8"
+                            Margin="4"
+                            CornerRadius="4"
+                            PointerPressed="OnUserClicked">
+                        <TextBlock Text="{Binding User.Username}"
+                                   FontSize="16" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </StackPanel>
+</UserControl>

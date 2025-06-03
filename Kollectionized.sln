@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kollectionized", "Kollectionized/Kollectionized.csproj", "{685ACBFC-DC08-4F63-A6B4-A717313753F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kollectionized.Api", "Kollectionized.Api\Kollectionized.Api.csproj", "{FE34CC67-25FB-4462-89BC-666B7ECB0A71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{685ACBFC-DC08-4F63-A6B4-A717313753F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685ACBFC-DC08-4F63-A6B4-A717313753F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685ACBFC-DC08-4F63-A6B4-A717313753F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685ACBFC-DC08-4F63-A6B4-A717313753F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE34CC67-25FB-4462-89BC-666B7ECB0A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE34CC67-25FB-4462-89BC-666B7ECB0A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE34CC67-25FB-4462-89BC-666B7ECB0A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE34CC67-25FB-4462-89BC-666B7ECB0A71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
