@@ -27,7 +27,7 @@
                 Command="{Binding LogoutCommand}"
                 IsVisible="{Binding IsLoggedIn}" />
         
-        <Button Content="Browse Card Games"
+        <Button Content="Browse Cards"
                 Command="{Binding OpenBrowseCommand}" />
         
         <Button Content="Search Users"
